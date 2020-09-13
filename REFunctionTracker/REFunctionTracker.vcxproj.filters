@@ -27,4 +27,21 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\css\ui.css">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\js\ui.js">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\top.html">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\app.html">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\content.html">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+  </ItemGroup>
 </Project>
