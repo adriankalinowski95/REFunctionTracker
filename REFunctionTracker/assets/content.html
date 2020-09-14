@@ -1,13 +1,33 @@
 <div class="content">
-    <div class="left-nav">
+    <div id="left-nav" class="left-nav">
         <div class="topek"></div>
         <ul>
-            <li><a class="active home" href="#">Element 1</a></li>
-            <li><a href="#">Element 2</a></li>
+            <li>
+                <a class="custom-button" href="#">
+                    <div class="custom-image">
+                        <img src="images/home-run.svg" />
+                    </div>
+                    <div class="custom-text">
+                        Home
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a class="custom-button active home" href="#">
+                    <div class="custom-image">
+                        <img src="images/home-run.svg" />
+                    </div>
+                    <div class="custom-text">
+                        Settings
+                    </div>
+                </a>
+            </li>
         </ul>
     </div>
-    <div class="contet-center">
-        <div class="topek"></div>
+    <div id="contet-center"class="contet-center">
+        <div class="topek left-border">
+            <a onClick="menuButtonClick()"id="menu-button" class="custom-menu-button"><img src="images/open-menu.svg" /></a>
+        </div>
         <div class="centerek"></div>
     </div>
 </div>

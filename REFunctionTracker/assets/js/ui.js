@@ -18,9 +18,25 @@ function loadHTML(div, fileName) {
         }
     }
 }
+
 function afterLoad() {
     // loadHTML('top', 'top.html');
     loadHTML('content', 'content.html');
 }
 
+function menuButtonClick()
+{
+    var el = document.getElementById("menu-button");
+    var content_center = document.getElementById("contet-center");
+    var left_nav = document.getElementById("left-nav");
+    if (content_center.classList.contains("contet-center-full-width"))
+    {
+        content_center.classList.remove("contet-center-full-width");
+        left_nav.classList.remove("nav-small-height");
+    } else
+    {
+        content_center.classList.add("contet-center-full-width");
+        left_nav.classList.add("nav-small-height");
+    }
+}
 afterLoad();
