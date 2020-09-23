@@ -14,7 +14,7 @@ function loadHTML(div, fileName) {
     jsonFile.send();
     jsonFile.onreadystatechange = function () {
         if (jsonFile.readyState == 4 && jsonFile.status == 200) {
-            $(div).innerHTML += jsonFile.responseText;
+            $(div).innerHTML = jsonFile.responseText;
         }
     }
 }
@@ -48,14 +48,23 @@ function showOverlay() {
         overlay.classList.add("overlay-visible");
     }
 }
-
 function closeOverlay() {
     var overlay = document.getElementById("overlay");
     if (overlay.classList.contains("overlay-visible")) {
         overlay.classList.remove("overlay-visible");
+        var overlay_content = document.getElementById("overlay-content");
+        overlay_content.innerHTML = "";
     } else {
         overlay.classList.add("overlay-visible");
     }
+}
+
+
+
+isShowProcessDialog = false;
+function showSelectProcessDialog() {
+    loadHTML('overlay-content', 'select-process-dialog.html');
+    showOverlay();
 }
 
 afterLoad();

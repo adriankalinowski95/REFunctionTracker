@@ -234,3 +234,76 @@ body {
 #overlay-close:hover{
     background-color:rgba(255,255,255,0.5);
 }
+
+
+.select-process-dialog {
+    width: 50%; 
+    height: 60%;
+    background-color: white;
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    border-radius: 3px;
+}
+
+.select-process-dialog-table {
+    font-family: 'Arial';
+    border-collapse: collapse;
+    border: 1px solid #eee;
+    border-bottom: 2px solid #00cccc;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.10), 0px 10px 20px rgba(0,0,0,0.05), 0px 20px 20px rgba(0,0,0,0.05), 0px 30px 20px rgba(0,0,0,0.05);
+    max-height: 60%;
+    width:auto;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+    margin-bottom:5%;
+    display: block;
+    overflow: scroll;
+    position: relative;
+}
+
+    .select-process-dialog-table tr {
+        color: #555;
+     
+    }
+        .select-process-dialog-table tr:hover {
+            background: #f4f4f4;
+        }
+
+    .select-process-dialog-table th, td {
+        color: #999;
+        border: 1px solid #eee;
+        padding: 12px;
+        border-collapse: collapse;
+    }
+
+.select-process-dialog-table th {
+    background: #00cccc;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 12px;
+    width:300px;
+}
+
+.select-process-dialog-table {
+    display: block;
+    overflow: scroll;
+}
+
+.select-process-dialog-button {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10px;
+    margin-bottom: 5%;
+    display: block;
+    position: relative;
+    background-color: #00cccc;
+    color: #fff;
+    max-width:25%;
+    text-align:center;
+    padding:10px;
+    float:right;
+}

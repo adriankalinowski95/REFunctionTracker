@@ -172,6 +172,7 @@
     <None Include="assets\content.html" />
     <None Include="assets\css\ui.css" />
     <None Include="assets\js\ui.js" />
+    <None Include="assets\select-process-dialog.html" />
     <None Include="assets\top.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
