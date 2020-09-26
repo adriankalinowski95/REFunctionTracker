@@ -189,6 +189,7 @@
     <None Include="assets\content.html" />
     <None Include="assets\css\ui.css" />
     <None Include="assets\home-page.html" />
+    <None Include="assets\js\home-page.js" />
     <None Include="assets\js\ui.js" />
     <None Include="assets\select-process-dialog.html" />
     <None Include="assets\top.html" />

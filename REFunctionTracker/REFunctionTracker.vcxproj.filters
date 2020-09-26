@@ -106,5 +106,8 @@
     <None Include="assets\home-page.html">
       <Filter>Pliki zasobów</Filter>
     </None>
+    <None Include="assets\js\home-page.js">
+      <Filter>Pliki zasobów</Filter>
+    </None>
   </ItemGroup>
 </Project>

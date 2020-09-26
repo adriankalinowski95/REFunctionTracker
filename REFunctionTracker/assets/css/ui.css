@@ -24,7 +24,7 @@ body {
     padding: 0;
     overflow: hidden;
     margin: 0;
-    position:relative;
+    position: relative;
 }
 
 .content {
@@ -33,7 +33,7 @@ body {
     position: relative;
 }
 
-    /* colors: 
+/* colors: 
     E0E0E2
     81D2C7
     B5BAD0
@@ -51,6 +51,7 @@ body {
     user-select: none;
     cursor: default;
 }
+
 .content .left-nav {
     background-color: rgb(40,55,67);
     height: 100%;
@@ -69,30 +70,22 @@ body {
     transition: width 0.2s;
 }
 
-    .contet-center-full-width
-    {
-        width:92% !important;
-    }
-.nav-small-height {
-    width: 65px !important;
+.contet-center-full-width {
+    width: 94% !important;
+    overflow: scroll;
 }
 
-    /*
-    .nav-small-height .custom-text
-    {
-        width:0% !important;
-    }
-    .nav-small-height .custom-image {
-        width: 100% !important;
-    }
-        */
+.nav-small-height {
+    width: 6% !important;
+}
 
-    .topek {
-        width: 100%;
-        height: 8%;
-        background-color: rgb(40,55,67);
-        position: relative;
-    }
+.topek {
+    width: 100%;
+    height: 8%;
+    background-color: rgb(40,55,67);
+    position: relative;
+}
+
 .left-border {
     border-left: 1px solid rgb(64, 100, 129);
 }
@@ -103,6 +96,16 @@ body {
     background-color: white;
 }
 /*NAV start*/
+
+.opacity-0 {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.opacity-1 {
+    opacity: 1;
+    visibility: visible;
+}
 
 .left-nav ul {
     font-family: "Barlow", sans-serif;
@@ -120,7 +123,7 @@ body {
         position: relative;
     }
 
-.custom-button {
+.left-nav .custom-button {
     display: block;
     height: 100%;
     width: 100%;
@@ -129,21 +132,22 @@ body {
     border-top-right-radius: 30px;
 }
 
-    .custom-button:hover {
+    .left-nav .custom-button:hover {
         background-color: rgba(253,148,0,1);
-        opacity:0.9;
+        opacity: 0.9;
     }
-    .custom-button:active {
+
+    .left-nav .custom-button:active {
         background-color: rgb(255, 212, 151);
     }
 
-.custom-image {
+.left-nav .custom-image {
     height: 100%;
     width: 30%;
     float: left;
 }
 
-    .custom-image img {
+    .left-nav .custom-image img {
         width: 20px;
         height: auto !important;
         z-index: 0;
@@ -153,21 +157,14 @@ body {
         position: relative;
         top: 50%;
         transform: translate(0, -50%);
-        margin-left:20px;
+        margin-left: 20px;
     }
-        .custom-image img svg {
-            background: blue;
-        }
 
-.opacity-0 {
-    opacity: 0;
-    visibility: hidden;
+.custom-image img svg {
+    background: blue;
 }
-.opacity-1 {
-    opacity: 1;
-    visibility: visible;
-}
-.custom-text {
+
+.left-nav .custom-text {
     width: 70%;
     float: left;
     position: relative;
@@ -178,36 +175,6 @@ body {
     color: white;
     transition: height 0ms, opacity 1000ms;
 }
-.custom-menu-button {
-    display: block;
-    height: 50px;
-    width: 50px;
-    border-radius: 100%;
-    position: relative;
-    transform: translate(0px,-50%);
-    top: 50%;
-    margin-left: 8px;
-    cursor: pointer;
-}
-    .custom-menu-button img {
-        width: 50%;
-        height: auto !important;
-        z-index: 0;
-        align-self: normal !important;
-        background-size: auto;
-        background-repeat: no-repeat;
-        position: relative;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    .custom-menu-button:hover {
-        background-color: rgba(253,148,0,1);
-        opacity: 0.9;
-    }
-    .custom-menu-button:active {
-        background-color: rgb(255, 212, 151);
-    }
 
 .overlay {
     height: 0;
@@ -240,35 +207,38 @@ body {
     background-color: rgba(255,255,255,0.2);
     cursor: pointer;
 }
-#overlay-close:hover{
-    background-color:rgba(255,255,255,0.5);
-}
+
+    #overlay-close:hover {
+        background-color: rgba(255,255,255,0.5);
+    }
 
 
 .select-process-dialog {
-    width: 50%; 
+    width: 50%;
     height: 60%;
     background-color: white;
     position: absolute;
     z-index: 2;
     left: 50%;
-    top:50%;
+    top: 50%;
     transform: translate(-50%,-50%);
     border-radius: 3px;
 }
+
 .select-process-dialog-top {
     width: 100%;
     height: 10%;
     background-color: #416788;
     display: table;
-    margin-bottom:15px;
+    margin-bottom: 15px;
 }
+
     .select-process-dialog-top span {
         font-family: "Barlow", sans-serif;
         display: table-cell;
         vertical-align: middle;
         padding-left: 20px;
-        color:white;
+        color: white;
     }
 
 .select-process-dialog-table {
@@ -291,6 +261,7 @@ body {
         color: #555;
         cursor: pointer;
     }
+
         .select-process-dialog-table tr:hover {
             background: #f4f4f4;
         }
@@ -301,6 +272,7 @@ body {
         padding: 12px;
         border-collapse: collapse;
     }
+
     .select-process-dialog-table th {
         background: #416788;
         color: #fff;
@@ -319,8 +291,8 @@ body {
     }
 
 .select-process-dialog-button {
-    right:0;
-    bottom:0;
+    right: 0;
+    bottom: 0;
     margin-right: 5%;
     margin-bottom: 4%;
     display: block;
@@ -337,11 +309,84 @@ body {
     .select-process-dialog-button:hover {
         background-color: #5b7e9d;
     }
+
     .select-process-dialog-button:active {
         background-color: #7e9eba;
     }
 
-#home-page{
-    width:100%;
-    height:100%;
+#home-page {
+    width: 100%;
+    height: 100%;
 }
+
+.top-nav {
+    width: 100%;
+    height: 50px;
+    display: inline-block;
+}
+
+    .top-nav ul {
+        font-family: "Barlow", sans-serif;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+    }
+
+        .top-nav ul li {
+            width: 20%;
+            height: 100%;
+            display: inline-block;
+            margin-right: -5px;
+            border-right: 1px solid white;
+        }
+
+    .top-nav .custom-button {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background-color: #416788;
+    }
+
+        .top-nav .custom-button:hover {
+            background-color: #5483ac;
+        }
+
+        .top-nav .custom-button:active {
+            background-color: #5a92c2;
+        }
+
+    .top-nav .text {
+        width: 70%;
+        float: left;
+        position: relative;
+        transform: translate(0px,-50%);
+        margin: 0;
+        vertical-align: middle;
+        top: 50%;
+        color: white;
+        transition: height 0ms, opacity 1000ms;
+    }
+
+    .top-nav .custom-image {
+        height: 100%;
+        width: 30%;
+        float: left;
+    }
+
+        .top-nav .custom-image img {
+            width: 20px;
+            height: 20px;
+            z-index: 0;
+            align-self: normal !important;
+            background-size: auto;
+            background-repeat: no-repeat;
+            position: relative;
+            top: 50%;
+            transform: translate(0, -50%);
+            margin-left: 20px;
+        }
