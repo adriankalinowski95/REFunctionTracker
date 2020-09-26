@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pliki źródłowe\Service">
+      <UniqueIdentifier>{3d1d01d4-18ba-4392-87e0-4635482d10d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Service">
+      <UniqueIdentifier>{75566905-b94d-419e-8bd2-8ffc6f229a84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="REFunctionTracker.cpp">
@@ -21,10 +27,61 @@
     <ClCompile Include="MyApp.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="Service\AssemblerInstruction.cpp">
+      <Filter>Pliki źródłowe\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\Disassembler.cpp">
+      <Filter>Pliki źródłowe\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\MnemonicsX64.cpp">
+      <Filter>Pliki źródłowe\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\pe_hdrs_helper.cpp">
+      <Filter>Pliki źródłowe\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\ProcessInfo.cpp">
+      <Filter>Pliki źródłowe\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\ProcessInstructionReader.cpp">
+      <Filter>Pliki źródłowe\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\ProcessLoader.cpp">
+      <Filter>Pliki źródłowe\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Service\SearchSignature.cpp">
+      <Filter>Pliki źródłowe\Service</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h">
       <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\AssemblerInstruction.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\Disassembler.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\MnemonicsX64.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\ntddk.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\pe_hdrs_helper.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\ProcessInfo.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\ProcessInstructionReader.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\ProcessLoader.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\SearchSignature.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +101,9 @@
       <Filter>Pliki zasobów</Filter>
     </None>
     <None Include="assets\select-process-dialog.html">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\home-page.html">
       <Filter>Pliki zasobów</Filter>
     </None>
   </ItemGroup>

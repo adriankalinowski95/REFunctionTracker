@@ -15,10 +15,10 @@ function loadHTML(div, fileName) {
     jsonFile.onreadystatechange = function () {
         if (jsonFile.readyState == 4 && jsonFile.status == 200) {
             $(div).innerHTML = jsonFile.responseText;
+            leftNavTransition();
         }
     }
 }
-
 function afterLoad() {
     // loadHTML('top', 'top.html');
     loadHTML('content', 'content.html');
@@ -37,7 +37,28 @@ function menuButtonClick()
     {
         content_center.classList.add("contet-center-full-width");
         left_nav.classList.add("nav-small-height");
+        var customTextList = document.querySelectorAll('.custom-text');
+        customTextList.forEach(function (customText) {
+            customText.classList.add('opacity-0');
+            customText.classList.remove('opacity-1');
+        });
+        
     }
+}
+
+
+function leftNavTransition() {
+    var nav = document.querySelector('#left-nav');
+    nav.addEventListener('transitionend', function(e) {
+        var nav = document.querySelector('#left-nav');
+        if (!nav.classList.contains("nav-small-height")) {
+            var customTextList = document.querySelectorAll('.custom-text');
+            customTextList.forEach(function (customText) {
+                customText.classList.add('opacity-1');
+                document.querySelector('.custom-text').classList.remove('opacity-0');
+            });
+        }
+    });
 }
 
 function showOverlay() {
@@ -59,12 +80,26 @@ function closeOverlay() {
     }
 }
 
-
-
 isShowProcessDialog = false;
+
 function showSelectProcessDialog() {
     loadHTML('overlay-content', 'select-process-dialog.html');
     showOverlay();
 }
 
-afterLoad();
+function keyboardClick() {
+    document.addEventListener('keydown', function (event) {
+        if (event.keyCode === 112) {
+            OnToggleTools();
+        }
+    });
+}
+
+function init() {
+    afterLoad();
+    keyboardClick();
+    //document.querySelector('#home-button').addEventListener('click', event => OnToggleTools());
+}
+
+
+init();

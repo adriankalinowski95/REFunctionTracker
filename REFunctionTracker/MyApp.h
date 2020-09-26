@@ -9,7 +9,9 @@ class MyApp : public AppListener,
               public ViewListener {
 public:
   MyApp();
-
+  void ToggleInspector();
+  void Resize(uint32_t width, uint32_t height);
+  Ref<View> view() { return overlay_->view(); }
   virtual ~MyApp();
 
   // Start the run loop.
@@ -43,6 +45,7 @@ public:
   virtual void OnChangeTitle(ultralight::View* caller,
     const String& title) override;
 
+  void OnToggleTools(const JSObject& obj, const JSArgs& args);
   JSValue GetMessageA(const JSObject& thisObject, const JSArgs& args);
       
 protected:
@@ -50,4 +53,7 @@ protected:
   RefPtr<Window> window_;
   RefPtr<Overlay> overlay_;
   RefPtr<View> view_;
+  RefPtr<Overlay> inspector_overlay_;
+  uint32_t container_width_, container_height_;
+  Settings settings;
 };

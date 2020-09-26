@@ -5,7 +5,8 @@
 #include <Ultralight\CAPI.h>
 
 #define WINDOW_WIDTH  1200
-#define WINDOW_HEIGHT 800
+#define WINDOW_HEIGHT 700
+#define INSPECTOR_HEIGHT 400
 using namespace std;
 
 
@@ -21,7 +22,11 @@ MyApp::MyApp() {
 	///
 	/// Create our main App instance.
 	///
-	app_ = App::Create();
+	this->settings = Settings();
+	this->settings.file_system_path = ultralight::String(std::string(getExepath() + "/assets/").c_str());
+	app_ = App::Create(this->settings,Config());
+
+	//printf("file_system_path %s",app_->settings().file_system_path.utf8().data());
 
 	///
 	/// Create a resizable window by passing by OR'ing our window flags with
@@ -47,18 +52,22 @@ MyApp::MyApp() {
 	/// Force a call to OnResize to perform size/layout of our overlay.
 	///
 	OnResize(window_->width(), window_->height());
+	container_width_ = window_->width();
+	container_height_ = window_->height();
 
 	///
 	/// Load a page into our overlay's View
 	///
 
+	/*
 	std::string path = std::string("file:///" + getExepath() + "/assets/" + "app.html");
 	replace(path.begin(), path.end(), '\\', '/');
 	ultralight::String ultralightStr = ultralight::String(path.c_str());
 	overlay_->view()->LoadURL(ultralightStr);
+	*/
 
 	//overlay_->view()->LoadURL("file:///C:/Users/admin/source/repos/REFunctionTracker/REFunctionTracker/assets/app.html");
-	//overlay_->view()->LoadURL("file:///app.html");
+	overlay_->view()->LoadURL("file:///app.html");
 	///
 	/// Register our MyApp instance as an AppListener so we can handle the
 	/// App's OnUpdate event below.
@@ -164,6 +173,7 @@ void MyApp::OnDOMReady(ultralight::View* caller,
 	/// function to our JavaScript callback.
 	///
 	global["GetMessage"] = BindJSCallbackWithRetval(&MyApp::GetMessageA);
+	global["OnToggleTools"] = BindJSCallback(&MyApp::OnToggleTools);
 }
 
 void MyApp::OnChangeCursor(ultralight::View* caller,
@@ -184,4 +194,44 @@ void MyApp::OnChangeTitle(ultralight::View* caller,
 	/// We update the main window's title here.
 	///
 	window_->SetTitle(title.utf8().data());
+}
+void MyApp::OnToggleTools(const JSObject& obj, const JSArgs& args) {
+	this->ToggleInspector();
+}
+
+void MyApp::ToggleInspector() {
+	if (!inspector_overlay_) {
+		Ref<Window> c_window = *window_.get();
+		Ref<View> c_view = *overlay_->view()->inspector();
+		inspector_overlay_ = Overlay::Create(c_window, c_view, 0, 0);
+	}
+	else {
+		if (inspector_overlay_->is_hidden())
+			inspector_overlay_->Show();
+		else
+			inspector_overlay_->Hide();
+	}
+
+	// Force resize to update layout
+	Resize(container_width_, container_height_);
+}
+
+void MyApp::Resize(uint32_t width, uint32_t height) {
+	container_width_ = width;
+	container_height_ = height;
+
+	uint32_t content_height = container_height_;
+	if (inspector_overlay_ && !inspector_overlay_->is_hidden()) {
+		uint32_t inspector_height_px = (uint32_t)std::round(INSPECTOR_HEIGHT * window_->scale());
+		inspector_overlay_->Resize(container_width_, inspector_height_px);
+		content_height -= inspector_height_px;
+	}
+
+	if (content_height < 1)
+		content_height = 1;
+
+	overlay_->Resize(container_width_, content_height);
+
+	if (inspector_overlay_ && !inspector_overlay_->is_hidden())
+		inspector_overlay_->MoveTo(0, overlay_->y() + overlay_->height());
 }

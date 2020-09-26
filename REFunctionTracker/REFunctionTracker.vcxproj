@@ -127,12 +127,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)ultralight\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ultralight\include;$(ProjectDir)lib\distorm3-3.4.1\include;$(ProjectDir)lib\distorm3-3.4.1\src;$(ProjectDir)Service;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(ProjectDir)ultralight\lib\AppCore.lib;$(ProjectDir)ultralight\lib\Ultralight.lib;$(ProjectDir)ultralight\lib\UltralightCore.lib;$(ProjectDir)ultralight\lib\WebCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)ultralight\lib\AppCore.lib;$(ProjectDir)ultralight\lib\Ultralight.lib;$(ProjectDir)ultralight\lib\UltralightCore.lib;$(ProjectDir)ultralight\lib\WebCore.lib;$(ProjectDir)lib\distorm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableDpiAwareness>true</EnableDpiAwareness>
@@ -163,14 +163,32 @@
   <ItemGroup>
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="REFunctionTracker.cpp" />
+    <ClCompile Include="Service\AssemblerInstruction.cpp" />
+    <ClCompile Include="Service\Disassembler.cpp" />
+    <ClCompile Include="Service\MnemonicsX64.cpp" />
+    <ClCompile Include="Service\pe_hdrs_helper.cpp" />
+    <ClCompile Include="Service\ProcessInfo.cpp" />
+    <ClCompile Include="Service\ProcessInstructionReader.cpp" />
+    <ClCompile Include="Service\ProcessLoader.cpp" />
+    <ClCompile Include="Service\SearchSignature.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h" />
+    <ClInclude Include="Service\AssemblerInstruction.h" />
+    <ClInclude Include="Service\Disassembler.h" />
+    <ClInclude Include="Service\MnemonicsX64.h" />
+    <ClInclude Include="Service\ntddk.h" />
+    <ClInclude Include="Service\pe_hdrs_helper.h" />
+    <ClInclude Include="Service\ProcessInfo.h" />
+    <ClInclude Include="Service\ProcessInstructionReader.h" />
+    <ClInclude Include="Service\ProcessLoader.h" />
+    <ClInclude Include="Service\SearchSignature.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\app.html" />
     <None Include="assets\content.html" />
     <None Include="assets\css\ui.css" />
+    <None Include="assets\home-page.html" />
     <None Include="assets\js\ui.js" />
     <None Include="assets\select-process-dialog.html" />
     <None Include="assets\top.html" />
