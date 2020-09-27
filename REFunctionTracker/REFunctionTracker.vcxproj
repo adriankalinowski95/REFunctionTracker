@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="REFunctionTracker.cpp" />
+    <ClCompile Include="SelectProcessDialog.cpp" />
     <ClCompile Include="Service\AssemblerInstruction.cpp" />
     <ClCompile Include="Service\Disassembler.cpp" />
     <ClCompile Include="Service\MnemonicsX64.cpp" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h" />
+    <ClInclude Include="SelectProcessDialog.h" />
     <ClInclude Include="Service\AssemblerInstruction.h" />
     <ClInclude Include="Service\Disassembler.h" />
     <ClInclude Include="Service\MnemonicsX64.h" />
@@ -190,6 +192,7 @@
     <None Include="assets\css\ui.css" />
     <None Include="assets\home-page.html" />
     <None Include="assets\js\home-page.js" />
+    <None Include="assets\js\select-process-dialog.js" />
     <None Include="assets\js\ui.js" />
     <None Include="assets\select-process-dialog.html" />
     <None Include="assets\top.html" />

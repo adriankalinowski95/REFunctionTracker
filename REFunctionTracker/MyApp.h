@@ -1,6 +1,6 @@
 #pragma once
 #include <AppCore/AppCore.h>
-
+#include "SelectProcessDialog.h"
 using namespace ultralight;
 
 class MyApp : public AppListener,
@@ -56,4 +56,6 @@ protected:
   RefPtr<Overlay> inspector_overlay_;
   uint32_t container_width_, container_height_;
   Settings settings;
+  JSFunction testFunction;
+  SelectProcessDialog* selectProcessDialog_;
 };

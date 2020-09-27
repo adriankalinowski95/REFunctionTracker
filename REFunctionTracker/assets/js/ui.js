@@ -87,10 +87,14 @@ function homePageButtonClicked() {
     loadHTML('page', 'home-page.html', afterHomePageLoad);
 }
 
+function testButtonClicked() {
+    GetMessage();
+}
 
 function connectNavButtons() {
     document.querySelector('#home-button').addEventListener('click', event => homePageButtonClicked());
     document.querySelector('#menu-button').addEventListener('click', event => menuButtonClick());
+    document.querySelector('#test-button').addEventListener('click', event => testButtonClicked());
 }
 
 function afterLoad() {
@@ -109,4 +113,8 @@ init();
 
 function afterHomePageLoad() {
     initHomePage();
+}
+
+function testFunction(id) {
+    console.log(id);
 }

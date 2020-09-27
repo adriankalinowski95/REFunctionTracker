@@ -5,6 +5,9 @@ function initHomePage() {
 }
 
 function showSelectProcessDialog() {
-    loadHTML('overlay-content', 'select-process-dialog.html');
+    loadHTML('overlay-content', 'select-process-dialog.html', afterSelectProcessDialogLoad);
     showOverlay();
+}
+function afterSelectProcessDialogLoad() {
+    //initSelectProcessDialog();
 }

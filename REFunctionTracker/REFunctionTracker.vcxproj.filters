@@ -51,6 +51,9 @@
     <ClCompile Include="Service\SearchSignature.cpp">
       <Filter>Pliki źródłowe\Service</Filter>
     </ClCompile>
+    <ClCompile Include="SelectProcessDialog.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h">
@@ -83,6 +86,9 @@
     <ClInclude Include="Service\SearchSignature.h">
       <Filter>Pliki nagłówkowe\Service</Filter>
     </ClInclude>
+    <ClInclude Include="SelectProcessDialog.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\css\ui.css">
@@ -107,6 +113,9 @@
       <Filter>Pliki zasobów</Filter>
     </None>
     <None Include="assets\js\home-page.js">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\js\select-process-dialog.js">
       <Filter>Pliki zasobów</Filter>
     </None>
   </ItemGroup>

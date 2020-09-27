@@ -2,7 +2,6 @@
 #include <string>
 #include <windows.h>
 #include <Ultralight\CAPI.h>
-#include <Ultralight\CAPI.h>
 
 #define WINDOW_WIDTH  1200
 #define WINDOW_HEIGHT 700
@@ -59,14 +58,6 @@ MyApp::MyApp() {
 	/// Load a page into our overlay's View
 	///
 
-	/*
-	std::string path = std::string("file:///" + getExepath() + "/assets/" + "app.html");
-	replace(path.begin(), path.end(), '\\', '/');
-	ultralight::String ultralightStr = ultralight::String(path.c_str());
-	overlay_->view()->LoadURL(ultralightStr);
-	*/
-
-	//overlay_->view()->LoadURL("file:///C:/Users/admin/source/repos/REFunctionTracker/REFunctionTracker/assets/app.html");
 	overlay_->view()->LoadURL("file:///app.html");
 	///
 	/// Register our MyApp instance as an AppListener so we can handle the
@@ -95,6 +86,8 @@ MyApp::MyApp() {
 	//RefPtr<Window> window2= Window::Create(app_->main_monitor(), WINDOW_WIDTH, WINDOW_HEIGHT,
 	//    false, kWindowFlags_Titled | kWindowFlags_Resizable);
 	//app_->window.
+
+	this->selectProcessDialog_ = new SelectProcessDialog(overlay_);
 }
 
 
@@ -142,6 +135,8 @@ JSValue MyApp::GetMessageA(const JSObject& thisObject, const JSArgs& args) {
 	///
 	/// Return our message to JavaScript as a JSValue.
 	///
+	/// 
+	testFunction({ 1 });
 	return JSValue("Hello from C++!<br/>Ultralight rocks!");
 }
 
@@ -156,7 +151,7 @@ void MyApp::OnDOMReady(ultralight::View* caller,
 	/// Get the global object (this would be the "window" object in JS)
 	///
 	JSObject global = JSGlobalObject();
-
+	testFunction = global["testFunction"];
 	///
 	/// Bind MyApp::GetMessage to the JavaScript function named "GetMessage".
 	///
