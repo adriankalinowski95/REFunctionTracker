@@ -87,7 +87,6 @@ MyApp::MyApp() {
 	//    false, kWindowFlags_Titled | kWindowFlags_Resizable);
 	//app_->window.
 
-	this->selectProcessDialog_ = new SelectProcessDialog(overlay_);
 }
 
 
@@ -100,6 +99,10 @@ MyApp::~MyApp() {
 
 void MyApp::Run() {
 	app_->Run();
+}
+
+void MyApp::InitModules() {
+	this->selectProcessDialog_ = new SelectProcessDialog(overlay_);
 }
 
 void MyApp::OnUpdate() {
@@ -169,6 +172,8 @@ void MyApp::OnDOMReady(ultralight::View* caller,
 	///
 	global["GetMessage"] = BindJSCallbackWithRetval(&MyApp::GetMessageA);
 	global["OnToggleTools"] = BindJSCallback(&MyApp::OnToggleTools);
+
+	this->InitModules();
 }
 
 void MyApp::OnChangeCursor(ultralight::View* caller,

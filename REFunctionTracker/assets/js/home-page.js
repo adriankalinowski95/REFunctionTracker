@@ -9,5 +9,5 @@ function showSelectProcessDialog() {
     showOverlay();
 }
 function afterSelectProcessDialogLoad() {
-    //initSelectProcessDialog();
+    initSelectProcessDialog();
 }

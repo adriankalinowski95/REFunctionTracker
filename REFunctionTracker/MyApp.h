@@ -9,6 +9,7 @@ class MyApp : public AppListener,
               public ViewListener {
 public:
   MyApp();
+  void InitModules();
   void ToggleInspector();
   void Resize(uint32_t width, uint32_t height);
   Ref<View> view() { return overlay_->view(); }
@@ -58,4 +59,5 @@ protected:
   Settings settings;
   JSFunction testFunction;
   SelectProcessDialog* selectProcessDialog_;
+
 };
