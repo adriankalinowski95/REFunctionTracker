@@ -248,7 +248,7 @@ body {
     border-bottom: 2px solid #416788;
     box-shadow: 0px 0px 20px rgba(0,0,0,0.10), 0px 10px 20px rgba(0,0,0,0.05), 0px 20px 20px rgba(0,0,0,0.05), 0px 30px 20px rgba(0,0,0,0.05);
     max-height: 65%;
-    width: auto;
+    width: 90%;
     margin-left: 5%;
     margin-right: 5%;
     margin-bottom: 10px;
@@ -257,38 +257,47 @@ body {
     position: relative;
 }
 
+    .select-process-dialog-table table {
+        border-collapse: collapse;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .select-process-dialog-table thead, tbody {
+        width:100%;
+    }
     .select-process-dialog-table tr {
         color: #555;
         cursor: pointer;
+        width:100%;
     }
-
-        .select-process-dialog-table tr:hover {
-            background: #f4f4f4;
-        }
-
-    .select-process-dialog-table th, td {
-        color: #999;
-        border: 1px solid #eee;
-        padding: 12px;
-        border-collapse: collapse;
-    }
-
     .select-process-dialog-table th {
         background: #416788;
         color: #fff;
         text-transform: uppercase;
         font-size: 12px;
-        width: 300px;
+        border: 1px solid #eee;
+        padding: 12px;
+        border-collapse: collapse;
+    }
+
+    .select-process-dialog-table tr:hover {
+        background: #f4f4f4;
+    }
+
+    .select-process-dialog-table td {
+        color: #999;
+        border: 1px solid #eee;
+        padding: 10px;
+        border-collapse: collapse;
+        overflow:scroll;
     }
 
 .select-process-dialog-table {
     display: block;
     overflow: scroll;
+    table-layout: fixed;
 }
-
-    .select-process-dialog-table table {
-        border-collapse: collapse;
-    }
 
 .select-process-dialog-button {
     right: 0;

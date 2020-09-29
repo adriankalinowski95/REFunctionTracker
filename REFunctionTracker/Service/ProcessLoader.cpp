@@ -5,7 +5,6 @@
 #include "ntddk.h"
 #include "pe_hdrs_helper.h"
 #include "Utils.h"
-
 using namespace std;
 
 #define MAX_PROCESSES_ARRAY_SIZE 2048
@@ -36,12 +35,12 @@ ProcessLoader& ProcessLoader::getInstance()
 
 
 
-std::vector<ProcData_Typedef> ProcessLoader::getProcessList()
+std::vector<ProcData> ProcessLoader::getProcessList()
 {
 	DWORD processes[MAX_PROCESSES_ARRAY_SIZE];
 	DWORD cbNeeded, cProcesses;
-
-	vector<ProcData_Typedef> processList;
+	cbNeeded = 23;
+	vector<ProcData> processList;
 
 	if (!EnumProcesses(processes, sizeof(processes), &cbNeeded)) {
 		return processList;
@@ -61,7 +60,7 @@ std::vector<ProcData_Typedef> ProcessLoader::getProcessList()
 
 		WCHAR szProcessName[MAX_PATH];
 		if (getProcessNameByHandle(hProcess, szProcessName, MAX_PATH)) {
-			ProcData_Typedef proc;
+			ProcData proc;
 			proc.processName = Utils::convertWStringToString(wstring(szProcessName));
 			proc.processPID = processes[i];
 			processList.push_back(proc);
@@ -70,6 +69,12 @@ std::vector<ProcData_Typedef> ProcessLoader::getProcessList()
 	}
 
 	return processList;
+}
+
+std::string ProcessLoader::getProcessListAsJSON() {
+	ProcessLoader* procLoadInst = &(ProcessLoader::getInstance());
+	std::vector<ProcData> vecProcData = procLoadInst->getProcessList();
+	return Utils::serializeToJSON<std::vector<ProcData>>(vecProcData, "processList").c_str();
 }
 
 HANDLE ProcessLoader::loadProcessByPID(DWORD processPID)

@@ -14,7 +14,7 @@ public:
 	SelectProcessDialog(RefPtr<Overlay>overlay);
 	~SelectProcessDialog();
 
-	JSValue GetMessageFromSelectProcess(const JSObject& thisObject, const JSArgs& args);
+	JSValue GetProcessList(const JSObject& thisObject, const JSArgs& args);
 
 private:
 	RefPtr<Overlay>overlay_;

@@ -2,15 +2,20 @@
 #include <windows.h>
 #include <vector>
 #include <string>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/vector.hpp>
 
-
-
-typedef struct {
-
+struct ProcData{
 	std::string processName;
 	DWORD processPID;
-}ProcData_Typedef;
 
+	template<class Archive>
+	void serialize(Archive& archive)
+	{
+		archive(cereal::make_nvp("processName", processName)
+				,cereal::make_nvp("processPID", processPID));
+	}
+};
 
 class ProcessLoader
 {
@@ -21,7 +26,8 @@ public:
 	~ProcessLoader();
 
 public:
-	std::vector<ProcData_Typedef> getProcessList();
+	std::vector<ProcData> getProcessList();
+	std::string getProcessListAsJSON();
 	HANDLE loadProcessByPID(DWORD processPID);
 	void setProcessHandle(HANDLE processHandle);
 	HANDLE getProcessHandle();
@@ -34,4 +40,3 @@ private:
 	std::string processName;
 
 };
-

@@ -1,11 +1,27 @@
 #include "Utils.h"
 
-wstring Utils::convertStringToWString(string str)
+#include <fstream>
+#include <vector>
+
+//#include <cereal/archives/json.hpp>
+
+/**
+ * @brief Convert string to wString.
+ * @param str string
+ * @return wString
+*/
+std::wstring Utils::convertStringToWString(std::string str)
 {
-    return wstring(str.begin(), str.end());
+    return std::wstring(str.begin(), str.end());
 }
 
-string Utils::convertWStringToString(wstring wstr)
+/**
+ * @brief Convert wStringToString
+ * @param wstr wString
+ * @return string
+*/
+std::string Utils::convertWStringToString(std::wstring wstr)
 {
-    return string(wstr.begin(), wstr.end());
+    return std::string(wstr.begin(), wstr.end());
 }
+

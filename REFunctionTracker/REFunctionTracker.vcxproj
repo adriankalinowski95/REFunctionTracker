@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)ultralight\include;$(ProjectDir)lib\distorm3-3.4.1\include;$(ProjectDir)lib\distorm3-3.4.1\src;$(ProjectDir)Service;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ultralight\include;$(ProjectDir)lib\distorm3-3.4.1\include;$(ProjectDir)lib\distorm3-3.4.1\src;$(ProjectDir)Service;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
