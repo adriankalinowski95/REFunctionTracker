@@ -1,10 +1,6 @@
-function $(id) {
-    return document.getElementById(id);
-}
-
 function HandleClick() {
     document.body.classList.add('transition');
-    $('msg').innerHTML = GetMessage();
+    $('#msg').innerHTML = GetMessage();
 }
 
 function loadHTML(div, fileName,callback) {
@@ -13,7 +9,7 @@ function loadHTML(div, fileName,callback) {
     jsonFile.open("GET", url, true);
     jsonFile.onreadystatechange = function () {
         if (jsonFile.readyState == 4 && jsonFile.status == 200) {
-            $(div).innerHTML = jsonFile.responseText;
+            document.querySelector("#" + div).innerHTML = jsonFile.responseText;
             if (callback != undefined) {
                 callback();
             }
@@ -37,7 +33,7 @@ function leftNavTransition() {
 }
 
 function showOverlay() {
-    var overlay = document.getElementById("overlay");
+    var overlay = document.querySelector("#overlay");
     if (overlay.classList.contains("overlay-visible")) {
         overlay.classList.remove("overlay-visible");
     } else {
@@ -45,10 +41,10 @@ function showOverlay() {
     }
 }
 function closeOverlay() {
-    var overlay = document.getElementById("overlay");
+    var overlay = document.querySelector("#overlay");
     if (overlay.classList.contains("overlay-visible")) {
         overlay.classList.remove("overlay-visible");
-        var overlay_content = document.getElementById("overlay-content");
+        var overlay_content = document.querySelector("#overlay-content");
         overlay_content.innerHTML = "";
     } else {
         overlay.classList.add("overlay-visible");
@@ -65,9 +61,9 @@ function keyboardClick() {
 
 
 function menuButtonClick() {
-    var el = document.getElementById("menu-button");
-    var content_center = document.getElementById("contet-center");
-    var left_nav = document.getElementById("left-nav");
+    var el = document.querySelector("#menu-button");
+    var content_center = document.querySelector("#contet-center");
+    var left_nav = document.querySelector("#left-nav");
     if (content_center.classList.contains("contet-center-full-width")) {
         content_center.classList.remove("contet-center-full-width");
         left_nav.classList.remove("nav-small-height");
