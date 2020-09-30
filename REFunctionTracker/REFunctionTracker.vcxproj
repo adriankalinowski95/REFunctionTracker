@@ -172,6 +172,7 @@
     <ClCompile Include="Service\ProcessInstructionReader.cpp" />
     <ClCompile Include="Service\ProcessLoader.cpp" />
     <ClCompile Include="Service\SearchSignature.cpp" />
+    <ClCompile Include="Service\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Service\ProcessInstructionReader.h" />
     <ClInclude Include="Service\ProcessLoader.h" />
     <ClInclude Include="Service\SearchSignature.h" />
+    <ClInclude Include="Service\Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\app.html" />

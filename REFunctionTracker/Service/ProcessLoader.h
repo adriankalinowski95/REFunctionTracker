@@ -1,37 +1,37 @@
 #pragma once
 #include <windows.h>
 #include <vector>
+#include <string>
 
-struct ProcessStruct {
 
-	WCHAR processName[MAX_PATH];
+
+typedef struct {
+
+	std::string processName;
 	DWORD processPID;
-};
+}ProcData_Typedef;
 
 
 class ProcessLoader
 {
-public:
-	static ProcessLoader& getInstance()
-	{
-		static ProcessLoader processLoader;
-		return processLoader;
-	}
 
 public:
 	ProcessLoader();
+	static ProcessLoader& getInstance();
 	~ProcessLoader();
-	bool getProcessList(std::vector<ProcessStruct>* processList);
+
+public:
+	std::vector<ProcData_Typedef> getProcessList();
 	HANDLE loadProcessByPID(DWORD processPID);
 	void setProcessHandle(HANDLE processHandle);
 	HANDLE getProcessHandle();
-	LPWSTR getProcessName();
+	std::string getProcessName();
 
 
 
 private:
 	HANDLE processHandle;
-	WCHAR processName[MAX_PATH];
+	std::string processName;
 
 };
 

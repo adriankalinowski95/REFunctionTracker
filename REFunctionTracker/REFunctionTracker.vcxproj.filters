@@ -54,6 +54,9 @@
     <ClCompile Include="SelectProcessDialog.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="Service\Utils.cpp">
+      <Filter>Pliki źródłowe\Service</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="SelectProcessDialog.h">
       <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="Service\Utils.h">
+      <Filter>Pliki nagłówkowe\Service</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

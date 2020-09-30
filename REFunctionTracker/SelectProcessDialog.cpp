@@ -1,5 +1,5 @@
 #include "SelectProcessDialog.h"
-
+#include "ProcessLoader.h"
 SelectProcessDialog::SelectProcessDialog()
 {
 
@@ -22,6 +22,9 @@ SelectProcessDialog::~SelectProcessDialog()
 
 JSValue SelectProcessDialog::GetMessageFromSelectProcess(const JSObject& thisObject, const JSArgs& args) 
 {
+	ProcessLoader* procLoadInst = &(ProcessLoader::getInstance());
+	
+	procLoadInst->getProcessList();
 	printf("Get message from select process");
 	selectProcessTest({ 123 });
 	return JSValue("Hello from C++!<br/>Ultralight rocks!");
