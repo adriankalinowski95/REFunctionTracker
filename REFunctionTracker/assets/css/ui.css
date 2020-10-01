@@ -267,7 +267,6 @@ body {
         width:100%;
     }
     .select-process-dialog-table tr {
-        color: #555;
         cursor: pointer;
         width:100%;
     }
@@ -282,16 +281,22 @@ body {
     }
 
     .select-process-dialog-table tr:hover {
-        background: #f4f4f4;
+        background: #d3d1d1;
+    }
+    .select-process-dialog-table tr:active {
+        background: #a9a9a9;
     }
 
     .select-process-dialog-table td {
-        color: #999;
+        color: #696969;
         border: 1px solid #eee;
         padding: 10px;
         border-collapse: collapse;
         overflow:scroll;
     }
+.select-process-row-active {
+    background: #d3d1d1;
+}
 
 .select-process-dialog-table {
     display: block;

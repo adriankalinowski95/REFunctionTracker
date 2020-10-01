@@ -10,6 +10,11 @@ function isJSON(str) {
 function initSelectProcessDialog()
 {
     document.querySelector('#select-process-dialog-button').addEventListener('click', getProcessListRequest);
+    getProcessListRequest();
+    var rows = document.querySelectorAll("#select-process-dialog-table table tbody tr");
+    rows.forEach(function (row) {
+        row.addEventListener('click', selectRow);
+    });
 }
 
 function getProcessListRequest() {
@@ -42,6 +47,8 @@ function addProcessRows(jsonProcessList) {
         addProcessRow(table, jsonProcessList[i]);
     }
 }
+
+
 function addProcessRow(table, process)
 {
     if(!process.hasOwnProperty("processName")){
@@ -56,6 +63,14 @@ function addProcessRow(table, process)
 
     cell2.innerHTML = process.processName;
     cell1.innerHTML = process.processPID.toString();
+}
+
+function selectRow() {
+    var rows = document.querySelectorAll("#select-process-dialog-table table tbody tr");
+    rows.forEach(function (row) {
+        row.classList.remove("select-process-row-active");
+    })
+    this.classList.add("select-process-row-active");
 }
 
 
