@@ -77,6 +77,12 @@ std::string ProcessLoader::getProcessListAsJSON() {
 	return Utils::serializeToJSON<std::vector<ProcData>>(vecProcData, "processList").c_str();
 }
 
+ProcData ProcessLoader::jsonToProcData(std::string json)
+{
+	return Utils::serializeToObject<ProcData>(json);
+}
+
+
 HANDLE ProcessLoader::loadProcessByPID(DWORD processPID)
 {
 	DWORD processes[MAX_PROCESSES_ARRAY_SIZE];

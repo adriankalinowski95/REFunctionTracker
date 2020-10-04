@@ -1,4 +1,6 @@
 var gProcessList = null;
+var gProcIndex = -1;
+
 function isJSON(str) {
     try {
         return (JSON.parse(str) && !!str);
@@ -10,7 +12,7 @@ function isJSON(str) {
 
 function initSelectProcessDialog()
 {
-    document.querySelector('#select-process-dialog-button').addEventListener('click', getProcessListRequest);
+    document.querySelector('#select-process-dialog-button').addEventListener('click', setProcessRequest);
     getProcessListRequest();
 }
 
@@ -27,6 +29,17 @@ function getProcessListRequest() {
         addProcessRows(jsonProcessList);
         addSelectRowClickEvent();
         gProcessList = jsonProcessList; 
+        gProcIndex = -1;
+    }
+}
+/* Dodac set process i dialog potwierdzenia */
+function setProcessRequest() {
+    if (gProcIndex != -1) {
+        console.log("process " + gProcIndex.toString());
+        var procTestObj = { processData: gProcessList[gProcIndex] };
+        console.log(procTestObj);
+        var setProcessInfo = SetProcess(JSON.stringify(procTestObj));
+        console.log(setProcessInfo);
     }
 }
 
@@ -49,12 +62,12 @@ function addProcessRows(jsonProcessList) {
         return;
     }
     for (i in jsonProcessList) {
-        addProcessRow(table, jsonProcessList[i]);
+        addProcessRow(table, jsonProcessList[i],i);
     }
 }
 
 
-function addProcessRow(table, process)
+function addProcessRow(table, process,index)
 {
     if(!process.hasOwnProperty("processName")){
         return;
@@ -64,6 +77,7 @@ function addProcessRow(table, process)
     }
     var row = document.createElement("div");
     row.classList.add("custom-row");
+    row.setAttribute("data-index", index.toString());
 
     var cel1 = document.createElement("div");
     var cel2 = document.createElement("div");
@@ -90,6 +104,11 @@ function selectRow() {
         row.classList.remove("custom-row-active");
     })
     this.classList.add("custom-row-active");
+    if (this.hasAttribute("data-index")) {
+        gProcIndex = parseInt(this.getAttribute("data-index"));
+    } else {
+        gProcIndex = -1;
+    }
 }
 
 

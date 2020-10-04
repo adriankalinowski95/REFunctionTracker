@@ -28,6 +28,7 @@ public:
 public:
 	std::vector<ProcData> getProcessList();
 	std::string getProcessListAsJSON();
+	ProcData jsonToProcData(std::string json);
 	HANDLE loadProcessByPID(DWORD processPID);
 	void setProcessHandle(HANDLE processHandle);
 	HANDLE getProcessHandle();

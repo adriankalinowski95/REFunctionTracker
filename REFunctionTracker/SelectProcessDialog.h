@@ -15,6 +15,7 @@ public:
 	~SelectProcessDialog();
 
 	JSValue GetProcessList(const JSObject& thisObject, const JSArgs& args);
+	JSValue SetProcess(const JSObject& thisObject, const JSArgs& args);
 
 private:
 	RefPtr<Overlay>overlay_;
