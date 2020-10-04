@@ -5,6 +5,7 @@
 #include "ntddk.h"
 #include "pe_hdrs_helper.h"
 #include "Utils.h"
+
 using namespace std;
 
 #define MAX_PROCESSES_ARRAY_SIZE 2048

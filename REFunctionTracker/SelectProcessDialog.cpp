@@ -44,6 +44,7 @@ JSValue SelectProcessDialog::SetProcess(const JSObject& thisObject, const JSArgs
 		ultralight::String stringProcess = args[0];
 		std::string processDataJson = stringProcess.utf8().data();
 		ProcData processData = procLoadInst->jsonToProcData(processDataJson);
+
 		if (processData.processPID == 0) {
 			return JSValue("Error");
 		}
