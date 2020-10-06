@@ -1,37 +1,38 @@
-﻿  MyApp.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xstring(2395,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
+﻿  InfoMessage.cpp
+  MyApp.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2390,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
           with
           [
               _Elem=char
           ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xstring(2406): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2401): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
           with
           [
               _Iter=wchar_t *
           ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xstring(2406): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2401): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
           with
           [
               _Iter=wchar_t *
           ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xstring(2386): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2381): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
           with
           [
               _Iter=wchar_t *
           ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xstring(2386): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2381): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
           with
           [
               _Iter=wchar_t *
           ]
-C:\Users\Adrian\Desktop\REFunctionTracker-master\REFunctionTracker\REFunctionTracker\MyApp.cpp(17): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\MyApp.cpp(17): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-C:\Users\Adrian\Desktop\REFunctionTracker-master\REFunctionTracker\REFunctionTracker\MyApp.cpp(17): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\MyApp.cpp(17): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
@@ -39,5 +40,107 @@ C:\Users\Adrian\Desktop\REFunctionTracker-master\REFunctionTracker\REFunctionTra
               _Alloc=std::allocator<char>
           ]
   REFunctionTracker.cpp
+  SelectProcessDialog.cpp
+  AssemblerInstruction.cpp
+  Disassembler.cpp
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\Disassembler.cpp(44,20): warning C4018: '<': signed/unsigned mismatch
+  MnemonicsX64.cpp
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\MnemonicsX64.h(286): warning C4091: 'typedef ': ignored on left of 'MnemonicsX64::<unnamed-enum-REGISTER_ADDRESS>' when no variable is declared
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\MnemonicsX64.cpp(493,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\MnemonicsX64.cpp(494,73): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\MnemonicsX64.cpp(499,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\MnemonicsX64.cpp(500,56): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  pe_hdrs_helper.cpp
+  ProcessInfo.cpp
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInfo.cpp(113,9): warning C4476: 'printf' : unknown type field character 'P' in format specifier
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInfo.cpp(113,35): warning C4474: 'printf' : too many arguments passed for format string
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInfo.cpp(113,35): message : placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInfo.cpp(131,96): warning C4311: 'type cast': pointer truncation from 'LPVOID' to 'DWORD'
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInfo.cpp(131,96): warning C4302: 'type cast': truncation from 'LPVOID' to 'DWORD'
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInfo.cpp(133,9): warning C4477: 'printf' : format string '%x' requires an argument of type 'unsigned int', but variadic argument 1 has type 'DWORD_PTR'
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInfo.cpp(133,9): message : consider using '%llx' in the format string
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInfo.cpp(133,9): message : consider using '%Ix' in the format string
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInfo.cpp(133,9): message : consider using '%I64x' in the format string
+  ProcessInstructionReader.cpp
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(40,110): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(97,105): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(155,110): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(208,110): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(222,16): warning C4244: 'return': conversion from 'unsigned __int64' to 'unsigned long', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(258,110): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(324,110): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(348,9): warning C4244: 'return': conversion from 'unsigned __int64' to 'unsigned long', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(370,109): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(415,110): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessInstructionReader.cpp(487,110): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+  ProcessLoader.cpp
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessLoader.cpp(52,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessLoader.cpp(96,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\ProcessLoader.cpp(141,46): warning C4244: 'argument': conversion from 'SIZE_T' to 'DWORD', possible loss of data
+  SearchSignature.cpp
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(45,97): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(54,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(86,9): warning C4244: 'return': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(113,97): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(122,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(160,97): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(185,9): warning C4244: 'return': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(171,17): warning C4101: 'newInstruction': unreferenced local variable
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(217,97): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(227,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(262,9): warning C4244: 'return': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(285,97): warning C4244: 'argument': conversion from 'SIZE_T' to 'int', possible loss of data
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\SearchSignature.cpp(294,21): warning C4018: '<': signed/unsigned mismatch
+  Utils.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2390,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2401): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2401): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2381): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include\xstring(2381): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\Utils.cpp(25): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+C:\Users\admin\Desktop\RE\REFunctionTracker\REFunctionTracker\Service\Utils.cpp(25): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
   Generating Code...
-  REFunctionTracker.vcxproj -> C:\Users\Adrian\Desktop\REFunctionTracker-master\REFunctionTracker\x64\Debug\REFunctionTracker.exe
+     Creating library C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\REFunctionTracker.lib and object C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\REFunctionTracker.exp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+distorm.lib(decoder.obj) : warning LNK4099: PDB 'distorm.pdb' was not found with 'distorm.lib(decoder.obj)' or at 'C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\distorm.pdb'; linking object as if no debug info
+distorm.lib(distorm.obj) : warning LNK4099: PDB 'distorm.pdb' was not found with 'distorm.lib(distorm.obj)' or at 'C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\distorm.pdb'; linking object as if no debug info
+distorm.lib(instructions.obj) : warning LNK4099: PDB 'distorm.pdb' was not found with 'distorm.lib(instructions.obj)' or at 'C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\distorm.pdb'; linking object as if no debug info
+distorm.lib(insts.obj) : warning LNK4099: PDB 'distorm.pdb' was not found with 'distorm.lib(insts.obj)' or at 'C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\distorm.pdb'; linking object as if no debug info
+distorm.lib(mnemonics.obj) : warning LNK4099: PDB 'distorm.pdb' was not found with 'distorm.lib(mnemonics.obj)' or at 'C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\distorm.pdb'; linking object as if no debug info
+distorm.lib(operands.obj) : warning LNK4099: PDB 'distorm.pdb' was not found with 'distorm.lib(operands.obj)' or at 'C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\distorm.pdb'; linking object as if no debug info
+distorm.lib(prefix.obj) : warning LNK4099: PDB 'distorm.pdb' was not found with 'distorm.lib(prefix.obj)' or at 'C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\distorm.pdb'; linking object as if no debug info
+distorm.lib(textdefs.obj) : warning LNK4099: PDB 'distorm.pdb' was not found with 'distorm.lib(textdefs.obj)' or at 'C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\distorm.pdb'; linking object as if no debug info
+distorm.lib(wstring.obj) : warning LNK4099: PDB 'distorm.pdb' was not found with 'distorm.lib(wstring.obj)' or at 'C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\distorm.pdb'; linking object as if no debug info
+  REFunctionTracker.vcxproj -> C:\Users\admin\Desktop\RE\REFunctionTracker\x64\Debug\REFunctionTracker.exe

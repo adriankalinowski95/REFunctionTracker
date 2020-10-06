@@ -1,16 +1,16 @@
 ## REFunctionTracker
-Program ma za zadanie uÅ‚atwiÄ‡ inÅ¼ynierie wstecznÄ… procesÃ³w. 
-GÅ‚ownym zadaniem oprogramowania jest znajdowanie funkcji w pamiÄ™ci wirtualnej procesu oraz debuggowanie jej w celu znalezenia funkcji odpowiedzialnej za konkretne zdarzenie (np. klikniÄ™cie przycisku).
+Program ma za zadanie u³atwiæ in¿ynierie wsteczn¹ procesów. 
+G³ownym zadaniem oprogramowania jest znajdowanie funkcji w pamiêci wirtualnej procesu oraz debuggowanie jej w celu znalezenia funkcji odpowiedzialnej za konkretne zdarzenie (np. klikniêcie przycisku).
 
-## PrzyszÅ‚e funkcjonalnoÅ›ci:
-* Podpinanie siÄ™ pod proces. [+]
+## Przysz³e funkcjonalnoœci:
+* Podpinanie siê pod proces. [+]
 * Deasemblacja procesu. [-]
 * Wstrzykiwanie kodu. [-]
 * Wyszukiwanie funkcji. [-]
 * Debuggowanie:
   - Break point. [-]
-  - ObsÅ‚uga przerwaÅ„. [-]
-  - Analizowanie obszarÃ³w pamiÄ™ci pod wzgledem dostÄ™pu [-].
+  - Obs³uga przerwañ. [-]
+  - Analizowanie obszarów pamiêci pod wzgledem dostêpu [-].
 
 ## Technologie:
 * C++
@@ -24,7 +24,7 @@ GÅ‚ownym zadaniem oprogramowania jest znajdowanie funkcji w pamiÄ™ci wirtualnej 
 * [ULTRALIGHT][ultralight]
 * [CEREAL][cereal]
 
-## Åšrodowisko:
+## Œrodowisko:
 Microsoft Visual Studio Community 2019
 
 [asmjit]: https://github.com/asmjit/asmjit
