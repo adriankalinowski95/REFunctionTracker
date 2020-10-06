@@ -1,6 +1,6 @@
 ## REFunctionTracker
 Program ma za zadanie ułatwić inżynierie wsteczną procesów. 
-Głownym zadaniem oprogramowania jest znajdowanie funkcji w pamięci wirtualnej procesu oraz debuggowanie jej w celu znalezenia funkcji odpowiedzialnej za konkretne zdarzenie (np. kliknięcie przycisku.
+Głownym zadaniem oprogramowania jest znajdowanie funkcji w pamięci wirtualnej procesu oraz debuggowanie jej w celu znalezenia funkcji odpowiedzialnej za konkretne zdarzenie (np. kliknięcie przycisku).
 
 ## Przyszłe funkcjonalności:
 * Podpinanie się pod proces. [+]
