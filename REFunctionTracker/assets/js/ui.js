@@ -1,7 +1,83 @@
+const INFO_DIALOG_ERROR = 1;
+const INFO_DIALOG_SUCCESS = 2;
+const INFO_DIALOG_UNKOWN = 4;
+
+function isJSON(str) {
+    try {
+        return (JSON.parse(str) && !!str);
+    } catch (e) {
+        return false;
+    }
+}
+
+function showInfoDialog(message, status) {
+    var infoDialog = document.createElement('div');
+
+    var strongMessage = "";
+    infoDialog.classList.add("alert-dialog");
+    if (status) {
+        infoDialog.classList.add("success");
+        strongMessage = "Success!";
+    } else {
+        infoDialog.classList.add("fail");
+        strongMessage = "Fail!";
+    }
+
+    var exitSpan = document.createElement("SPAN");
+    exitSpan.innerHTML += "&times;";
+    exitSpan.classList.add("closebtn");
+
+    var strong = document.createElement("STRONG");
+    strong.appendChild(document.createTextNode(strongMessage));
+
+    infoDialog.appendChild(exitSpan);
+    infoDialog.appendChild(strong);
+    infoDialog.innerHTML += " " + message;
+
+    document.querySelector("#alerts").appendChild(infoDialog);
+    //document.body.appendChild(infoDialog);
+
+    infoDialog.classList.add("faded-out");
+    requestAnimationFrame(() => {
+        infoDialog.classList.remove("faded-out");
+    });
+
+    var close = document.getElementsByClassName("closebtn");
+    for (var i = 0; i < close.length; i++) {
+        close[i].onclick = function () {
+            var div = this.parentElement;
+            div.style.opacity = "0";
+            setTimeout(function () {
+                div.style.display = "none";
+                div.remove();
+            }, 600);
+        }
+    }
+}
+
+function isInfoDialogValidate(json) {
+    var tempJson = json;
+
+    if (!tempJson.hasOwnProperty("info-message")) {
+        return false;
+    }
+    tempJson = tempJson["info-message"];
+    if (!tempJson.hasOwnProperty("message")) {
+        return false;
+    }
+    if (!tempJson.hasOwnProperty("status")) {
+        return false;
+    }
+
+    return true;
+}
+
+
 function HandleClick() {
     document.body.classList.add('transition');
     $('#msg').innerHTML = GetMessage();
 }
+
 
 function loadHTML(div, fileName,callback) {
     var url = fileName;

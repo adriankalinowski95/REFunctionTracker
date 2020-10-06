@@ -4,6 +4,7 @@
 #include <cereal/archives/json.hpp>
 #include <vector>
 #include "Utils.h"
+#include "InfoMessage.h"
 
 SelectProcessDialog::SelectProcessDialog()
 {
@@ -46,14 +47,17 @@ JSValue SelectProcessDialog::SetProcess(const JSObject& thisObject, const JSArgs
 		ProcData processData = procLoadInst->jsonToProcData(processDataJson);
 
 		if (processData.processPID == 0) {
-			return JSValue("Error");
+			InfoMessage errorMessage = InfoMessage("Bad process PID!", InfoMessage::S_ERROR);
+			return JSValue(errorMessage.toJson().c_str());
 		}
 		
 		HANDLE procHandle = procLoadInst->loadProcessByPID(processData.processPID);
 		if (procHandle != NULL) {
-			return JSValue("Success");
+			InfoMessage successMessage = InfoMessage("Select process correct!", InfoMessage::S_SUCCESS);
+			return JSValue(successMessage.toJson().c_str());
 		}
 		
 	}
-	return JSValue("Error");
+	InfoMessage errorMessage = InfoMessage("Bad request!", InfoMessage::S_ERROR);
+	return JSValue(errorMessage.toJson().c_str());
 }

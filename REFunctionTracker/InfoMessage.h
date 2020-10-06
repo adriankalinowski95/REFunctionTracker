@@ -19,9 +19,9 @@ class InfoMessage {
 
 public:
 enum Status {
-		ERROR = 1,
-		SUCCESS = 2,
-		UNKOWN = 4
+		S_ERROR = 1,
+		S_SUCCESS = 2,
+		S_UNKOWN = 4
 	};
 
 public:

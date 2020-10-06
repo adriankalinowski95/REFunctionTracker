@@ -57,6 +57,9 @@
     <ClCompile Include="Service\Utils.cpp">
       <Filter>Pliki źródłowe\Service</Filter>
     </ClCompile>
+    <ClCompile Include="InfoMessage.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="Service\Utils.h">
       <Filter>Pliki nagłówkowe\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="InfoMessage.h">
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

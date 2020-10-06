@@ -435,3 +435,51 @@ body {
 .custom-row-active {
     background: #d3d1d1;
 }
+
+#alerts {
+    position: absolute;
+    width: 100%;
+    height: auto;
+}
+
+.alert-dialog {
+    padding: 20px;
+    background-color: #5788b2;
+    color: white;
+    opacity: 1;
+    transition: opacity 400ms;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1000;
+    right: 0;
+    top: 0;
+    width:30%;
+    float:right;
+}
+
+.alert-dialog.success {
+        background-color: #4CAF50 !important;
+}
+
+.alert-dialog.fail {
+        background-color: #f44336 !important;
+}
+
+.faded-out {
+    opacity: 0;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+        color: black;
+}

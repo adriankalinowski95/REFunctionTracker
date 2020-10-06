@@ -1,13 +1,6 @@
 var gProcessList = null;
 var gProcIndex = -1;
 
-function isJSON(str) {
-    try {
-        return (JSON.parse(str) && !!str);
-    } catch (e) {
-        return false;
-    }
-}
 
 
 function initSelectProcessDialog()
@@ -21,6 +14,8 @@ function getProcessListRequest() {
     if (isJSON(processListData)) {
         var jsonProcessList = JSON.parse(processListData);
         if (!jsonProcessList.hasOwnProperty("processList")) {
+            closeOverlay();
+            showInfoDialog("Request error!", false);
             return;
         }
 
@@ -32,13 +27,45 @@ function getProcessListRequest() {
         gProcIndex = -1;
     }
 }
+
 /* Dodac set process i dialog potwierdzenia */
+/* Dodaæ validacje do plikow np. czy jest funkcja showInfoDialog */
 function setProcessRequest() {
     if (gProcIndex != -1) {
-        console.log("process " + gProcIndex.toString());
         var procTestObj = { processData: gProcessList[gProcIndex] };
         console.log(procTestObj);
+        if (isJSON(procTestObj)) {
+            closeOverlay();
+            showInfoDialog("Response error!", false);
+            return;
+        }
+
         var setProcessInfo = SetProcess(JSON.stringify(procTestObj));
+
+        if (!isJSON(setProcessInfo)) {
+            closeOverlay();
+            showInfoDialog("Response error!", false);
+            return;
+        }
+        setProcessInfo = JSON.parse(setProcessInfo);
+        if (!isInfoDialogValidate(setProcessInfo)) {
+            closeOverlay();
+            showInfoDialog("Response error!", false);
+            return;
+        }
+
+        setProcessInfo = setProcessInfo["info-message"];
+
+        if (setProcessInfo.status == INFO_DIALOG_ERROR) {
+            closeOverlay();
+            showInfoDialog(setProcessInfo.message, false);
+            return;
+        } else {
+            closeOverlay();
+            showInfoDialog(setProcessInfo.message, true);
+            return;
+        }
+        
         console.log(setProcessInfo);
     }
 }

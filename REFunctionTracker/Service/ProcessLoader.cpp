@@ -100,7 +100,7 @@ HANDLE ProcessLoader::loadProcessByPID(DWORD processPID)
 				WCHAR szProcessName[MAX_PATH];
 				if (getProcessNameByHandle(hProcess, szProcessName, MAX_PATH)) {
 					this->processName = Utils::convertWStringToString(wstring(szProcessName));
-					printf("process opened! \nprocess name: %s \nPID: %d \nprocess handle: %d \n", this->processName, processPID, this->processHandle);
+					printf("process opened! \nprocess name: %s \nPID: %d \nprocess handle: %d \n", this->processName.c_str(), processPID, this->processHandle);
 					return hProcess;
 				}
 			}

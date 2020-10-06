@@ -161,6 +161,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="InfoMessage.cpp" />
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="REFunctionTracker.cpp" />
     <ClCompile Include="SelectProcessDialog.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="Service\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InfoMessage.h" />
     <ClInclude Include="MyApp.h" />
     <ClInclude Include="SelectProcessDialog.h" />
     <ClInclude Include="Service\AssemblerInstruction.h" />
