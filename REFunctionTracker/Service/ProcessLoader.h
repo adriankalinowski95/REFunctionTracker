@@ -39,5 +39,6 @@ public:
 private:
 	HANDLE processHandle;
 	std::string processName;
+	DWORD processPID;
 
 };

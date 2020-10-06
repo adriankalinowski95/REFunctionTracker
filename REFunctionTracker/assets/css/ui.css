@@ -440,6 +440,8 @@ body {
     position: absolute;
     width: 100%;
     height: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .alert-dialog {
@@ -448,13 +450,11 @@ body {
     color: white;
     opacity: 1;
     transition: opacity 400ms;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     position: relative;
     z-index: 1000;
-    right: 0;
-    top: 0;
-    width:30%;
-    float:right;
+    margin-left: auto;
+    width: 30%;
 }
 
 .alert-dialog.success {

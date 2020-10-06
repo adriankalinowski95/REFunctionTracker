@@ -21,6 +21,7 @@ bool isSearchedProcess(DWORD processID, LPWSTR searchedName);
 ProcessLoader::ProcessLoader()
 {
 	this->processHandle = NULL;
+	this->processPID = 0;
 }
 
 ProcessLoader::~ProcessLoader()
@@ -93,17 +94,21 @@ HANDLE ProcessLoader::loadProcessByPID(DWORD processPID)
 	}
 	cProcesses = cbNeeded / sizeof(DWORD);
 	for (int i = 0; i < cProcesses; i++) {
-		if (processes[i] != 0) {
-			if (processPID == processes[i])
-			{
-				HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processes[i]);
-				WCHAR szProcessName[MAX_PATH];
-				if (getProcessNameByHandle(hProcess, szProcessName, MAX_PATH)) {
-					this->processName = Utils::convertWStringToString(wstring(szProcessName));
-					printf("process opened! \nprocess name: %s \nPID: %d \nprocess handle: %d \n", this->processName.c_str(), processPID, this->processHandle);
-					return hProcess;
-				}
-			}
+		if (processes[i] == 0) {
+			continue;
+		}
+		if (processPID == processes[i])
+		{
+			continue;
+		}
+		HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processes[i]);
+		WCHAR szProcessName[MAX_PATH];
+		if (getProcessNameByHandle(hProcess, szProcessName, MAX_PATH)) {
+			this->processName = Utils::convertWStringToString(wstring(szProcessName));
+			this->processHandle = hProcess;
+			this->processPID = processPID;
+			printf("process opened! \nprocess name: %s \nPID: %d\n", this->processName.c_str(), processPID);
+			return hProcess;
 		}
 	}
 	return NULL;
