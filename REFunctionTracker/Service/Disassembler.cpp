@@ -11,6 +11,7 @@ Disassembler::Disassembler()
 
 Disassembler::~Disassembler()
 {
+
 }
 
 int Disassembler::dissassembly(DWORD_PTR codeOffset, const unsigned char* code, int codeLen, int architecture,std::vector<AssemblerInstruction*>&instructions)

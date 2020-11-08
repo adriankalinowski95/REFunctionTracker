@@ -1,4 +1,5 @@
 #include "AssemblerInstruction.h"
+#include "Utils.h"
 
 #define INSTURCTION_ADDRESS_SIZE 50
 
@@ -77,4 +78,24 @@ int AssemblerInstruction::getOperandsLength()
 int AssemblerInstruction::getInstructionLength()
 {
 	return this->decodedInst->mnemonic.length;
+}
+
+ASMInst AssemblerInstruction::getStruct()
+{
+	ASMInst asmInst;
+	asmInst.mnemonic = this->getMnemonic();
+	asmInst.operands = this->getOperands();
+	asmInst.instructionHex = this->getInstructionHex();
+	asmInst.offset = this->getOffsetString();
+	return asmInst;
+}
+
+std::string AssemblerInstruction::getAssemblerInstructionAsJSON()
+{
+	return Utils::serializeToJSON<ASMInst>(this->getStruct(), "assemblerInstruction").c_str();
+}
+
+ASMInst AssemblerInstruction::jsonToASMInst(std::string json)
+{
+	return Utils::serializeToObject<ASMInst>(json);
 }

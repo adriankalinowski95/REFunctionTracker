@@ -1,6 +1,7 @@
 #pragma once
 #include <AppCore/AppCore.h>
 #include "SelectProcessDialog.h"
+#include "HomePage.h"
 using namespace ultralight;
 
 class MyApp : public AppListener,
@@ -48,7 +49,7 @@ public:
 
   void OnToggleTools(const JSObject& obj, const JSArgs& args);
   JSValue GetMessageA(const JSObject& thisObject, const JSArgs& args);
-      
+  
 protected:
   RefPtr<App> app_;
   RefPtr<Window> window_;
@@ -59,5 +60,5 @@ protected:
   Settings settings;
   JSFunction testFunction;
   SelectProcessDialog* selectProcessDialog_;
-
+  HomePage* homePage_;
 };

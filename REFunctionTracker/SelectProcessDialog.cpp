@@ -1,10 +1,12 @@
 #include "SelectProcessDialog.h"
 #include "ProcessLoader.h"
+#include "ProcessInfo.h"
+#include "InfoMessage.h"
+#include "Utils.h"
+
 #include <fstream>
 #include <cereal/archives/json.hpp>
 #include <vector>
-#include "Utils.h"
-#include "InfoMessage.h"
 
 SelectProcessDialog::SelectProcessDialog()
 {

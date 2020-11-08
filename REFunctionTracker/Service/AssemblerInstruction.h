@@ -1,6 +1,25 @@
 #pragma once
 #include <string>
 #include <distorm.h>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/vector.hpp>
+
+struct ASMInst 
+{
+	std::string mnemonic;
+	std::string operands;
+	std::string instructionHex;
+	std::string offset;
+
+	template<class Archive>
+	void serialize(Archive& archive)
+	{
+		archive(cereal::make_nvp("mnemonic", mnemonic)
+				,cereal::make_nvp("operands", operands)
+				,cereal::make_nvp("instructionHex", instructionHex)
+				,cereal::make_nvp("offset", offset));
+	}
+};
 
 class AssemblerInstruction
 {
@@ -28,7 +47,10 @@ public:
 	_DecodedInst* getDecodedInst();
 	int getOperandsLength();
 	int getInstructionLength();
-	
+	ASMInst getStruct();
+	std::string getAssemblerInstructionAsJSON();
+	ASMInst jsonToASMInst(std::string json);
+
 private:
 	_DecodedInst* decodedInst;
 	int architecture; /*Architecture*/

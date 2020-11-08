@@ -8,30 +8,30 @@ class ProcessInfo
 {
 
 	public:
-		enum Architecture
-		{
+		enum Architecture{
 			X86Arch = 1,
 			X64Arch = 2
 		};
-	
-	public:
-		static ProcessInfo& getInstance()
-		{
-			static ProcessInfo instance;
-			return instance;
-		}
 
 	public:
 		ProcessInfo();
+		static ProcessInfo& getInstance();
 		~ProcessInfo();
-		void setProcessHandle(HANDLE processHandle);
+
+	public:
 		HANDLE getProcessHandle();
-		bool loadProcessBaseInformation();
-		int recognizeArchitecture();
 		LPVOID getProcessBaseAddress();
 		DWORD_PTR getEntryPointAddress();
 		std::string getArchitectureString();
+
+	public:
+		int recognizeArchitecture();
 		bool loadProcessBaseInformation64();
+		void setProcessHandle(HANDLE processHandle);
+		bool loadProcessBaseInformation();	//Not used!
+
+	private:
+		DWORD_PTR getProcessBaseAddress(HANDLE processHandle);
 
 	private:
 		HANDLE processHandle;

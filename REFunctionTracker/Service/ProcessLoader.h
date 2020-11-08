@@ -34,8 +34,6 @@ public:
 	HANDLE getProcessHandle();
 	std::string getProcessName();
 
-
-
 private:
 	HANDLE processHandle;
 	std::string processName;

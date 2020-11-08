@@ -228,7 +228,6 @@ body {
     font-family: "Barlow", sans-serif;
     border-collapse: collapse;
     border: 1px solid #eee;
-    border-bottom: 2px solid #416788;
     box-shadow: 0px 0px 20px rgba(0,0,0,0.10), 0px 10px 20px rgba(0,0,0,0.05), 0px 20px 20px rgba(0,0,0,0.05), 0px 30px 20px rgba(0,0,0,0.05);
     max-height: 65%;
     height: 65%;
@@ -237,6 +236,7 @@ body {
     margin-right: 5%;
     position: relative;
 }
+
 .select-process-dialog-top {
     width: 100%;
     height: 10%;
@@ -355,7 +355,6 @@ body {
         }
 
 .custom-table {
-
     width: 100%;
     height: 100%;
     position: relative;
@@ -373,20 +372,21 @@ body {
 
 .custom-thead {
     width: 100%;
-    height: 15%;
+    height: 30px;
 }
 
     .custom-thead .custom-row {
         height: 100% !important;
     }
 
-    .custom-tbody {
+.custom-tbody {
     width: 100%;
     overflow-y: auto; /* Trigger vertical scroll    */
     overflow-x: hidden; /* Hide the horizontal scroll */
-    height: 85%;
+    height: calc(100% - 30px);
     cursor: pointer;
-    position:relative;
+    position: relative;
+    border-bottom: 2px solid #416788;
 }
 
 
@@ -398,13 +398,11 @@ body {
     align-items: center;
     white-space: normal;
     height: 100%;
-
     background: #416788;
     color: #fff;
     text-transform: uppercase;
     font-size: 16px;
     border: 1px solid #eee;
-
 }
 
 .custom-td {
@@ -413,7 +411,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100%;
-
     color: #696969;
     border: 1px solid #eee;
     border-collapse: collapse;
@@ -457,13 +454,13 @@ body {
     width: 30%;
 }
 
-.alert-dialog.success {
+    .alert-dialog.success {
         background-color: #4CAF50 !important;
-}
+    }
 
-.alert-dialog.fail {
+    .alert-dialog.fail {
         background-color: #f44336 !important;
-}
+    }
 
 .faded-out {
     opacity: 0;
@@ -480,6 +477,46 @@ body {
     transition: 0.3s;
 }
 
-.closebtn:hover {
+    .closebtn:hover {
         color: black;
+    }
+
+
+
+
+
+#home-page .content {
+    height: calc(100% - 50px);
+    width: 100%;
+    position: relative;
 }
+
+#disasm-table {
+    position: relative;
+    margin: 2%;
+    width: 96%;
+    height: 96%;
+}
+
+
+    #disasm-table .custom-row {
+        height: 30px !important;
+    }
+
+    #disasm-table .custom-th {
+        font-size: 14px !important;
+    }
+
+    #disasm-table .custom-td {
+        font-size: 12px !important;
+    }
+
+.custom-table-el-20 {
+    width: 20%;
+}
+
+.custom-table-el-40 {
+    width: 40%;
+}
+
+

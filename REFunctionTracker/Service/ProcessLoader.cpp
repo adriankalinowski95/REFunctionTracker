@@ -16,8 +16,6 @@ bool getProcessNameByHandle(HANDLE hProcess, LPWSTR nameBuf, SIZE_T nameMax);
 bool isSearchedProcess(DWORD processID, LPWSTR searchedName);
 
 
-
-
 ProcessLoader::ProcessLoader()
 {
 	this->processHandle = NULL;
@@ -93,12 +91,12 @@ HANDLE ProcessLoader::loadProcessByPID(DWORD processPID)
 		return NULL;
 	}
 	cProcesses = cbNeeded / sizeof(DWORD);
+	
 	for (int i = 0; i < cProcesses; i++) {
 		if (processes[i] == 0) {
 			continue;
 		}
-		if (processPID == processes[i])
-		{
+		if (processPID == processes[i]){
 			continue;
 		}
 		HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processes[i]);
@@ -111,6 +109,7 @@ HANDLE ProcessLoader::loadProcessByPID(DWORD processPID)
 			return hProcess;
 		}
 	}
+
 	return NULL;
 }
 
@@ -118,18 +117,22 @@ HANDLE ProcessLoader::loadProcessByPID(DWORD processPID)
 bool isSearchedProcess(DWORD processID, LPWSTR searchedName)
 {
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processID);
-	if (hProcess == NULL) return false;
-
-	WCHAR szProcessName[MAX_PATH];
-	if (getProcessNameByHandle(hProcess, szProcessName, MAX_PATH)) {
-		if (wcsstr(szProcessName, searchedName) != NULL) {
-			printf("%S  (PID: %u)\n", szProcessName, processID);
-			CloseHandle(hProcess);
-			return true;
-		}
+	if (hProcess == NULL) {
+		return false;
 	}
+	WCHAR szProcessName[MAX_PATH];
+	if (!getProcessNameByHandle(hProcess, szProcessName, MAX_PATH))
+	{
+		CloseHandle(hProcess);
+		return false;
+	}
+	if (wcsstr(szProcessName, searchedName) == NULL) {
+		CloseHandle(hProcess);
+		return false;
+	}
+	printf("%S  (PID: %u)\n", szProcessName, processID);
 	CloseHandle(hProcess);
-	return false;
+	return true;
 }
 
 bool getProcessNameByHandle(HANDLE hProcess, LPWSTR nameBuf, SIZE_T nameMax)

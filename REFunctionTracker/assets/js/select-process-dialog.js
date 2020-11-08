@@ -63,6 +63,7 @@ function setProcessRequest() {
         } else {
             closeOverlay();
             showInfoDialog(setProcessInfo.message, true);
+            OnProcessLoad();
             return;
         }
         

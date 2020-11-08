@@ -19,6 +19,12 @@
     <Filter Include="Pliki nagłówkowe\Service">
       <UniqueIdentifier>{75566905-b94d-419e-8bd2-8ffc6f229a84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\ProcessDataAccess">
+      <UniqueIdentifier>{be643cf1-9c5c-48d7-ba49-c4371ad13848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\ProcessDataAccess">
+      <UniqueIdentifier>{39b2580d-dcfb-4dd8-8ce4-9a75b074fe92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="REFunctionTracker.cpp">
@@ -60,6 +66,12 @@
     <ClCompile Include="InfoMessage.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="ProcessDataAccess\ProcessInstructionReader.cpp">
+      <Filter>Pliki źródłowe\ProcessDataAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="HomePage.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h">
@@ -99,6 +111,12 @@
       <Filter>Pliki nagłówkowe\Service</Filter>
     </ClInclude>
     <ClInclude Include="InfoMessage.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessDataAccess\ProcessInstructionReader.h">
+      <Filter>Pliki nagłówkowe\ProcessDataAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="HomePage.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>

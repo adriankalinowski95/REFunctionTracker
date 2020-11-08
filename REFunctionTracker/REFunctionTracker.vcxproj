@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)ultralight\include;$(ProjectDir)lib\distorm3-3.4.1\include;$(ProjectDir)lib\distorm3-3.4.1\src;$(ProjectDir)Service;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ultralight\include;$(ProjectDir)lib\distorm3-3.4.1\include;$(ProjectDir)lib\distorm3-3.4.1\src;$(ProjectDir)Service;$(ProjectDir);$(ProjectDir)ProcessDataAccess;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,8 +161,10 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HomePage.cpp" />
     <ClCompile Include="InfoMessage.cpp" />
     <ClCompile Include="MyApp.cpp" />
+    <ClCompile Include="ProcessDataAccess\ProcessInstructionReader.cpp" />
     <ClCompile Include="REFunctionTracker.cpp" />
     <ClCompile Include="SelectProcessDialog.cpp" />
     <ClCompile Include="Service\AssemblerInstruction.cpp" />
@@ -176,8 +178,10 @@
     <ClCompile Include="Service\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HomePage.h" />
     <ClInclude Include="InfoMessage.h" />
     <ClInclude Include="MyApp.h" />
+    <ClInclude Include="ProcessDataAccess\ProcessInstructionReader.h" />
     <ClInclude Include="SelectProcessDialog.h" />
     <ClInclude Include="Service\AssemblerInstruction.h" />
     <ClInclude Include="Service\Disassembler.h" />

@@ -103,6 +103,7 @@ void MyApp::Run() {
 
 void MyApp::InitModules() {
 	this->selectProcessDialog_ = new SelectProcessDialog(overlay_);
+	this->homePage_ = new HomePage(overlay_);
 }
 
 void MyApp::OnUpdate() {
@@ -172,7 +173,6 @@ void MyApp::OnDOMReady(ultralight::View* caller,
 	///
 	global["GetMessage"] = BindJSCallbackWithRetval(&MyApp::GetMessageA);
 	global["OnToggleTools"] = BindJSCallback(&MyApp::OnToggleTools);
-
 	this->InitModules();
 }
 
