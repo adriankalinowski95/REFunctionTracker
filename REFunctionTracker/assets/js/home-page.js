@@ -13,3 +13,11 @@ function afterSelectProcessDialogLoad() {
 }
 
 //function loadProcessDialog
+
+
+function loadDisAsmTable(status) {
+    if (status) {
+        var procInstCount = GetProcessInstructionsCount();
+        console.log(procInstCount);
+    }
+}

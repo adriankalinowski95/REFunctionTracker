@@ -13,10 +13,14 @@ ProcessInstructionReader::~ProcessInstructionReader()
 
 }
 
+ProcessInstructionReader& ProcessInstructionReader::getInstance()
+{
+	static ProcessInstructionReader processInstructionReader;
+	return processInstructionReader;
+}
 
 int ProcessInstructionReader::getInstructionByIndex(unsigned long long startAddress, unsigned long long startIndex, int instructionCount, std::vector<AssemblerInstruction*>& instructions)
 {
-
 	ProcessInfo* processInformation = &(ProcessInfo::getInstance());
 	Disassembler* disassembler = &(Disassembler::getInstance());
 	int architecture = this->getProcessArchitecture();
@@ -29,17 +33,17 @@ int ProcessInstructionReader::getInstructionByIndex(unsigned long long startAddr
 	SIZE_T readedBytes;
 	int status = 0;
 
-	if (processInformation->getProcessHandle() == NULL)
+	if (processInformation->getProcessHandle() == NULL) {
 		return PROCESS_INSTRUCTION_READER_ERROR;
-
-
+	}
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
 		status = disassembler->dissassembly((DWORD_PTR)startAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture,tempInstructions);
 		
-		if (status == Disassembler::DISSASSEMBLER_ERROR)
+		if (status == Disassembler::DISSASSEMBLER_ERROR) {
 			return PROCESS_INSTRUCTION_READER_ERROR;
+		}
 
 		currentOffset = (unsigned long)(tempInstructions.at(tempInstructions.size() - 1)->getOffset() - ((DWORD_PTR)startAddress));
 
@@ -56,20 +60,19 @@ int ProcessInstructionReader::getInstructionByIndex(unsigned long long startAddr
 				}
 			}
 		}
+
 		instructionsCount += tempInstructions.size();
 		while (!tempInstructions.empty()) {
 			delete tempInstructions.back();
 			tempInstructions.pop_back();
 		}
 
-		if (instructions.size() >= instructionCount)
-		{
+		if (instructions.size() >= instructionCount){
 			break;
 		}
 	}
 
 	return instructions.size() > 0 ? PROCESS_INSTRUCTION_READER_SUCESS : PROCESS_INSTRUCTION_READER_NO_READED_INSTRUCTIONS;
-
 }
 
 int ProcessInstructionReader::getInstructionByAddress(unsigned long long address, int instructionCount, std::vector<AssemblerInstruction*>& instructions)
@@ -95,8 +98,9 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long address
 	{
 		status = disassembler->dissassembly((DWORD_PTR)address + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
 
-		if (status == Disassembler::DISSASSEMBLER_ERROR)
+		if (status == Disassembler::DISSASSEMBLER_ERROR) {
 			return PROCESS_INSTRUCTION_READER_ERROR;
+		}
 
 		currentOffset = (unsigned long)(tempInstructions.at(tempInstructions.size() - 1)->getOffset() - ((DWORD_PTR)address));
 
@@ -110,9 +114,9 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long address
 					memcpy(newDecodedInst, tempInstructions.at(i)->getDecodedInst(), sizeof(_DecodedInst));
 					AssemblerInstruction* newInstruction = new AssemblerInstruction(architecture, newDecodedInst);
 					instructions.push_back(newInstruction);
-				}
-				else
+				} else {
 					break;
+				}
 			}
 		}
 		instructionsCount += tempInstructions.size();
@@ -121,8 +125,7 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long address
 			tempInstructions.pop_back();
 		}
 
-		if (instructions.size() >= instructionCount)
-		{
+		if (instructions.size() >= instructionCount){
 			break;
 		}
 	}
@@ -144,10 +147,9 @@ unsigned long long ProcessInstructionReader::getProcessInstructionCount(unsigned
 	SIZE_T readedBytes;
 	int status = 0;
 
-	if (processInformation->getProcessHandle() == NULL)
+	if (processInformation->getProcessHandle() == NULL) {
 		return PROCESS_INSTRUCTION_READER_ERROR;
-
-
+	}
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{

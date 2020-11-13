@@ -96,7 +96,7 @@ HANDLE ProcessLoader::loadProcessByPID(DWORD processPID)
 		if (processes[i] == 0) {
 			continue;
 		}
-		if (processPID == processes[i]){
+		if (processPID != processes[i]){
 			continue;
 		}
 		HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processes[i]);

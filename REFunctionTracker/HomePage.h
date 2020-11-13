@@ -16,6 +16,7 @@ public:
 	~HomePage();
 
 	void OnProcessLoad(const JSObject& obj, const JSArgs& args);
+	JSValue GetProcessInstructionsCount(const JSObject& thisObject, const JSArgs& args);
 	//JSValue GetProcessList(const JSObject& thisObject, const JSArgs& args);
 private:
 	RefPtr<Overlay>overlay_;

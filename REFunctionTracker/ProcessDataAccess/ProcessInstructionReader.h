@@ -9,14 +9,8 @@ class ProcessInstructionReader
 {
 public:
 	ProcessInstructionReader();
+	static ProcessInstructionReader& getInstance();
 	~ProcessInstructionReader();
-
-public:
-	static ProcessInstructionReader& getInstrance()
-	{
-		static ProcessInstructionReader processInstruction;
-		return processInstruction;
-	}
 
 public:
 	enum

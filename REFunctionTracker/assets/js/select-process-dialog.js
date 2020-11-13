@@ -138,8 +138,3 @@ function selectRow() {
         gProcIndex = -1;
     }
 }
-
-
-function selectProcessTest(id) {
-    console.log(id);
-}
