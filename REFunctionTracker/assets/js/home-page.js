@@ -201,26 +201,30 @@ function addASMToArray(tBody, asmInst) {
     var cel2 = document.createElement("div");
     var cel3 = document.createElement("div");
     var cel4 = document.createElement("div");
+    var cel5 = document.createElement("div");
 
     cel1.classList.add("custom-td");
     cel2.classList.add("custom-td");
     cel3.classList.add("custom-td");
     cel4.classList.add("custom-td");
+    cel5.classList.add("custom-td");
 
-    cel1.classList.add("custom-table-el-20");
+    cel1.classList.add("custom-table-el-10");
     cel2.classList.add("custom-table-el-20");
     cel3.classList.add("custom-table-el-20");
-    cel4.classList.add("custom-table-el-40");
-
+    cel4.classList.add("custom-table-el-20");
+    cel5.classList.add("custom-table-el-30");
     //cel1.innerHTML = process.processPID.toString();
     cel2.innerHTML = asmInst.offset;
-    cel3.innerHTML = asmInst.instructionHex;
-    cel4.innerHTML = asmInst.mnemonic;
+    cel3.innerHTML = asmInst.mnemonic;
+    cel4.innerHTML = asmInst.operands;
+    cel5.innerHTML = asmInst.instructionHex;
 
     row.appendChild(cel1);
     row.appendChild(cel2);
     row.appendChild(cel3);
     row.appendChild(cel4);
+    row.appendChild(cel5);
 
     tBody.appendChild(row);
 }
