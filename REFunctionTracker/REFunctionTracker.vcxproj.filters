@@ -48,9 +48,6 @@
     <ClCompile Include="Service\ProcessInfo.cpp">
       <Filter>Pliki źródłowe\Service</Filter>
     </ClCompile>
-    <ClCompile Include="Service\ProcessInstructionReader.cpp">
-      <Filter>Pliki źródłowe\Service</Filter>
-    </ClCompile>
     <ClCompile Include="Service\ProcessLoader.cpp">
       <Filter>Pliki źródłowe\Service</Filter>
     </ClCompile>
@@ -93,9 +90,6 @@
       <Filter>Pliki nagłówkowe\Service</Filter>
     </ClInclude>
     <ClInclude Include="Service\ProcessInfo.h">
-      <Filter>Pliki nagłówkowe\Service</Filter>
-    </ClInclude>
-    <ClInclude Include="Service\ProcessInstructionReader.h">
       <Filter>Pliki nagłówkowe\Service</Filter>
     </ClInclude>
     <ClInclude Include="Service\ProcessLoader.h">

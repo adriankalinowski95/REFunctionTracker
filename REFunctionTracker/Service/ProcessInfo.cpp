@@ -6,6 +6,8 @@
 #include "psapi.h"
 #include <vector>
 #include <iostream>
+#include "Utils.h"
+#include "ProcessDataAccess/ProcessInstructionReader.h"
 
 #define PAGE_SIZE 0x1000
 typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
@@ -145,6 +147,30 @@ std::string ProcessInfo::getArchitectureString()
 	int architecture = this->recognizeArchitecture();
 	int archIndex = (architecture > 0) ? architecture : 0 ;
 	return std::string(architrecutreNames[archIndex]);
+}
+
+std::string ProcessInfo::getProcessBaseInfoJSON()
+{
+	if (!this->processBaseAddress) {
+		return std::string("");
+	}
+
+	struct ProcessBaseInfo procBaseInfo;
+	ProcessInstructionReader* procInstReader = &(ProcessInstructionReader::getInstance());
+	unsigned long long instCount = procInstReader->getProcessInstructionCount((unsigned long long)this->processBaseAddress);
+	AssemblerInstruction * assemblerInst;
+	unsigned long index = procInstReader->getInstructionIndex((unsigned long long)this->processBaseAddress, (unsigned long long)this->entryPointAddress);
+	if (index == ProcessInstructionReader::PROCESS_INSTRUCTION_READER_ERROR) {
+		return std::string("");
+	}
+	procBaseInfo.baseAddress = this->processBaseAddress;
+	procBaseInfo.entryPointIndex = index;
+	procBaseInfo.entryPointAddress = (unsigned long long)this->entryPointAddress;
+	procBaseInfo.instructionCount = instCount;
+
+	std::string strProcBaseInfo = Utils::serializeToJSON<ProcessBaseInfo>(procBaseInfo, "processBaseInfo");
+
+	return strProcBaseInfo;
 }
 
 /// <summary>

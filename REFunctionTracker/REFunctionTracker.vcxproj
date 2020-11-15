@@ -172,7 +172,6 @@
     <ClCompile Include="Service\MnemonicsX64.cpp" />
     <ClCompile Include="Service\pe_hdrs_helper.cpp" />
     <ClCompile Include="Service\ProcessInfo.cpp" />
-    <ClCompile Include="Service\ProcessInstructionReader.cpp" />
     <ClCompile Include="Service\ProcessLoader.cpp" />
     <ClCompile Include="Service\SearchSignature.cpp" />
     <ClCompile Include="Service\Utils.cpp" />
@@ -189,7 +188,6 @@
     <ClInclude Include="Service\ntddk.h" />
     <ClInclude Include="Service\pe_hdrs_helper.h" />
     <ClInclude Include="Service\ProcessInfo.h" />
-    <ClInclude Include="Service\ProcessInstructionReader.h" />
     <ClInclude Include="Service\ProcessLoader.h" />
     <ClInclude Include="Service\SearchSignature.h" />
     <ClInclude Include="Service\Utils.h" />

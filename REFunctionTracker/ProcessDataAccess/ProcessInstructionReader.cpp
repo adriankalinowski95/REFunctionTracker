@@ -1,4 +1,4 @@
-#include "ProcessInstructionReader.h"
+#include "ProcessDataAccess/ProcessInstructionReader.h"
 #include "Disassembler.h"
 #include <algorithm>
 #define BUFFER_SIZE 8000
@@ -176,13 +176,10 @@ unsigned long long ProcessInstructionReader::getProcessSize(unsigned long long s
 	unsigned long long currentOffset = 0;
 	BYTE buffer[BUFFER_SIZE];
 	SIZE_T readedBytes;
-	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
-	{
+	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false){
 			currentOffset += readedBytes;
 	}
-
 	return currentOffset;
-	
 }
 
 unsigned long ProcessInstructionReader::getInstructionIndex(unsigned long long startAddress, unsigned long long instructionAddress)

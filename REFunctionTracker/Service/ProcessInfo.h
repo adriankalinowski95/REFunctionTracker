@@ -3,12 +3,32 @@
 #include "ntddk.h"
 #include "pe_hdrs_helper.h"
 #include <string>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/vector.hpp>
+
+struct ProcessBaseInfo
+{
+	unsigned long long baseAddress;
+	unsigned long long entryPointAddress;
+	unsigned long long entryPointIndex;
+	unsigned long long instructionCount;
+
+	template<class Archive>
+	void serialize(Archive& archive)
+	{
+		archive(cereal::make_nvp("baseAddress", baseAddress),
+			cereal::make_nvp("entryPointAddress", entryPointAddress),
+			cereal::make_nvp("entryPointIndex", entryPointIndex),
+			cereal::make_nvp("instructionCount", instructionCount));
+	}
+
+};
 
 class ProcessInfo
 {
 
 	public:
-		enum Architecture{
+		enum Architecture {
 			X86Arch = 1,
 			X64Arch = 2
 		};
@@ -23,6 +43,7 @@ class ProcessInfo
 		LPVOID getProcessBaseAddress();
 		DWORD_PTR getEntryPointAddress();
 		std::string getArchitectureString();
+		std::string getProcessBaseInfoJSON();
 
 	public:
 		int recognizeArchitecture();
