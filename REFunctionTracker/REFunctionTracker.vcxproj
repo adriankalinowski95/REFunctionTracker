@@ -161,6 +161,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="HomePage.cpp" />
     <ClCompile Include="InfoMessage.cpp" />
     <ClCompile Include="MyApp.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Service\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Debugger.h" />
     <ClInclude Include="HomePage.h" />
     <ClInclude Include="InfoMessage.h" />
     <ClInclude Include="MyApp.h" />

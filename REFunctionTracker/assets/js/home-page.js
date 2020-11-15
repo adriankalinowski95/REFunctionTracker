@@ -214,6 +214,7 @@ function addASMToArray(tBody, asmInst) {
     cel3.classList.add("custom-table-el-20");
     cel4.classList.add("custom-table-el-20");
     cel5.classList.add("custom-table-el-30");
+
     //cel1.innerHTML = process.processPID.toString();
     cel2.innerHTML = asmInst.offset;
     cel3.innerHTML = asmInst.mnemonic;
