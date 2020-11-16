@@ -47,7 +47,7 @@ int ProcessInstructionReader::getInstructionByIndex(unsigned long long startAddr
 
 		currentOffset = (unsigned long)(tempInstructions.at(tempInstructions.size() - 1)->getOffset() - ((DWORD_PTR)startAddress));
 
-		if (startIndex >= instructionsCount && startIndex <= (instructionsCount + tempInstructions.size()))
+		if ((startIndex + instructions.size()) >= instructionsCount && (startIndex+ instructions.size()) <= (instructionsCount + tempInstructions.size()))
 		{
 			for (int i = 0; i < tempInstructions.size(); i++)
 			{
@@ -56,6 +56,7 @@ int ProcessInstructionReader::getInstructionByIndex(unsigned long long startAddr
 					_DecodedInst* newDecodedInst = new _DecodedInst;
 					memcpy(newDecodedInst, tempInstructions.at(i)->getDecodedInst(), sizeof(_DecodedInst));
 					AssemblerInstruction* newInstruction = new AssemblerInstruction(architecture, newDecodedInst);
+					newInstruction->setInstructionIndex(i + instructionsCount);
 					instructions.push_back(newInstruction);
 				}
 			}
@@ -91,8 +92,6 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long address
 
 	if (processInformation->getProcessHandle() == NULL)
 		return PROCESS_INSTRUCTION_READER_ERROR;
-
-
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)address + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{

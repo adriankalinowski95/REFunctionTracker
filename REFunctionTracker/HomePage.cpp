@@ -57,6 +57,18 @@ JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const
 	std::vector<AssemblerInstruction*> instructions;
 	ProcessInstructionReader* procInstReader = &(ProcessInstructionReader::getInstance());
 	procInstReader->getInstructionByIndex((unsigned long long)procInfoInst->getProcessBaseAddress(), (unsigned long long)startIndex,count, instructions);
+	/* Sprawdzic czy to na pewno to. */
+	if (instructions.size() < count) {
+		//Dodaæ free
+		while (!instructions.empty()) {
+			delete instructions.back();
+			instructions.pop_back();
+		}
+		long long newStartIndex = startIndex - (count - instructions.size());
+		if (newStartIndex > 0) {
+			procInstReader->getInstructionByIndex((unsigned long long)procInfoInst->getProcessBaseAddress(), (unsigned long long)newStartIndex, count, instructions);
+		}
+	}
 	if (instructions.size() <= 0) {
 		return JSValue(false);
 	}
@@ -67,7 +79,6 @@ JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const
 	}
 
 	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
-
 	printf("Instructions: %s\n", strInstructions.c_str());
 
 	return JSValue(strInstructions.c_str());

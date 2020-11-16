@@ -10,14 +10,15 @@ struct ASMInst
 	std::string operands;
 	std::string instructionHex;
 	std::string offset;
-
+	std::string instructionIndex;
 	template<class Archive>
 	void serialize(Archive& archive)
 	{
 		archive(cereal::make_nvp("mnemonic", mnemonic)
 				,cereal::make_nvp("operands", operands)
 				,cereal::make_nvp("instructionHex", instructionHex)
-				,cereal::make_nvp("offset", offset));
+				,cereal::make_nvp("offset", offset)
+				,cereal::make_nvp("instructionIndex", instructionIndex));
 	}
 };
 
@@ -50,9 +51,11 @@ public:
 	ASMInst getStruct();
 	std::string getAssemblerInstructionAsJSON();
 	ASMInst jsonToASMInst(std::string json);
+	void setInstructionIndex(int index);
 
 private:
 	_DecodedInst* decodedInst;
 	int architecture; /*Architecture*/
+	int instructionIndex;
 };
 

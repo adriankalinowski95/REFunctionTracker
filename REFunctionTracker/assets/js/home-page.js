@@ -9,6 +9,16 @@ class ProcessBaseInfo{
     }
 }
 
+class ASMInst{
+    constructor(){
+        this.mnemonic = "";
+        this.operands = "";
+        this.instructionHex = "";
+        this.offset = "";
+        this.instructionIndex = "";
+    }
+}
+
 function isInt(value) {
     return !isNaN(value) &&
         parseInt(Number(value)) == value &&
@@ -22,9 +32,38 @@ function initHomePage() {
     }
     var instSlider = document.querySelector("#inst-slider");
     if (instSlider) {
+        instSlider.addEventListener('input', instSliderChanged);
         instSlider.addEventListener('change', instSliderChanged);
+        instSlider.addEventListener('wheel', mouseWheelSlider);
+    }
+    var customTBody = document.querySelector("#custom-tbody");
+    if (customTBody) {
+        customTBody.addEventListener('wheel', mouseWheelSlider);
+    }
+}
+
+function mouseWheelSlider(event) {
+    console.log("into");
+    var instSlider = document.querySelector("#inst-slider");
+    if (instSlider == null) {
+        return;
+    }
+    if (instSlider.max == 0) {
+        return;
     }
     
+    event.preventDefault();
+    delta = event.deltaY;
+    console.log(delta);
+    if (delta > 0) {
+        instSlider.value = parseInt(instSlider.value) + 1;
+        loadInstructions(instSlider.value, getInstructionToLoadCount());
+    } else {
+        if (parseInt(instSlider.value) >= 0) {
+            instSlider.value = parseInt(instSlider.value) - 1;
+            loadInstructions(instSlider.value, getInstructionToLoadCount());
+        }
+    }
 }
 
 function showSelectProcessDialog() {
@@ -38,26 +77,17 @@ function afterSelectProcessDialogLoad() {
 
 function instSliderChanged(evt) {
     console.log(evt.target.value);
-}
-
-function processBaseInfoValidate(processBaseInfoJSON) {
-    if (!processBaseInfoJSON.hasOwnProperty("processBaseInfo")) {
-        return false;
+    var intNumber = evt.target.value;
+    try {
+        intNumber = parseInt(evt.target.value);
+    } catch (e) {
+        console.log(e);
+        return;
     }
-    processBaseInfoJSON = processBaseInfoJSON["processBaseInfo"];
-    if (!processBaseInfoJSON.hasOwnProperty("baseAddress")) {
-        return false;
+    if (!Number.isInteger(intNumber)) {
+        return;
     }
-    if (!processBaseInfoJSON.hasOwnProperty("entryPointAddress")) {
-        return false;
-    }
-    if (!processBaseInfoJSON.hasOwnProperty("entryPointIndex")) {
-        return false;
-    }
-    if (!processBaseInfoJSON.hasOwnProperty("instructionCount")) {
-        return false;
-    }
-    return true;
+    loadInstructions(evt.target.value, getInstructionToLoadCount());
 }
 
 function loadBaseInformation() {
@@ -76,7 +106,6 @@ function loadBaseInformation() {
     if (!Object.assign(instanceProcessBaseInfo, processBaseInfoJSON)) {
         return false;
     }
-    console.log(instanceProcessBaseInfo)
     return instanceProcessBaseInfo;
 }
 
@@ -98,13 +127,19 @@ function getInstructionToLoadCount() {
         return false;
     }
 
-    var tBodyHeight = getTBodyHeight();
-    if (tBodyHeight == 0) {
+    var tHeadHeight = getTHeadHeight();
+    if (tHeadHeight == 0) {
         return false;
     }
 
-    var summaryPadding = 2;
-    var instCount = tBodyHeight / (rowHeight + summaryPadding);
+    var diasmTableHeight = getDisasmTableHeight();
+    if (diasmTableHeight == 0) {
+        return false;
+    }
+
+
+    var summaryPadding = 0;
+    var instCount = (diasmTableHeight - tHeadHeight)  / (rowHeight + summaryPadding);
     return parseInt(instCount);
 }
 
@@ -115,10 +150,81 @@ function loadInstructions(startIndex, count) {
     if (count <= 0) {
         return false;
     }
-    console.log(1);
-    var instructions = GetProcessInstructionByIndex(startIndex, count);
 
+    var instructions = GetProcessInstructionByIndex(startIndex, count);
+    var instructionsJSON = JSON.parse(instructions);
+    if (!instructionsJSON.hasOwnProperty("instructions")) {
+        return false;
+    }
+    instructionsJSON = instructionsJSON["instructions"];
+    loadInstToTable(instructionsJSON);
+    console.log("count: " + count);
 }
+function loadInstToTable(instructionsJSON) {
+    try {
+        var list = [];
+        for (var i = 0; i < instructionsJSON.length; i++) {
+            var asmInst = new ASMInst();
+            if (!Object.assign(asmInst, instructionsJSON[i])) {
+                return false;
+            }
+            list.push(asmInst);
+        }
+
+        var customTBody = document.querySelector("#custom-tbody");
+        if (customTBody === null) {
+            return false;
+        }
+        while (customTBody.firstChild) {
+            customTBody.removeChild(customTBody.firstChild);
+        }
+        console.log(list);
+        for (var i = 0; i < list.length; i++) {
+            addASMToArray(customTBody, list[i]);
+        }
+        var instSlider = document.querySelector("#inst-slider");
+        if (instSlider !== null) {
+            instSlider.style.height = getTBodyHeight() + getTHeadHeight();
+        }
+        return true;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function addASMToArray(tBody, asmInst) {
+    var row = document.createElement("div");
+    row.classList.add("custom-row");
+    row.setAttribute("data-index", asmInst.instructionIndex);
+
+    var cel1 = document.createElement("div");
+    var cel2 = document.createElement("div");
+    var cel3 = document.createElement("div");
+    var cel4 = document.createElement("div");
+
+    cel1.classList.add("custom-td");
+    cel2.classList.add("custom-td");
+    cel3.classList.add("custom-td");
+    cel4.classList.add("custom-td");
+
+    cel1.classList.add("custom-table-el-20");
+    cel2.classList.add("custom-table-el-20");
+    cel3.classList.add("custom-table-el-20");
+    cel4.classList.add("custom-table-el-40");
+
+    //cel1.innerHTML = process.processPID.toString();
+    cel2.innerHTML = asmInst.offset;
+    cel3.innerHTML = asmInst.instructionHex;
+    cel4.innerHTML = asmInst.mnemonic;
+
+    row.appendChild(cel1);
+    row.appendChild(cel2);
+    row.appendChild(cel3);
+    row.appendChild(cel4);
+
+    tBody.appendChild(row);
+}
+
 
 function loadDisAsmTable(status) {
     if (!status) {
@@ -146,11 +252,28 @@ function getThRowHeight() {
     return height;
 }
 
+function getDisasmTableHeight() {
+    var customDisasmTable = document.querySelector("#disasm-custom-table");
+    if (customDisasmTable === null) {
+        return 0;
+    }
+    var height = customDisasmTable.offsetHeight;
+    return height;
+}
 function getTBodyHeight() {
     var customTBody = document.querySelector("#custom-tbody");
     if (customTBody === null) {
         return 0;
     }
     var height = customTBody.offsetHeight;
+    return height;
+}
+
+function getTHeadHeight() {
+    var customTHead = document.querySelector("#custom-thead");
+    if (customTHead === null) {
+        return 0;
+    }
+    var height = customTHead.offsetHeight;
     return height;
 }

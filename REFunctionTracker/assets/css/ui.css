@@ -384,7 +384,7 @@ body {
     width: 100%;
     overflow-y: auto; /* Trigger vertical scroll    */
     overflow-x: hidden; /* Hide the horizontal scroll */
-    height: calc(100% - 30px);
+    max-height: calc(100% - 30px);
     cursor: pointer;
     position: relative;
     border-bottom: 2px solid #416788;

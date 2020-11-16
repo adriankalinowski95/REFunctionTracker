@@ -5,7 +5,7 @@
 
 AssemblerInstruction::AssemblerInstruction(int architecture, _DecodedInst* decodedInst):architecture(architecture),decodedInst(decodedInst)
 {
-
+	this->instructionIndex = 0;
 }
 
 AssemblerInstruction::AssemblerInstruction()
@@ -87,6 +87,7 @@ ASMInst AssemblerInstruction::getStruct()
 	asmInst.operands = this->getOperands();
 	asmInst.instructionHex = this->getInstructionHex();
 	asmInst.offset = this->getOffsetString();
+	asmInst.instructionIndex = std::to_string(this->instructionIndex);
 	return asmInst;
 }
 
@@ -98,4 +99,9 @@ std::string AssemblerInstruction::getAssemblerInstructionAsJSON()
 ASMInst AssemblerInstruction::jsonToASMInst(std::string json)
 {
 	return Utils::serializeToObject<ASMInst>(json);
+}
+
+void AssemblerInstruction::setInstructionIndex(int index)
+{
+	this->instructionIndex = index;
 }
