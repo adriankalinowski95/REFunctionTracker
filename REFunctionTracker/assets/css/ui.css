@@ -307,6 +307,7 @@ body {
             display: inline-block;
             margin-right: -5px;
             border-right: 1px solid white;
+            padding-right:1px;
         }
 
     .top-nav .custom-button {

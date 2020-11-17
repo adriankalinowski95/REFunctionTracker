@@ -204,6 +204,8 @@
     <None Include="assets\js\ui.js" />
     <None Include="assets\select-process-dialog.html" />
     <None Include="assets\top.html" />
+    <None Include="search-dialog.html" />
+    <None Include="search-dialog.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

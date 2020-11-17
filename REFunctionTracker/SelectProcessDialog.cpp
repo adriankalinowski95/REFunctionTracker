@@ -3,7 +3,7 @@
 #include "ProcessInfo.h"
 #include "InfoMessage.h"
 #include "Utils.h"
-
+#include "Debugger.h"
 #include <fstream>
 #include <cereal/archives/json.hpp>
 #include <vector>
@@ -56,6 +56,8 @@ JSValue SelectProcessDialog::SetProcess(const JSObject& thisObject, const JSArgs
 		HANDLE procHandle = procLoadInst->loadProcessByPID(processData.processPID);
 		if (procHandle != NULL) {
 			InfoMessage successMessage = InfoMessage("Select process correct!", InfoMessage::S_SUCCESS);
+			Debugger* dbgInstance = &(Debugger::getInstance());
+			dbgInstance->startDebugThread();
 			return JSValue(successMessage.toJson().c_str());
 		}
 		

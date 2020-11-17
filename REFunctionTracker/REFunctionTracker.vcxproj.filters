@@ -148,5 +148,11 @@
     <None Include="assets\js\select-process-dialog.js">
       <Filter>Pliki zasobów</Filter>
     </None>
+    <None Include="search-dialog.html">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="search-dialog.js">
+      <Filter>Pliki zasobów</Filter>
+    </None>
   </ItemGroup>
 </Project>
