@@ -200,12 +200,12 @@
     <None Include="assets\css\ui.css" />
     <None Include="assets\home-page.html" />
     <None Include="assets\js\home-page.js" />
+    <None Include="assets\js\search-dialog.js" />
     <None Include="assets\js\select-process-dialog.js" />
     <None Include="assets\js\ui.js" />
+    <None Include="assets\search-dialog.html" />
     <None Include="assets\select-process-dialog.html" />
     <None Include="assets\top.html" />
-    <None Include="search-dialog.html" />
-    <None Include="search-dialog.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

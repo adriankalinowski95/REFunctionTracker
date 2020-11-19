@@ -30,6 +30,10 @@ function initHomePage() {
     if (selectProcessButton) {
         selectProcessButton.addEventListener('click', showSelectProcessDialog);
     }
+    var searchButton = document.querySelector('#search-button');
+    if (searchButton) {
+        searchButton.addEventListener('click', showSearchDialog);
+    }
     var instSlider = document.querySelector("#inst-slider");
     if (instSlider) {
         instSlider.addEventListener('input', instSliderChanged);
@@ -71,7 +75,15 @@ function showSelectProcessDialog() {
     showOverlay();
 }
 
+function showSearchDialog() {
+    loadHTML('overlay-content', 'search-dialog.html', null);
+    showOverlay();
+}
+
 function afterSelectProcessDialogLoad() {
+    initSelectProcessDialog();
+}
+function afterSearchDialogLoad() {
     initSelectProcessDialog();
 }
 

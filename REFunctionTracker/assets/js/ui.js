@@ -86,7 +86,7 @@ function loadHTML(div, fileName,callback) {
     jsonFile.onreadystatechange = function () {
         if (jsonFile.readyState == 4 && jsonFile.status == 200) {
             document.querySelector("#" + div).innerHTML = jsonFile.responseText;
-            if (callback != undefined) {
+            if (callback != undefined && callback != null) {
                 callback();
             }
         }
