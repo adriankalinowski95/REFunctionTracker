@@ -23,11 +23,13 @@ HomePage::HomePage(RefPtr<Overlay>overlay) : overlay_(overlay)
 	global["OnProcessLoad"] = BindJSCallback(&HomePage::OnProcessLoad);
 	loadDisAsmTable = global["loadDisAsmTable"];
 
-	global["GetProcessInstructionsCount"] = BindJSCallbackWithRetval(&HomePage::GetProcessInstructionsCount);
+	global["GetProcessBaseInfo"] = BindJSCallbackWithRetval(&HomePage::GetProcessBaseInfo);
 	global["GetProcessInstructionByIndex"] = BindJSCallbackWithRetval(&HomePage::GetProcessInstructionByIndex);
+	global["GetProcessInstructionByAddress"] = BindJSCallbackWithRetval(&HomePage::GetProcessInstructionByAddress);
+	
 }
 
-JSValue HomePage::GetProcessInstructionsCount(const JSObject& thisObject, const JSArgs& args)
+JSValue HomePage::GetProcessBaseInfo(const JSObject& thisObject, const JSArgs& args)
 {
 	ProcessInfo* procInfoInst = &(ProcessInfo::getInstance());
 	std::string procBaseInfo = procInfoInst->getProcessBaseInfoJSON();
@@ -73,6 +75,40 @@ JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const
 		return JSValue(false);
 	}
 	
+	std::vector<ASMInst> asmInstructions;
+	for (int i = 0; i < instructions.size(); i++) {
+		asmInstructions.push_back(instructions[i]->getStruct());
+	}
+
+	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
+	printf("Instructions: %s\n", strInstructions.c_str());
+
+	return JSValue(strInstructions.c_str());
+}
+
+
+JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, const JSArgs& args) {
+	if (args.size() != 2) {
+		return JSValue(false);
+	}
+	unsigned long long startAddress = args[0];
+	int count = args[1];
+	if (startAddress < 0 || count <= 0) {
+		return JSValue(false);
+	}
+
+	ProcessInfo* procInfoInst = &(ProcessInfo::getInstance());
+	if (procInfoInst->getProcessBaseAddress() <= 0) {
+		return JSValue(false);
+	}
+
+	std::vector<AssemblerInstruction*> instructions;
+	ProcessInstructionReader* procInstReader = &(ProcessInstructionReader::getInstance());
+	procInstReader->getInstructionByAddress(startAddress, count, instructions);
+	if (instructions.size() <= 0) {
+		return JSValue(false);
+	}
+
 	std::vector<ASMInst> asmInstructions;
 	for (int i = 0; i < instructions.size(); i++) {
 		asmInstructions.push_back(instructions[i]->getStruct());

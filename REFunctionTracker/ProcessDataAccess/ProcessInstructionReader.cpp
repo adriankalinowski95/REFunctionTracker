@@ -93,6 +93,8 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long address
 	if (processInformation->getProcessHandle() == NULL)
 		return PROCESS_INSTRUCTION_READER_ERROR;
 
+	unsigned long startIndex = this->getInstructionIndex((unsigned long long)processInformation->getProcessBaseAddress(), address);
+
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)address + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
 		status = disassembler->dissassembly((DWORD_PTR)address + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
@@ -112,6 +114,7 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long address
 					_DecodedInst* newDecodedInst = new _DecodedInst;
 					memcpy(newDecodedInst, tempInstructions.at(i)->getDecodedInst(), sizeof(_DecodedInst));
 					AssemblerInstruction* newInstruction = new AssemblerInstruction(architecture, newDecodedInst);
+					newInstruction->setInstructionIndex(startIndex + instructions.size());
 					instructions.push_back(newInstruction);
 				} else {
 					break;

@@ -575,12 +575,12 @@ body {
 
     .inst-range:active::-webkit-slider-runnable-track {
         background: #c2c1c1;
-    }
-
+   }
 
 .search-dialog {
     width: 50%;
     height: 60%;
+    min-height:100px;
     background-color: white;
     position: absolute;
     z-index: 2;
@@ -614,15 +614,73 @@ body {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
-    position: relative;
     margin-top: 2.5%;
     margin-bottom: 2.5%;
+    position: relative;
+    overflow: scroll;
 }
 
 .search-dialog-row {
-    width:100%;
-    padding-left:10px;
-    padding-right:10px;
-    padding-top:5px;
-    height:80px;
+    width:calc(100% - 15px);
+    height:50px;
+    margin-left:10px;
+}
+
+.search-dialog-row-first{
+    margin-top:10px;
+}
+
+.search-dialog-input {
+    height: 100%;
+    width: 75%;
+    float: left;
+    position: relative;
+}
+
+.search-dialog-edit-text {
+    width: 100%;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    border-radius: 1px;
+}
+
+.search-dialog-edit-text-err {
+    border:1px solid red;
+}
+
+.search-dialog-action {
+    height: 100%;
+    width: calc(25% - 10px);
+    float: left;
+    position: relative;
+    margin-left:10px;
+}
+
+.search-dialog-button {
+    display: block;
+    background-color: #416788;
+    color: #fff !important;
+    text-align: center;
+    padding: 8px;
+    cursor: pointer;
+    width:calc(100% - 10px);
+}
+
+.search-dialog-button:hover {
+    background-color: #5b7e9d;
+}
+
+.search-dialog-button:active {
+    background-color: #7e9eba;
+}
+
+.input-validate-box {
+    position: relative;
+    min-height: 25px;
+    display: block;
+    font-size: 15px;
+    color: rgba(0,0,0,0.54);
+    z-index:1;
+    background-color:white;
+    border:1px solid red;
 }

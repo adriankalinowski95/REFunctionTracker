@@ -9,9 +9,6 @@ function initSelectProcessDialog()
     getProcessListRequest();
 }
 
-function initSearchDialog() {
-    document.querySelector('#search-dialog-button').addEventListener('click', setProcessRequest);
-}
 
 function getProcessListRequest() {
     var processListData = GetProcessList();

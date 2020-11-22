@@ -203,6 +203,7 @@
     <None Include="assets\js\search-dialog.js" />
     <None Include="assets\js\select-process-dialog.js" />
     <None Include="assets\js\ui.js" />
+    <None Include="assets\js\utils.js" />
     <None Include="assets\search-dialog.html" />
     <None Include="assets\select-process-dialog.html" />
     <None Include="assets\top.html" />

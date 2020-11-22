@@ -6,6 +6,7 @@ class ProcessBaseInfo{
         this.entryPointAddress = 0;
         this.entryPointIndex = 0;
         this.instructionCount = 0;
+        this.processLength = 0;
     }
 }
 
@@ -19,11 +20,6 @@ class ASMInst{
     }
 }
 
-function isInt(value) {
-    return !isNaN(value) &&
-        parseInt(Number(value)) == value &&
-        !isNaN(parseInt(value, 10));
-}
 
 function initHomePage() {
     var selectProcessButton = document.querySelector('#select-process-button');
@@ -61,11 +57,11 @@ function mouseWheelSlider(event) {
     console.log(delta);
     if (delta > 0) {
         instSlider.value = parseInt(instSlider.value) + 1;
-        loadInstructions(instSlider.value, getInstructionToLoadCount());
+        loadInstructionsByIndex(instSlider.value, getInstructionToLoadCount());
     } else {
         if (parseInt(instSlider.value) >= 0) {
             instSlider.value = parseInt(instSlider.value) - 1;
-            loadInstructions(instSlider.value, getInstructionToLoadCount());
+            loadInstructionsByIndex(instSlider.value, getInstructionToLoadCount());
         }
     }
 }
@@ -76,7 +72,7 @@ function showSelectProcessDialog() {
 }
 
 function showSearchDialog() {
-    loadHTML('overlay-content', 'search-dialog.html', null);
+    loadHTML('overlay-content', 'search-dialog.html', afterSearchDialogLoad);
     showOverlay();
 }
 
@@ -84,7 +80,7 @@ function afterSelectProcessDialogLoad() {
     initSelectProcessDialog();
 }
 function afterSearchDialogLoad() {
-    initSelectProcessDialog();
+    initSearchDialog();
 }
 
 function instSliderChanged(evt) {
@@ -99,11 +95,11 @@ function instSliderChanged(evt) {
     if (!Number.isInteger(intNumber)) {
         return;
     }
-    loadInstructions(evt.target.value, getInstructionToLoadCount());
+    loadInstructionsByIndex(evt.target.value, getInstructionToLoadCount());
 }
 
 function loadBaseInformation() {
-    var processBaseInfo = GetProcessInstructionsCount();
+    var processBaseInfo = GetProcessBaseInfo();
 
     if (!isJSON(processBaseInfo)) {
         return false;
@@ -155,8 +151,25 @@ function getInstructionToLoadCount() {
     return parseInt(instCount);
 }
 
-function loadInstructions(startIndex, count) {
+function loadInstructionsByAddress(startAddress, count) {
     if(!Number.isInteger(count)){
+        return false;
+    }
+    if (count <= 0) {
+        return false;
+    }
+
+    var instructions = GetProcessInstructionByAddress(startAddress, count);
+    var instructionsJSON = JSON.parse(instructions);
+    if (!instructionsJSON.hasOwnProperty("instructions")) {
+        return false;
+    };
+    instructionsJSON = instructionsJSON["instructions"];
+    loadInstToTable(instructionsJSON);
+}
+
+function loadInstructionsByIndex(startIndex, count) {
+    if (!Number.isInteger(count)) {
         return false;
     }
     if (count <= 0) {
@@ -170,8 +183,8 @@ function loadInstructions(startIndex, count) {
     }
     instructionsJSON = instructionsJSON["instructions"];
     loadInstToTable(instructionsJSON);
-    console.log("count: " + count);
 }
+
 function loadInstToTable(instructionsJSON) {
     try {
         var list = [];
@@ -181,6 +194,9 @@ function loadInstToTable(instructionsJSON) {
                 return false;
             }
             list.push(asmInst);
+        }
+        if (list.length <= 0) {
+            return false;
         }
 
         var customTBody = document.querySelector("#custom-tbody");
@@ -197,6 +213,8 @@ function loadInstToTable(instructionsJSON) {
         var instSlider = document.querySelector("#inst-slider");
         if (instSlider !== null) {
             instSlider.style.height = getTBodyHeight() + getTHeadHeight();
+            console.log("last item of list! :" + list[0].instructionIndex);
+            instSlider.value = list[0].instructionIndex;
         }
         return true;
     } catch (e) {
@@ -242,7 +260,6 @@ function addASMToArray(tBody, asmInst) {
     tBody.appendChild(row);
 }
 
-
 function loadDisAsmTable(status) {
     if (!status) {
         return;
@@ -256,7 +273,7 @@ function loadDisAsmTable(status) {
     if (setSliderValues(processBaseInfoJSON) == false) {
         return;
     }
-    loadInstructions(processBaseInfoJSON["entryPointIndex"], getInstructionToLoadCount());
+    loadInstructionsByIndex(processBaseInfoJSON["entryPointIndex"], getInstructionToLoadCount());
 }
 
 function getThRowHeight() {

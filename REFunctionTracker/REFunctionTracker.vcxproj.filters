@@ -154,5 +154,8 @@
     <None Include="assets\search-dialog.html">
       <Filter>Pliki zasobów</Filter>
     </None>
+    <None Include="assets\js\utils.js">
+      <Filter>Pliki zasobów</Filter>
+    </None>
   </ItemGroup>
 </Project>

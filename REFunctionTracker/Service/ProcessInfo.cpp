@@ -156,17 +156,20 @@ std::string ProcessInfo::getProcessBaseInfoJSON()
 	}
 
 	struct ProcessBaseInfo procBaseInfo;
+	AssemblerInstruction* assemblerInst;
 	ProcessInstructionReader* procInstReader = &(ProcessInstructionReader::getInstance());
 	unsigned long long instCount = procInstReader->getProcessInstructionCount((unsigned long long)this->processBaseAddress);
-	AssemblerInstruction * assemblerInst;
 	unsigned long index = procInstReader->getInstructionIndex((unsigned long long)this->processBaseAddress, (unsigned long long)this->entryPointAddress);
 	if (index == ProcessInstructionReader::PROCESS_INSTRUCTION_READER_ERROR) {
 		return std::string("");
 	}
+	unsigned long long processLength = procInstReader->getProcessSize((unsigned long long)this->processBaseAddress);
+
 	procBaseInfo.baseAddress = this->processBaseAddress;
 	procBaseInfo.entryPointIndex = index;
 	procBaseInfo.entryPointAddress = (unsigned long long)this->entryPointAddress;
 	procBaseInfo.instructionCount = instCount;
+	procBaseInfo.processLength = processLength;
 
 	std::string strProcBaseInfo = Utils::serializeToJSON<ProcessBaseInfo>(procBaseInfo, "processBaseInfo");
 

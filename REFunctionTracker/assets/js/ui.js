@@ -2,13 +2,6 @@ const INFO_DIALOG_ERROR = 1;
 const INFO_DIALOG_SUCCESS = 2;
 const INFO_DIALOG_UNKOWN = 4;
 
-function isJSON(str) {
-    try {
-        return (JSON.parse(str) && !!str);
-    } catch (e) {
-        return false;
-    }
-}
 
 function showInfoDialog(message, status) {
     var infoDialog = document.createElement('div');

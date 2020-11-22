@@ -12,6 +12,7 @@ struct ProcessBaseInfo
 	unsigned long long entryPointAddress;
 	unsigned long long entryPointIndex;
 	unsigned long long instructionCount;
+	unsigned long long processLength;
 
 	template<class Archive>
 	void serialize(Archive& archive)
@@ -19,7 +20,8 @@ struct ProcessBaseInfo
 		archive(cereal::make_nvp("baseAddress", baseAddress),
 			cereal::make_nvp("entryPointAddress", entryPointAddress),
 			cereal::make_nvp("entryPointIndex", entryPointIndex),
-			cereal::make_nvp("instructionCount", instructionCount));
+			cereal::make_nvp("instructionCount", instructionCount),
+			cereal::make_nvp("processLength", processLength));
 	}
 
 };
