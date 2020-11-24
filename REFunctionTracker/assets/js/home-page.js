@@ -234,6 +234,7 @@ function addASMToArray(tBody, asmInst) {
     var cel5 = document.createElement("div");
 
     cel1.classList.add("custom-td");
+    cel1.setAttribute("data-index", asmInst.instructionIndex);
     cel2.classList.add("custom-td");
     cel3.classList.add("custom-td");
     cel4.classList.add("custom-td");
@@ -258,7 +259,23 @@ function addASMToArray(tBody, asmInst) {
     row.appendChild(cel5);
 
     tBody.appendChild(row);
+
+    cel1.addEventListener("click", toggleBreakPoint);
 }
+
+function toggleBreakPoint() {
+    var index = this.getAttribute("data-index");
+    if (!index) {
+        return;
+    }
+    if (!isInt(index)) {
+        return;
+    }
+    var intIndex = parseInt(index, 10);
+    var status = ToggleBreakPoint(intIndex);
+    console.log(status);
+}
+
 
 function loadDisAsmTable(status) {
     if (!status) {

@@ -4,6 +4,8 @@
 #include "ProcessDataAccess/ProcessInstructionReader.h"
 #include "InfoMessage.h"
 #include "Utils.h"
+#include "Debugger.h"
+
 
 #include <fstream>
 #include <cereal/archives/json.hpp>
@@ -26,7 +28,7 @@ HomePage::HomePage(RefPtr<Overlay>overlay) : overlay_(overlay)
 	global["GetProcessBaseInfo"] = BindJSCallbackWithRetval(&HomePage::GetProcessBaseInfo);
 	global["GetProcessInstructionByIndex"] = BindJSCallbackWithRetval(&HomePage::GetProcessInstructionByIndex);
 	global["GetProcessInstructionByAddress"] = BindJSCallbackWithRetval(&HomePage::GetProcessInstructionByAddress);
-	
+	global["ToggleBreakPoint"] = BindJSCallbackWithRetval(&HomePage::ToggleBreakPoint);
 }
 
 JSValue HomePage::GetProcessBaseInfo(const JSObject& thisObject, const JSArgs& args)
@@ -118,6 +120,27 @@ JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, con
 	printf("Instructions: %s\n", strInstructions.c_str());
 
 	return JSValue(strInstructions.c_str());
+}
+JSValue HomePage::ToggleBreakPoint(const JSObject& thisObject, const JSArgs& args) {
+	if (args.size() != 1) {
+		return JSValue(false);
+	}
+	unsigned long long startIndex = args[0];
+	ProcessInfo* procInfoInst = &(ProcessInfo::getInstance());
+	if (procInfoInst->getProcessBaseAddress() <= 0) {
+		return JSValue(false);
+	}
+
+	std::vector<AssemblerInstruction*> instructions;
+	ProcessInstructionReader* procInstReader = &(ProcessInstructionReader::getInstance());
+	procInstReader->getInstructionByIndex((unsigned long long)procInfoInst->getProcessBaseAddress(), (unsigned long long)startIndex, 1, instructions);
+	if (instructions.size() != 1) {
+		return JSValue(false);
+	}
+
+	Debugger* debuggerInstance = &(Debugger::getInstance());
+	debuggerInstance->setBreakPoint(instructions.at(0)->getOffset());
+	return JSValue(true);
 }
 
 

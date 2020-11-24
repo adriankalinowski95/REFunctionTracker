@@ -19,6 +19,7 @@ public:
 	JSValue GetProcessBaseInfo(const JSObject& thisObject, const JSArgs& args);
 	JSValue GetProcessInstructionByIndex(const JSObject& thisObject, const JSArgs& args);
 	JSValue GetProcessInstructionByAddress(const JSObject& thisObject, const JSArgs& args);
+	JSValue ToggleBreakPoint(const JSObject& thisObject, const JSArgs& args);
 	
 	//JSValue GetProcessList(const JSObject& thisObject, const JSArgs& args);
 private:

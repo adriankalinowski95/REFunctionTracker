@@ -2,6 +2,7 @@
 #include <minwinbase.h>
 #include <WinBase.h>
 #include "ProcessInfo.h"
+#include "ProcessLoader.h"
 #include "ProcessInstructionReader.h"
 
 Debugger::Debugger()
@@ -21,14 +22,16 @@ Debugger::~Debugger()
 }
 
 
-void Debugger::enterDebugLoop(HANDLE processHandle)
+void Debugger::enterDebugLoop(DWORD processPID)
 {
+	BOOL status = DebugActiveProcess(processPID);
 	DEBUG_EVENT debugEvent;
 	while (1)
 	{
 		WaitForDebugEvent(&debugEvent, INFINITE);
 		if (debugEvent.dwDebugEventCode == EXCEPTION_DEBUG_EVENT) {
 			if (debugEvent.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_BREAKPOINT) {
+				// @TODO ADD inst back.
 				printf("Catch break point!");
 			}
 		}
@@ -39,11 +42,13 @@ void Debugger::enterDebugLoop(HANDLE processHandle)
 Debugger::DEBUGGER_STATUS Debugger::startDebugThread()
 {
 	ProcessInfo* processInfo = &(ProcessInfo::getInstance());
-	HANDLE processHandle = processInfo->getProcessHandle();
-	if (processHandle == NULL) {
-		return Debugger::DEBUGGER_STATUS::FAIL;
+	ProcessLoader* processLoader = &(ProcessLoader::getInstance());
+	if (this->isDebugThread) {
+		return Debugger::DEBUGGER_STATUS::SUCCESS;
 	}
-	this->debugThread = new std::thread(&Debugger::enterDebugLoop,this,processHandle);
+	DWORD processPID = processLoader->getProcessPID();
+	this->debugThread = new std::thread(&Debugger::enterDebugLoop,this, processLoader->getProcessPID());
+	this->isDebugThread = true;
 
 	return Debugger::DEBUGGER_STATUS::SUCCESS;
 }
@@ -62,12 +67,12 @@ Debugger::DEBUGGER_STATUS Debugger::setBreakPoint(unsigned long long address) {
 	if (processHandle == NULL) {
 		return Debugger::DEBUGGER_STATUS::FAIL;
 	}
-	status = procInstReadInstance->getInstructionByAddress((unsigned long long)processInfo->getProcessBaseAddress(), &instruction);
+	status = procInstReadInstance->getInstructionByAddress((unsigned long long)address, &instruction);
 	if (status != ProcessInstructionReader::PROCESS_INSTRUCTION_READER_SUCESS) {
 		return Debugger::DEBUGGER_STATUS::FAIL;
 	}
 	
-	WriteProcessMemory(processHandle, (void*)instruction->getOffset(), &cInstruction, 1, &writtenBytes);
+	BOOL writeStatus = WriteProcessMemory(processHandle, (void*)instruction->getOffset(), &cInstruction, 1, &writtenBytes);
 	if (writtenBytes != 1) {
 		return Debugger::DEBUGGER_STATUS::FAIL;
 	}

@@ -33,6 +33,7 @@ public:
 	void setProcessHandle(HANDLE processHandle);
 	HANDLE getProcessHandle();
 	std::string getProcessName();
+	DWORD getProcessPID();
 
 private:
 	HANDLE processHandle;

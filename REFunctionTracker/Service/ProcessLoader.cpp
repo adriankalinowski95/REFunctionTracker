@@ -5,7 +5,7 @@
 #include "ntddk.h"
 #include "pe_hdrs_helper.h"
 #include "Utils.h"
-
+#include "Debugger.h"
 using namespace std;
 
 #define MAX_PROCESSES_ARRAY_SIZE 2048
@@ -106,6 +106,8 @@ HANDLE ProcessLoader::loadProcessByPID(DWORD processPID)
 			this->processHandle = hProcess;
 			this->processPID = processPID;
 			printf("process opened! \nprocess name: %s \nPID: %d\n", this->processName.c_str(), processPID);
+			Debugger* debuggerInstance = &(Debugger::getInstance());
+			debuggerInstance->startDebugThread();
 			return hProcess;
 		}
 	}
@@ -161,4 +163,9 @@ HANDLE ProcessLoader::getProcessHandle()
 string ProcessLoader::getProcessName()
 {
 	return this->processName;
+}
+
+DWORD ProcessLoader::getProcessPID()
+{
+	return this->processPID;
 }

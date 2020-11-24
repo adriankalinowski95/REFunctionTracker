@@ -27,6 +27,7 @@ public:
 
 private:
 	std::thread* debugThread;
-	void enterDebugLoop(HANDLE processHandle);
+	void enterDebugLoop(DWORD processPID);
 	std::vector<BreakPoint_Typedef> breakPointsVector;
+	bool isDebugThread;
 };
