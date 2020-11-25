@@ -13,6 +13,9 @@ public:
 public:
     template<typename T> static std::string serializeToJSON(T tObject, std::string paramName);
     template<typename T> static T serializeToObject(std::string json);
+
+public:
+	static std::vector<char> HexToBytes(const std::string& hex);
 };
 
 /**

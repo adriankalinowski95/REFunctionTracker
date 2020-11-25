@@ -30,4 +30,5 @@ private:
 	void enterDebugLoop(DWORD processPID);
 	std::vector<BreakPoint_Typedef> breakPointsVector;
 	bool isDebugThread;
+	DEBUGGER_STATUS removeBeakPoint(unsigned long long address);
 };
