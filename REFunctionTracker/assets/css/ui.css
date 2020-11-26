@@ -684,3 +684,16 @@ body {
     background-color:white;
     border:1px solid red;
 }
+
+.break-point {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    background-color: red;
+}
+
+.custom-table-debugg-row {
+    background-color: #c7c7c7;
+}
+

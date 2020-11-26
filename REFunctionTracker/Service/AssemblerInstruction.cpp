@@ -88,6 +88,7 @@ ASMInst AssemblerInstruction::getStruct()
 	asmInst.instructionHex = this->getInstructionHex();
 	asmInst.offset = this->getOffsetString();
 	asmInst.instructionIndex = std::to_string(this->instructionIndex);
+	asmInst.isBreakPoint = false;
 	return asmInst;
 }
 

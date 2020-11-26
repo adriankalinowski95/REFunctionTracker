@@ -11,6 +11,7 @@ struct ASMInst
 	std::string instructionHex;
 	std::string offset;
 	std::string instructionIndex;
+	bool isBreakPoint;
 	template<class Archive>
 	void serialize(Archive& archive)
 	{
@@ -18,7 +19,8 @@ struct ASMInst
 				,cereal::make_nvp("operands", operands)
 				,cereal::make_nvp("instructionHex", instructionHex)
 				,cereal::make_nvp("offset", offset)
-				,cereal::make_nvp("instructionIndex", instructionIndex));
+				,cereal::make_nvp("instructionIndex", instructionIndex)
+				,cereal::make_nvp("isBreakPoint", isBreakPoint));
 	}
 };
 

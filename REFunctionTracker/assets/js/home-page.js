@@ -1,4 +1,6 @@
 isShowProcessDialog = false;
+var lastInstructions = []
+
 
 class ProcessBaseInfo{
     constructor() {
@@ -42,6 +44,14 @@ function initHomePage() {
     }
 }
 
+function loadInstructionsByIndexWithCount(startIndex) {
+    loadInstructionsByIndex(startIndex, getInstructionToLoadCount());
+}
+
+function loadInstructionsByAddressWithCount(address) {
+    loadInstructionsByAddress(address, getInstructionToLoadCount());
+}
+
 function mouseWheelSlider(event) {
     console.log("into");
     var instSlider = document.querySelector("#inst-slider");
@@ -57,14 +67,16 @@ function mouseWheelSlider(event) {
     console.log(delta);
     if (delta > 0) {
         instSlider.value = parseInt(instSlider.value) + 1;
-        loadInstructionsByIndex(instSlider.value, getInstructionToLoadCount());
+        loadInstructionsByIndexWithCount(instSlider.value);
     } else {
         if (parseInt(instSlider.value) >= 0) {
             instSlider.value = parseInt(instSlider.value) - 1;
-            loadInstructionsByIndex(instSlider.value, getInstructionToLoadCount());
+            loadInstructionsByIndexWithCount(instSlider.value);
         }
     }
 }
+
+
 
 function showSelectProcessDialog() {
     loadHTML('overlay-content', 'select-process-dialog.html', afterSelectProcessDialogLoad);
@@ -206,9 +218,12 @@ function loadInstToTable(instructionsJSON) {
         while (customTBody.firstChild) {
             customTBody.removeChild(customTBody.firstChild);
         }
-        console.log(list);
+
         for (var i = 0; i < list.length; i++) {
             addASMToArray(customTBody, list[i]);
+        }
+        if (list.length > 0) {
+            lastInstructions = list;
         }
         var instSlider = document.querySelector("#inst-slider");
         if (instSlider !== null) {

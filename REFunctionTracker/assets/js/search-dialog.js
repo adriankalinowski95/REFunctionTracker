@@ -102,6 +102,5 @@ function goIndexButtonClicked() {
         return;
     }
     setInputState(true, "search-dialog-address-edit-text");
-    loadInstructionsByIndex(index, getInstructionToLoadCount());
-
+    loadInstructionsByIndexWithCount(index);
 }

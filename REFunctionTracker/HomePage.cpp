@@ -22,9 +22,10 @@ HomePage::HomePage(RefPtr<Overlay>overlay) : overlay_(overlay)
 	Ref<JSContext> context = overlay->view()->LockJSContext();
 	SetJSContext(context.get());
 	JSObject global = JSGlobalObject();
-	global["OnProcessLoad"] = BindJSCallback(&HomePage::OnProcessLoad);
+
 	loadDisAsmTable = global["loadDisAsmTable"];
 
+	global["OnProcessLoad"] = BindJSCallback(&HomePage::OnProcessLoad);
 	global["GetProcessBaseInfo"] = BindJSCallbackWithRetval(&HomePage::GetProcessBaseInfo);
 	global["GetProcessInstructionByIndex"] = BindJSCallbackWithRetval(&HomePage::GetProcessInstructionByIndex);
 	global["GetProcessInstructionByAddress"] = BindJSCallbackWithRetval(&HomePage::GetProcessInstructionByAddress);
@@ -121,6 +122,7 @@ JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, con
 
 	return JSValue(strInstructions.c_str());
 }
+
 JSValue HomePage::ToggleBreakPoint(const JSObject& thisObject, const JSArgs& args) {
 	if (args.size() != 1) {
 		return JSValue(false);
