@@ -6,10 +6,8 @@
 #include "Utils.h"
 #include "Debugger.h"
 
-
 #include <fstream>
 #include <cereal/archives/json.hpp>
-#include <vector>
 
 
 HomePage::HomePage()
@@ -50,6 +48,7 @@ JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const
 	}
 	int startIndex = args[0];
 	int count = args[1];
+	int newCount = 0;
 	if (startIndex < 0 || count <= 0) {
 		return JSValue(false);
 	}
@@ -58,32 +57,41 @@ JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const
 	if (procInfoInst->getProcessBaseAddress() <= 0) {
 		return JSValue(false);
 	}
+
+	int brakePointsInRange = getBreakPointsInRange(startIndex, count);
 	
+	if (brakePointsInRange > 0) {
+		newCount = count*4;
+	}
+	else {
+		newCount = count;
+	}
+
 	std::vector<AssemblerInstruction*> instructions;
 	ProcessInstructionReader* procInstReader = &(ProcessInstructionReader::getInstance());
-	procInstReader->getInstructionByIndex((unsigned long long)procInfoInst->getProcessBaseAddress(), (unsigned long long)startIndex,count, instructions);
+	procInstReader->getInstructionByIndex((unsigned long long)procInfoInst->getProcessBaseAddress(), (unsigned long long)startIndex, newCount, instructions);
+
 	/* Sprawdzic czy to na pewno to. */
-	if (instructions.size() < count) {
-		//Dodaæ free
+	if (instructions.size() < newCount) {
 		while (!instructions.empty()) {
 			delete instructions.back();
 			instructions.pop_back();
 		}
-		long long newStartIndex = startIndex - (count - instructions.size());
+		long long newStartIndex = startIndex - (newCount - instructions.size());
 		if (newStartIndex > 0) {
-			procInstReader->getInstructionByIndex((unsigned long long)procInfoInst->getProcessBaseAddress(), (unsigned long long)newStartIndex, count, instructions);
+			procInstReader->getInstructionByIndex((unsigned long long)procInfoInst->getProcessBaseAddress(), (unsigned long long)newStartIndex, newCount, instructions);
 		}
 	}
+
 	if (instructions.size() <= 0) {
 		return JSValue(false);
 	}
 	
-	std::vector<ASMInst> asmInstructions;
-	for (int i = 0; i < instructions.size(); i++) {
-		asmInstructions.push_back(instructions[i]->getStruct());
-	}
-
+	/* Add free other! (when break ponit). */
+	UpdateInstructionsByBreakPoints(&instructions);
+	std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
 	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
+
 	printf("Instructions: %s\n", strInstructions.c_str());
 
 	return JSValue(strInstructions.c_str());
@@ -105,6 +113,7 @@ JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, con
 		return JSValue(false);
 	}
 
+	/* Remove asm instructions */
 	std::vector<AssemblerInstruction*> instructions;
 	ProcessInstructionReader* procInstReader = &(ProcessInstructionReader::getInstance());
 	procInstReader->getInstructionByAddress(startAddress, count, instructions);
@@ -112,11 +121,9 @@ JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, con
 		return JSValue(false);
 	}
 
-	std::vector<ASMInst> asmInstructions;
-	for (int i = 0; i < instructions.size(); i++) {
-		asmInstructions.push_back(instructions[i]->getStruct());
-	}
-
+	UpdateInstructionsByBreakPoints(&instructions);
+	std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
+	
 	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
 	printf("Instructions: %s\n", strInstructions.c_str());
 
@@ -141,9 +148,19 @@ JSValue HomePage::ToggleBreakPoint(const JSObject& thisObject, const JSArgs& arg
 	}
 
 	Debugger* debuggerInstance = &(Debugger::getInstance());
-	debuggerInstance->setBreakPoint(instructions.at(0)->getOffset());
+
+
+	//@TODO error zwiazny z stawianiem/usuwaniem break pointow
+	if (debuggerInstance->isBreakPointWithIndex(startIndex)) {
+
+		debuggerInstance->removeBeakPoint(instructions.at(0)->getOffset());
+	} else {
+		debuggerInstance->setBreakPoint(instructions.at(0)->getOffset());
+	}
+
 	return JSValue(true);
 }
+
 
 
 HomePage::~HomePage()
@@ -165,4 +182,67 @@ void HomePage::OnProcessLoad(const JSObject& obj, const JSArgs& args)
 	loadDisAsmTable({ true });
 }
 
+int HomePage::getBreakPointsInRange(int startIndex,int count) {
+	int aviableBreakPointsInRange = 0;
+	Debugger* debuggerInstance = &(Debugger::getInstance());
+	std::vector<BreakPoint_Typedef> breakPoints = debuggerInstance->getCurrentBreakPoins();
+	for (int i = 0; i < breakPoints.size(); i++) {
+		if (breakPoints.at(i).index >= startIndex && breakPoints.at(i).index < (startIndex + count))
+		{
+			aviableBreakPointsInRange++;
+		}
+	}
+	return aviableBreakPointsInRange;
+}
+
+void HomePage::UpdateInstructionsByBreakPoints(std::vector<AssemblerInstruction*>* instructions) {
+	Debugger* debuggerInstance = &(Debugger::getInstance());
+	std::vector<BreakPoint_Typedef> breakPoints = debuggerInstance->getCurrentBreakPoins();
+	std::vector< AssemblerInstruction*> instAsBeakPoints;
+	for (int i = 0; i < instructions->size(); i++) {
+		for (int j = 0; j < breakPoints.size(); j++) {
+			if (breakPoints.at(j).address == instructions->at(i)->getOffset()) {
+				instructions->at(i)->setDecodeInst(breakPoints.at(j).prevInst->getDecodedInst());
+				instructions->at(i)->setIsBreakPoint(true);
+				instAsBeakPoints.push_back(instructions->at(i));
+			}
+		}
+	}
+
+	int iterator = 0;
+	unsigned long long intBreakPointRangeStart = 0;
+	unsigned long long intBreakPointRangeStop = 0;
+	for (int i = 0; i < instAsBeakPoints.size(); i++) {
+		intBreakPointRangeStart = instAsBeakPoints.at(i)->getOffset();
+		intBreakPointRangeStop = intBreakPointRangeStart + instAsBeakPoints.at(i)->getDecodedInst()->size;
+		iterator = 0;
+		while (iterator < instructions->size()) {
+			if (instructions->at(iterator)->getOffset() == instAsBeakPoints.at(i)->getOffset()) {
+				iterator++;
+				continue;
+			}
+			if (instructions->at(iterator)->getOffset() > intBreakPointRangeStart &&
+				instructions->at(iterator)->getOffset() < intBreakPointRangeStop) {
+				instructions->erase(instructions->begin() + iterator);
+				iterator = 0;
+				continue;
+			}
+			iterator++;
+		}
+	}
+
+	/* Add _Decode free. */
+
+
+}
+
+std::vector<ASMInst> HomePage::GetInstToDisplay(std::vector<AssemblerInstruction*>* instructions,int count) {
+	std::vector<ASMInst> asmInstructions;
+	int iterator = instructions->size() > count ? count : instructions->size();
+
+	for (int i = 0; i < iterator; i++) {
+		asmInstructions.push_back(instructions->at(i)->getStruct());
+	}
+	return asmInstructions;
+}
 

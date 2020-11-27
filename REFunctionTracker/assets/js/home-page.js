@@ -19,6 +19,7 @@ class ASMInst{
         this.instructionHex = "";
         this.offset = "";
         this.instructionIndex = "";
+        this.isBreakPoint = false;
     }
 }
 
@@ -276,6 +277,15 @@ function addASMToArray(tBody, asmInst) {
     tBody.appendChild(row);
 
     cel1.addEventListener("click", toggleBreakPoint);
+
+
+    if (asmInst.isBreakPoint) {
+        var breakPoint = document.createElement("a");
+        breakPoint.classList.add("break-point");
+        cel1.appendChild(breakPoint);
+        row.classList.add("custom-table-debugg-row");
+    }
+
 }
 
 function toggleBreakPoint() {
@@ -288,7 +298,11 @@ function toggleBreakPoint() {
     }
     var intIndex = parseInt(index, 10);
     var status = ToggleBreakPoint(intIndex);
-    console.log(status);
+
+    if (status && lastInstructions.length > 0) {
+        loadInstructionsByIndexWithCount(lastInstructions[0].instructionIndex);
+    }
+
 }
 
 

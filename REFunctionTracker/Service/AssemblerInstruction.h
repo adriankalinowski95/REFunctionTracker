@@ -54,10 +54,14 @@ public:
 	std::string getAssemblerInstructionAsJSON();
 	ASMInst jsonToASMInst(std::string json);
 	void setInstructionIndex(int index);
+	void setDecodeInst(_DecodedInst* newDecodeInst);
+	void setIsBreakPoint(bool isBreakPoint);
+	bool getIsBreakPoint();
 
 private:
 	_DecodedInst* decodedInst;
 	int architecture; /*Architecture*/
 	int instructionIndex;
+	bool isBreakPoint;
 };
 

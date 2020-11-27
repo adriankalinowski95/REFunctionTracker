@@ -30,7 +30,7 @@ public:
 public:
 	int getInstructionByIndex(unsigned long long startAddress, unsigned long long startIndex, int instructionCount, std::vector<AssemblerInstruction*>& instructions);
 	int getInstructionByAddress(unsigned long long address, int instructionCount, std::vector<AssemblerInstruction*>& instructions);
-	unsigned long getInstructionIndex(unsigned long long startAddress, unsigned long long instructionAddress);
+	long getInstructionIndex(unsigned long long startAddress, unsigned long long instructionAddress);
 	unsigned long long getProcessInstructionCount(unsigned long long startAddress);
 	unsigned long long getProcessSize(unsigned long long startAddress);
 //search signature form

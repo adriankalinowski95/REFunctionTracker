@@ -184,7 +184,7 @@ unsigned long long ProcessInstructionReader::getProcessSize(unsigned long long s
 	return currentOffset;
 }
 
-unsigned long ProcessInstructionReader::getInstructionIndex(unsigned long long startAddress, unsigned long long instructionAddress)
+long ProcessInstructionReader::getInstructionIndex(unsigned long long startAddress, unsigned long long instructionAddress)
 {
 	ProcessInfo* processInformation = &(ProcessInfo::getInstance());
 	Disassembler* disassembler = &(Disassembler::getInstance());
@@ -200,7 +200,6 @@ unsigned long ProcessInstructionReader::getInstructionIndex(unsigned long long s
 
 	if (processInformation->getProcessHandle() == NULL)
 		return PROCESS_INSTRUCTION_READER_ERROR;
-
 
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)

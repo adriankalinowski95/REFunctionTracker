@@ -1,6 +1,8 @@
 #pragma once
 #include <AppCore/JSHelpers.h>
 #include <AppCore/AppCore.h>
+#include <vector>
+#include "AssemblerInstruction.h"
 
 using ultralight::JSObject;
 using ultralight::JSArgs;
@@ -20,10 +22,13 @@ public:
 	JSValue GetProcessInstructionByIndex(const JSObject& thisObject, const JSArgs& args);
 	JSValue GetProcessInstructionByAddress(const JSObject& thisObject, const JSArgs& args);
 	JSValue ToggleBreakPoint(const JSObject& thisObject, const JSArgs& args);
+	std::vector<ASMInst> GetInstToDisplay(std::vector<AssemblerInstruction*>* instructions, int count);
+	void UpdateInstructionsByBreakPoints(std::vector<AssemblerInstruction*>* instructions);
 	
 	//JSValue GetProcessList(const JSObject& thisObject, const JSArgs& args);
 private:
 	RefPtr<Overlay>overlay_;
 	JSFunction loadDisAsmTable;
+	int getBreakPointsInRange(int startIndex, int count);
 };
 

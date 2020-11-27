@@ -6,6 +6,7 @@
 
 typedef struct{
 	unsigned long long address;
+	unsigned long index;
 	AssemblerInstruction* prevInst;
 }BreakPoint_Typedef;
 
@@ -24,11 +25,15 @@ public:
 public:
 	DEBUGGER_STATUS startDebugThread();
 	DEBUGGER_STATUS setBreakPoint(unsigned long long address);
+	std::vector<BreakPoint_Typedef> getCurrentBreakPoins();
+	DEBUGGER_STATUS removeBeakPoint(unsigned long long address);
+	bool isBreakPointWithIndex(unsigned long long index);
 
 private:
 	std::thread* debugThread;
 	void enterDebugLoop(DWORD processPID);
 	std::vector<BreakPoint_Typedef> breakPointsVector;
 	bool isDebugThread;
-	DEBUGGER_STATUS removeBeakPoint(unsigned long long address);
+	
+
 };

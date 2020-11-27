@@ -12,6 +12,7 @@ AssemblerInstruction::AssemblerInstruction()
 {
 	decodedInst = NULL;
 	architecture = 0;
+	isBreakPoint = false;
 }
 
 AssemblerInstruction::~AssemblerInstruction()
@@ -88,7 +89,7 @@ ASMInst AssemblerInstruction::getStruct()
 	asmInst.instructionHex = this->getInstructionHex();
 	asmInst.offset = this->getOffsetString();
 	asmInst.instructionIndex = std::to_string(this->instructionIndex);
-	asmInst.isBreakPoint = false;
+	asmInst.isBreakPoint = this->isBreakPoint;
 	return asmInst;
 }
 
@@ -105,4 +106,18 @@ ASMInst AssemblerInstruction::jsonToASMInst(std::string json)
 void AssemblerInstruction::setInstructionIndex(int index)
 {
 	this->instructionIndex = index;
+}
+
+void AssemblerInstruction::setDecodeInst(_DecodedInst* newDecodeInst) 
+{
+	memcpy(this->decodedInst, newDecodeInst, sizeof(_DecodedInst));
+}
+
+
+bool AssemblerInstruction::getIsBreakPoint() {
+	return this->isBreakPoint;
+}
+
+void AssemblerInstruction::setIsBreakPoint(bool isBreakPoint) {
+	this->isBreakPoint = isBreakPoint;
 }
