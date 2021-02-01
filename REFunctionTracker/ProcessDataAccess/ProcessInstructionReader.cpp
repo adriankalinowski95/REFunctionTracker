@@ -361,6 +361,7 @@ int ProcessInstructionReader::getByInstruction(unsigned long long startAddress, 
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
+		changeByBP(startAddress + currentOffset, readedBytes, buffer, readedBytes);
 		status = disassembler->dissassembly((DWORD_PTR)startAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
 
 		if (status == Disassembler::DISSASSEMBLER_ERROR)
@@ -520,6 +521,7 @@ int ProcessInstructionReader::getByOperand(unsigned long long  startAddress, uns
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
+		changeByBP(startAddress + currentOffset, readedBytes, buffer, readedBytes);
 		status = disassembler->dissassembly((DWORD_PTR)startAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
 
 		if (status == Disassembler::DISSASSEMBLER_ERROR)
@@ -592,6 +594,7 @@ unsigned long long ProcessInstructionReader::getMaxByOperand(unsigned long long 
 	std::string tempString;
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
+		changeByBP(startAddress + currentOffset, readedBytes, buffer, readedBytes);
 		status = disassembler->dissassembly((DWORD_PTR)startAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
 
 		if (status == Disassembler::DISSASSEMBLER_ERROR)

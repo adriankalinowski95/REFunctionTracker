@@ -42,17 +42,8 @@ JSValue HomePage::GetProcessBaseInfo(const JSObject& thisObject, const JSArgs& a
 	return JSValue(procBaseInfo.c_str());
 }
 
-/* @Todo Tutaj skonczy³em*/
-bool isBreakPoint(AssemblerInstruction* instruction) {
-	Debugger* debuggerInstance = &( Debugger::getInstance() );
-	std::vector<BreakPoint_Typedef>& breakPoints = debuggerInstance->getCurrentBreakPoins();
-	for(auto breakPoint = breakPoints.begin(); breakPoint != breakPoints.end();breakPoint++) {
-		if(breakPoint->address == instruction->getOffset()) {
-			return true;
-		}
-	}
-	return false;
-}
+
+
 bool isBreakPointByAddress(unsigned long long address) {
 	Debugger* debuggerInstance = &( Debugger::getInstance() );
 	std::vector<BreakPoint_Typedef>& breakPoints = debuggerInstance->getCurrentBreakPoins();
@@ -63,83 +54,15 @@ bool isBreakPointByAddress(unsigned long long address) {
 	}
 	return false;
 }
-bool isBreakPointInVec(std::vector<AssemblerInstruction*>& instructions) {
-	Debugger* debuggerInstance = &( Debugger::getInstance() );
-	std::vector<BreakPoint_Typedef>& breakPoints = debuggerInstance->getCurrentBreakPoins();
-	for(auto instruction = instructions.begin(); instruction != instructions.end();instruction++) {
-		if(isBreakPoint(*instruction)) {
-			return true;
+
+void setBreakPointsForVec(std::vector<AssemblerInstruction*>& instructions) {
+	for(auto instuction = instructions.begin();instuction != instructions.end();instuction++) {
+		if(isBreakPointByAddress(( *instuction )->getOffset())) {
+			( *instuction )->setIsBreakPoint(true);
 		}
 	}
-	return false;
-}
-AssemblerInstruction getInstBPByOffset(unsigned long long address) {
-	Debugger* debuggerInstance = &( Debugger::getInstance() );
-	std::vector<BreakPoint_Typedef>& breakPoints = debuggerInstance->getCurrentBreakPoins();
-	for(auto breakPoint = breakPoints.begin(); breakPoint != breakPoints.end();breakPoint++) {
-		if(breakPoint->address == address) {
-			return AssemblerInstruction(*breakPoint->prevInst);
-		}
-	}
-	return AssemblerInstruction();
-}
-bool isBreakPointInstBefore(unsigned long long address) {
-	Debugger* debuggerInstance = &( Debugger::getInstance() );
-	std::vector<BreakPoint_Typedef>& breakPoints = debuggerInstance->getCurrentBreakPoins();
-	for(auto breakPoint = breakPoints.begin(); breakPoint != breakPoints.end();breakPoint++) {
-		if(breakPoint->address < address && (breakPoint->address + breakPoint->prevInst->getSize()) > address ) {
-			return true;
-		}
-	}
-	return false;
-}
-unsigned long long getBreakPointsBeforeInstAddr(unsigned long long address) {
-	Debugger* debuggerInstance = &( Debugger::getInstance() );
-	std::vector<BreakPoint_Typedef>& breakPoints = debuggerInstance->getCurrentBreakPoins();
-	for(auto breakPoint = breakPoints.begin(); breakPoint != breakPoints.end();breakPoint++) {
-		if(breakPoint->address < address && ( breakPoint->address + breakPoint->prevInst->getSize() ) > address) {
-			/* Tutaj trzeba uwzglednic fakt ¿e instrukcja przed te¿ moze miescic sie w zakresie break pointa */
-			return breakPoint->address;
-		}
-	}
-	return -1;
 }
 
-/*
-unsigned long long getBreakPointsBeforeInstAddr2(unsigned long long address) {
-	unsigned long long newAddress;
-	ProcessInfo* procInfoInst = &( ProcessInfo::getInstance() );
-	ProcessInstructionReader* procInstReader = &( ProcessInstructionReader::getInstance());
-	long index = 0;
-	while(index >= 0) {
-		newAddress = getBreakPointsBeforeInstAddr(address);
-		//index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), newAddress);
-		//index --;
-		AssemblerInstruction asmInst = getInstBPByOffset(newAddress);
-		//procInstReader->getOneInstByIndex(index, asmInst);
-		return asmInst.getOffset() + asmInst.getSize();
-	}
-
-}*/
-AssemblerInstruction getBreakPointsBeforeInstAddr2(unsigned long long address) {
-	unsigned long long newAddress;
-	ProcessInfo* procInfoInst = &( ProcessInfo::getInstance() );
-	ProcessInstructionReader* procInstReader = &( ProcessInstructionReader::getInstance() );
-	long index = 0;
-	while(index >= 0) {
-		newAddress = getBreakPointsBeforeInstAddr(address);
-		//index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), newAddress);
-		//index --;
-		AssemblerInstruction asmInst = getInstBPByOffset(newAddress);
-		index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), asmInst.getOffset());
-		asmInst.setInstructionIndex(index);
-		//procInstReader->getOneInstByIndex(index, asmInst);
-		return asmInst;
-	}
-
-}
-
-/* Tutaj zmienic na podobna jak w read by address*/
 JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const JSArgs& args) {
 	if (args.size() != 2) {
 		return JSValue(false);
@@ -174,75 +97,18 @@ JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const
 	if (instructions.size() <= 0) {
 		return JSValue(false);
 	}
-	/* Kolejna rozkmina, przed diassemblingiem je¿eli w tkaim zakresie znajduje siê bp to trzeba go podmienic :O  */
-	//if(!isBreakPointInstBefore(instructions[0]->getOffset()) && !isBreakPointInVec(instructions)){
-	{
-		int count = 0;
-		for(auto instuction = instructions.begin();instuction != instructions.end();instuction++) {
-			(*instuction)->setInstructionIndex(startIndex + count);
-			count ++;
-			if(isBreakPoint((*instuction))) {
-				(*instuction )->setIsBreakPoint(true);
-			}
-		}
-		std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
-		std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
-		printf("Instructions: %s\n", strInstructions.c_str());
 
-		return JSValue(strInstructions.c_str());
+	int counter = 0;
+	for(auto instuction = instructions.begin();instuction != instructions.end();instuction++) {
+		(*instuction)->setInstructionIndex(startIndex + counter);
+		counter++;
 	}
-	//}
-	
-	//unsigned long long currentOffset = instructions[0]->getOffset();
-	//long index;
-	///* Obliczanie na podstawie najblizszego, ale co zrobiæ, gdy jest taka sama odlegloœæ? */
-	//
-	//if(isBreakPointInstBefore(instructions[0]->getOffset())) {
-	//	//currentOffset = getBreakPointsBeforeInstAddr2(instructions[0]->getOffset());
-	//	AssemblerInstruction asmInst = getBreakPointsBeforeInstAddr2(instructions[0]->getOffset());
-	//	index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), asmInst.getOffset());
-	//	
-	//	/* Prawie dziala, ale nie zawsze da sie okreslic indexy dwoch instrukcji */
-	//	if(( startIndex - index  ) != 1) {
-	//		currentOffset = asmInst.getOffset();
-	//		index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
-	//	}
-	//	else {
-	//		currentOffset = asmInst.getOffset() + asmInst.getSize();
-	//		index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
-	//	}
-	//}
-	//else {
-	//	index = startIndex;
-	//}
-	////index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
-	//instructions.erase(instructions.begin(), instructions.end());
-	//while(instructions.size() < count) {
-	//	if(isBreakPointByAddress(currentOffset)) {
-	//		AssemblerInstruction instruction = getInstBPByOffset(currentOffset);
-	//		instruction.setIsBreakPoint(true);
-	//		instruction.setInstructionIndex(index);
-	//		instructions.push_back(new AssemblerInstruction(instruction));
-	//		currentOffset += instruction.getSize();
-	//		index++;
-	//		continue;
-	//	}
-	//	AssemblerInstruction instruction;
-	//	if(!procInstReader->getOneInstByAddress(currentOffset, instruction)) {
-	//		break;
-	//	}
-	//	instruction.setInstructionIndex(index);
-	//	instructions.push_back(new AssemblerInstruction(instruction));
-	//	currentOffset += instruction.getSize();
-	//	index++;
-	//}
+	setBreakPointsForVec(instructions);
+	std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
+	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
+	printf("Instructions: %s\n", strInstructions.c_str());
 
-	//std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
-	//std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
-	//printf("Instructions: %s\n", strInstructions.c_str());
-
-	//return JSValue(strInstructions.c_str());
-	
+	return JSValue(strInstructions.c_str());
 }
 
 JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, const JSArgs& args) {
@@ -260,58 +126,20 @@ JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, con
 		return JSValue(false);
 	}
 
-	/* Remove asm instructions */
 	std::vector<AssemblerInstruction*> instructions;
 	ProcessInstructionReader* procInstReader = &(ProcessInstructionReader::getInstance());
-
 	
 	procInstReader->getInstructionByAddress(startAddress, count, instructions);
 	if (instructions.size() <= 0) {
 		return JSValue(false);
 	}
 
-	/* Tutaj sprawdzic czy w instrukcjach znajduje siê break pointy, je¿eli nie to zwróc instrukcje*/
-	//if(!isBreakPointInVec(instructions)) {
-		for(auto instuction = instructions.begin();instuction != instructions.end();instuction++) {
-			if(isBreakPoint(( *instuction ))){
-				( *instuction )->setIsBreakPoint(true);
-			}
-		}
-		std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
-		std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
-		printf("Instructions: %s\n", strInstructions.c_str());
-
-		return JSValue(strInstructions.c_str());
-	//}
-	/*
-	instructions.erase(instructions.begin(),instructions.end());
-	unsigned long long currentOffset = startAddress;
-	long index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
-	while(instructions.size() < count) {
-		if(isBreakPointByAddress(currentOffset)) {
-			AssemblerInstruction instruction = getInstBPByOffset(currentOffset);
-			instruction.setIsBreakPoint(true);
-			instruction.setInstructionIndex(index);
-			instructions.push_back(new AssemblerInstruction(instruction));
-			currentOffset += instruction.getSize();
-			index++;
-			continue;
-		}
-		AssemblerInstruction instruction;
-		if(!procInstReader->getOneInstByAddress(currentOffset, instruction)){
-			break;
-		}
-		instruction.setInstructionIndex(index);
-		instructions.push_back(new AssemblerInstruction(instruction));
-		currentOffset += instruction.getSize();
-		index++;
-	}
-
+	setBreakPointsForVec(instructions);
 	std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
 	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
 	printf("Instructions: %s\n", strInstructions.c_str());
 
-	return JSValue(strInstructions.c_str());*/
+	return JSValue(strInstructions.c_str());
 }
 
 JSValue HomePage::ToggleBreakPoint(const JSObject& thisObject, const JSArgs& args) {
@@ -323,7 +151,7 @@ JSValue HomePage::ToggleBreakPoint(const JSObject& thisObject, const JSArgs& arg
 	if (procInfoInst->getProcessBaseAddress() <= 0) {
 		return JSValue(false);
 	}
-	//startAddress = startAddress + procInfoInst->getProcessBaseAddress();
+
 	std::vector<AssemblerInstruction*> instructions;
 	ProcessInstructionReader* procInstReader = &(ProcessInstructionReader::getInstance());
 	procInstReader->getInstructionByAddress((unsigned long long)startAddress, 1, instructions);
