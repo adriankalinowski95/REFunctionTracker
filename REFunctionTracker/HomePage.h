@@ -24,7 +24,6 @@ public:
 	JSValue ToggleBreakPoint(const JSObject& thisObject, const JSArgs& args);
 	std::vector<ASMInst> GetInstToDisplay(std::vector<AssemblerInstruction*>* instructions, int count);
 	void UpdateInstructionsByBreakPoints(std::vector<AssemblerInstruction*>* instructions);
-	
 	//JSValue GetProcessList(const JSObject& thisObject, const JSArgs& args);
 private:
 	RefPtr<Overlay>overlay_;

@@ -30,6 +30,8 @@ public:
 public:
 	int getInstructionByIndex(unsigned long long startAddress, unsigned long long startIndex, int instructionCount, std::vector<AssemblerInstruction*>& instructions);
 	int getInstructionByAddress(unsigned long long address, int instructionCount, std::vector<AssemblerInstruction*>& instructions);
+	bool getOneInstByAddress(unsigned long long address,AssemblerInstruction& asmInst);
+	bool getOneInstByIndex(unsigned long long index, AssemblerInstruction& asmInst);
 	long getInstructionIndex(unsigned long long startAddress, unsigned long long instructionAddress);
 	unsigned long long getProcessInstructionCount(unsigned long long startAddress);
 	unsigned long long getProcessSize(unsigned long long startAddress);

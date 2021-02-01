@@ -2,6 +2,7 @@
 #include "Disassembler.h"
 #include <algorithm>
 #define BUFFER_SIZE 8000
+#define MAX_INSTRUCTION_SIZE 15
 
 ProcessInstructionReader::ProcessInstructionReader()
 {
@@ -135,6 +136,78 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long address
 	return instructions.size() > 0 ? PROCESS_INSTRUCTION_READER_SUCESS : PROCESS_INSTRUCTION_READER_ERROR;
 }
 
+bool ProcessInstructionReader::getOneInstByIndex(unsigned long long index, AssemblerInstruction& asmInst) {
+	ProcessInfo* processInformation = &( ProcessInfo::getInstance() );
+	Disassembler* disassembler = &( Disassembler::getInstance() );
+	std::vector<AssemblerInstruction*> tempInstructions;
+	int architecture = this->getProcessArchitecture();
+	unsigned char buffer[BUFFER_SIZE];
+	SIZE_T readedBytes;
+	unsigned long long currentOffset = 0;
+	unsigned long long instructionsCount = 0;
+	int status = 0;
+	if(!processInformation->getProcessHandle()){
+		return PROCESS_INSTRUCTION_READER_ERROR;
+	}
+
+	unsigned long long procBaseAddress = (unsigned long long)processInformation->getProcessBaseAddress();
+
+	while(ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)( (DWORD_PTR)procBaseAddress + currentOffset ), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false) {
+
+		status = disassembler->dissassembly((DWORD_PTR)procBaseAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
+
+		if(status == Disassembler::DISSASSEMBLER_ERROR) {
+			return PROCESS_INSTRUCTION_READER_ERROR;
+		}
+
+		currentOffset = (unsigned long)( tempInstructions.at(tempInstructions.size() - 1)->getOffset() - ( (DWORD_PTR)procBaseAddress ) );
+
+		if( index >= instructionsCount &&  index <= ( instructionsCount + tempInstructions.size() )) {
+			
+			_DecodedInst* newDecodedInst = new _DecodedInst;
+			memcpy(newDecodedInst, tempInstructions.at(index - instructionsCount)->getDecodedInst(), sizeof(_DecodedInst));
+			asmInst.lazyInit(architecture, newDecodedInst);
+			return true;
+		}
+
+		instructionsCount += tempInstructions.size();
+		while(!tempInstructions.empty()) {
+			delete tempInstructions.back();
+			tempInstructions.pop_back();
+		}
+	}
+	return false;
+}
+
+bool ProcessInstructionReader::getOneInstByAddress(unsigned long long address, AssemblerInstruction& asmInst) {
+	ProcessInfo* processInformation = &( ProcessInfo::getInstance() );
+	Disassembler* disassembler = &( Disassembler::getInstance() );
+	std::vector<AssemblerInstruction*> tempInstructions;
+	int architecture = this->getProcessArchitecture();
+	unsigned char buffer[MAX_INSTRUCTION_SIZE];
+	SIZE_T readedBytes;
+
+	if(!processInformation->getProcessHandle()) {
+		return PROCESS_INSTRUCTION_READER_ERROR;
+	}
+
+	if(!ReadProcessMemory(processInformation->getProcessHandle(),
+	   (LPCVOID)( (DWORD_PTR)address ), (LPVOID)buffer, sizeof(buffer), &readedBytes)) {
+		return false;
+	}
+	int status = disassembler->dissassembly((DWORD_PTR)address, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
+	if(status == Disassembler::DISSASSEMBLER_ERROR) {
+		return false;
+	}
+	if(!tempInstructions.size()) {
+		return false;
+	}
+	_DecodedInst* newDecodedInst = new _DecodedInst;
+	memcpy(newDecodedInst, tempInstructions.at(0)->getDecodedInst(), sizeof(_DecodedInst));
+	asmInst.lazyInit(architecture, newDecodedInst);
+	return true;
+}
+
 unsigned long long ProcessInstructionReader::getProcessInstructionCount(unsigned long long startAddress)
 {
 	ProcessInfo* processInformation = &(ProcessInfo::getInstance());
@@ -184,6 +257,9 @@ unsigned long long ProcessInstructionReader::getProcessSize(unsigned long long s
 	return currentOffset;
 }
 
+/* Chujowo dzia³a bo jak zmienisz jakas instrukcje to potem podczas dekodowania moze nie byæ juz instrukcji o wczesniejszym adresie
+   np. jmp mial 0x00007ff69ec91302, ale po zmianie go na int3 adresy sa chujowe
+*/
 long ProcessInstructionReader::getInstructionIndex(unsigned long long startAddress, unsigned long long instructionAddress)
 {
 	ProcessInfo* processInformation = &(ProcessInfo::getInstance());
@@ -216,8 +292,14 @@ long ProcessInstructionReader::getInstructionIndex(unsigned long long startAddre
 		{
 			for (int i = 0; i < tempInstructions.size(); i++)
 			{
+				/* zrobimy zamiast tego proximity *//*
 				if (tempInstructions.at(i)->getOffset() == (DWORD_PTR)instructionAddress)
 				{
+					return  i + instructionsCount;
+				}*/
+				if((DWORD_PTR)instructionAddress >= tempInstructions.at(i)->getOffset() && 
+				   (DWORD_PTR)instructionAddress < (tempInstructions.at(i)->getOffset() + tempInstructions.at(i)->getSize())
+				) {
 					return  i + instructionsCount;
 				}
 			}

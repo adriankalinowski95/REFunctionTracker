@@ -251,6 +251,7 @@ function addASMToArray(tBody, asmInst) {
 
     cel1.classList.add("custom-td");
     cel1.setAttribute("data-index", asmInst.instructionIndex);
+    cel1.setAttribute("data-offset", asmInst.offset);
     cel2.classList.add("custom-td");
     cel3.classList.add("custom-td");
     cel4.classList.add("custom-td");
@@ -290,17 +291,21 @@ function addASMToArray(tBody, asmInst) {
 
 function toggleBreakPoint() {
     var index = this.getAttribute("data-index");
+    var dataOffset = this.getAttribute("data-offset");
+    console.log(dataOffset);
     if (!index) {
+        return;
+    }
+    if (!dataOffset) {
         return;
     }
     if (!isInt(index)) {
         return;
     }
-    var intIndex = parseInt(index, 10);
-    var status = ToggleBreakPoint(intIndex);
-
+    var intDataOffset = parseInt(dataOffset, 16);
+    var status = ToggleBreakPoint(intDataOffset);
     if (status && lastInstructions.length > 0) {
-        loadInstructionsByIndexWithCount(lastInstructions[0].instructionIndex);
+        loadInstructionsByAddressWithCount(parseInt(lastInstructions[0].offset,16));
     }
 
 }

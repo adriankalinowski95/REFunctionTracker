@@ -97,15 +97,16 @@ Debugger::DEBUGGER_STATUS Debugger::setBreakPoint(unsigned long long address) {
 		return Debugger::DEBUGGER_STATUS::FAIL;
 	}
 
+	/*
 	long instructionIndex = procInstReadInstance->getInstructionIndex((unsigned long long)processInfo->getProcessBaseAddress(), address);
 	if (instructionIndex == ProcessInstructionReader::PROCESS_INSTRUCTION_READER_ERROR) {
 		return Debugger::DEBUGGER_STATUS::FAIL;
 	}
-
+	*/
 	BreakPoint_Typedef breakPoint;
 	breakPoint.address = address;
 	breakPoint.prevInst = instruction;
-	breakPoint.index = instructionIndex;
+	breakPoint.index = 1;
 
 	this->breakPointsVector.push_back(breakPoint);
 
@@ -145,7 +146,7 @@ Debugger::DEBUGGER_STATUS Debugger::removeBeakPoint(unsigned long long address) 
 	return Debugger::DEBUGGER_STATUS::FAIL;
 }
 
-std::vector<BreakPoint_Typedef> Debugger::getCurrentBreakPoins()
+std::vector<BreakPoint_Typedef>& Debugger::getCurrentBreakPoins()
 {
 	return this->breakPointsVector;
 }
@@ -153,6 +154,15 @@ std::vector<BreakPoint_Typedef> Debugger::getCurrentBreakPoins()
 bool Debugger::isBreakPointWithIndex(unsigned long long index) {
 	for (int i = 0; i < breakPointsVector.size(); i++) {
 		if (breakPointsVector.at(i).index == index) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Debugger::isBreakPointWithAddress(unsigned long long address) {
+	for(int i = 0; i < breakPointsVector.size(); i++) {
+		if(breakPointsVector.at(i).address == address) {
 			return true;
 		}
 	}

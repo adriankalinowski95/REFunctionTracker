@@ -28,6 +28,7 @@ class AssemblerInstruction
 {
 public:
 	AssemblerInstruction(int architecture,_DecodedInst* decodedInst);
+	AssemblerInstruction(const AssemblerInstruction& assemblerInstruction);
 	AssemblerInstruction();
 	~AssemblerInstruction();
 
@@ -54,6 +55,7 @@ public:
 	std::string getAssemblerInstructionAsJSON();
 	ASMInst jsonToASMInst(std::string json);
 	void setInstructionIndex(int index);
+	int getInstructionIndex();
 	void setDecodeInst(_DecodedInst* newDecodeInst);
 	void setIsBreakPoint(bool isBreakPoint);
 	bool getIsBreakPoint();

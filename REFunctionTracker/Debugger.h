@@ -25,9 +25,10 @@ public:
 public:
 	DEBUGGER_STATUS startDebugThread();
 	DEBUGGER_STATUS setBreakPoint(unsigned long long address);
-	std::vector<BreakPoint_Typedef> getCurrentBreakPoins();
+	std::vector<BreakPoint_Typedef>& getCurrentBreakPoins();
 	DEBUGGER_STATUS removeBeakPoint(unsigned long long address);
 	bool isBreakPointWithIndex(unsigned long long index);
+	bool isBreakPointWithAddress(unsigned long long address);
 
 private:
 	std::thread* debugThread;
