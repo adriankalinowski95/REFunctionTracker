@@ -1,6 +1,8 @@
 #include "ProcessDataAccess/ProcessInstructionReader.h"
 #include "Disassembler.h"
+#include "Debugger.h"
 #include <algorithm>
+#include "Utils.h"
 #define BUFFER_SIZE 8000
 #define MAX_INSTRUCTION_SIZE 15
 
@@ -40,6 +42,7 @@ int ProcessInstructionReader::getInstructionByIndex(unsigned long long startAddr
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
+		changeByBP(startAddress + currentOffset, readedBytes, buffer, readedBytes);
 		status = disassembler->dissassembly((DWORD_PTR)startAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture,tempInstructions);
 		
 		if (status == Disassembler::DISSASSEMBLER_ERROR) {
@@ -98,6 +101,7 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long address
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)address + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
+		changeByBP(address + currentOffset, readedBytes, buffer, readedBytes);
 		status = disassembler->dissassembly((DWORD_PTR)address + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
 
 		if (status == Disassembler::DISSASSEMBLER_ERROR) {
@@ -228,6 +232,7 @@ unsigned long long ProcessInstructionReader::getProcessInstructionCount(unsigned
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
+		changeByBP(startAddress + currentOffset, readedBytes, buffer, readedBytes);
 		status = disassembler->dissassembly((DWORD_PTR)startAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
 
 		if (status == Disassembler::DISSASSEMBLER_ERROR)
@@ -257,6 +262,25 @@ unsigned long long ProcessInstructionReader::getProcessSize(unsigned long long s
 	return currentOffset;
 }
 
+void ProcessInstructionReader::changeByBP(unsigned long long startAddress, unsigned long bytes, uint8_t* arrayPtr, uint8_t arraySize) {
+	Debugger* debuggerInstance = &( Debugger::getInstance() );
+	std::vector<BreakPoint_Typedef>& breakPoints = debuggerInstance->getCurrentBreakPoins();
+	for(auto breakPoint = breakPoints.begin(); breakPoint != breakPoints.end();breakPoint++) {
+		if(breakPoint->address >= startAddress && breakPoint->address < (startAddress + bytes)) {
+			unsigned long long address = breakPoint->address;
+			unsigned long offset = address - startAddress;
+			std::string instructionHex = breakPoint->prevInst->getInstructionHex();
+			std::vector<char> instructionBytes = Utils::HexToBytes(instructionHex);
+			uint8_t val = arrayPtr[offset];
+			arrayPtr[offset] = instructionBytes[0];
+		}
+	}
+}
+
+void ProcessInstructionReader::setBpInVec(std::vector<AssemblerInstruction*>& vec) {
+
+}
+
 /* Chujowo dzia³a bo jak zmienisz jakas instrukcje to potem podczas dekodowania moze nie byæ juz instrukcji o wczesniejszym adresie
    np. jmp mial 0x00007ff69ec91302, ale po zmianie go na int3 adresy sa chujowe
 */
@@ -280,6 +304,7 @@ long ProcessInstructionReader::getInstructionIndex(unsigned long long startAddre
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
+		changeByBP(startAddress + currentOffset, readedBytes, buffer, readedBytes);
 		status = disassembler->dissassembly((DWORD_PTR)startAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
 
 		if (status == Disassembler::DISSASSEMBLER_ERROR)
@@ -402,6 +427,7 @@ unsigned long ProcessInstructionReader::getMaxByInstruction(unsigned long long s
 
 	while (ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes) != false)
 	{
+		changeByBP(startAddress + currentOffset, readedBytes, buffer, readedBytes);
 		status = disassembler->dissassembly((DWORD_PTR)startAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
 
 		if (status == Disassembler::DISSASSEMBLER_ERROR)
@@ -448,6 +474,7 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long startAd
 		return PROCESS_INSTRUCTION_READER_ERROR;
 
 	ReadProcessMemory(processInformation->getProcessHandle(), (LPCVOID)((DWORD_PTR)startAddress + currentOffset), (LPVOID)buffer, sizeof(buffer), &readedBytes);
+	changeByBP(startAddress + currentOffset, readedBytes, buffer, readedBytes);
 	status = disassembler->dissassembly((DWORD_PTR)startAddress + currentOffset, (const unsigned char*)buffer, readedBytes, architecture, tempInstructions);
 
 	if (status == Disassembler::DISSASSEMBLER_ERROR)

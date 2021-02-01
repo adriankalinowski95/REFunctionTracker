@@ -174,11 +174,16 @@ JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const
 	if (instructions.size() <= 0) {
 		return JSValue(false);
 	}
-	if(!isBreakPointInstBefore(instructions[0]->getOffset()) && !isBreakPointInVec(instructions)){
+	/* Kolejna rozkmina, przed diassemblingiem je¿eli w tkaim zakresie znajduje siê bp to trzeba go podmienic :O  */
+	//if(!isBreakPointInstBefore(instructions[0]->getOffset()) && !isBreakPointInVec(instructions)){
+	{
 		int count = 0;
 		for(auto instuction = instructions.begin();instuction != instructions.end();instuction++) {
 			(*instuction)->setInstructionIndex(startIndex + count);
 			count ++;
+			if(isBreakPoint((*instuction))) {
+				(*instuction )->setIsBreakPoint(true);
+			}
 		}
 		std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
 		std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
@@ -186,69 +191,58 @@ JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const
 
 		return JSValue(strInstructions.c_str());
 	}
-	unsigned long long currentOffset = instructions[0]->getOffset();
-	long index;
-	/* Obliczanie na podstawie najblizszego, ale co zrobiæ, gdy jest taka sama odlegloœæ? */
-	if(isBreakPointInstBefore(instructions[0]->getOffset())) {
-		//currentOffset = getBreakPointsBeforeInstAddr2(instructions[0]->getOffset());
-		AssemblerInstruction asmInst = getBreakPointsBeforeInstAddr2(instructions[0]->getOffset());
-		index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), asmInst.getOffset());
-		
-		/* Prawie dziala, ale nie zawsze da sie okreslic indexy dwoch instrukcji */
-		long indexBeforeBP = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), asmInst.getOffset());
-		long indexAfterBP = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), 
-		asmInst.getOffset() + asmInst.getSize());
-		unsigned int indexOffset = indexAfterBP - indexBeforeBP;
-		int half = 0;
-		if(indexOffset == 1) {
-			indexOffset ++;
-		}
-		if(indexOffset % 2) {
-			half = indexOffset / 2;
-		}
-		else {
-			half = indexOffset / 2 + 1;
-		}
-		if(( startIndex - index  ) != 1) {
-			currentOffset = asmInst.getOffset();
-			index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
-		}
-		else {
-			currentOffset = asmInst.getOffset() + asmInst.getSize();
-			index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
-		}
-		//index = startIndex;
-	}
-	else {
-		index = startIndex;
-	}
-	//index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
-	instructions.erase(instructions.begin(), instructions.end());
-	while(instructions.size() < count) {
-		if(isBreakPointByAddress(currentOffset)) {
-			AssemblerInstruction instruction = getInstBPByOffset(currentOffset);
-			instruction.setIsBreakPoint(true);
-			instruction.setInstructionIndex(index);
-			instructions.push_back(new AssemblerInstruction(instruction));
-			currentOffset += instruction.getSize();
-			index++;
-			continue;
-		}
-		AssemblerInstruction instruction;
-		if(!procInstReader->getOneInstByAddress(currentOffset, instruction)) {
-			break;
-		}
-		instruction.setInstructionIndex(index);
-		instructions.push_back(new AssemblerInstruction(instruction));
-		currentOffset += instruction.getSize();
-		index++;
-	}
+	//}
+	
+	//unsigned long long currentOffset = instructions[0]->getOffset();
+	//long index;
+	///* Obliczanie na podstawie najblizszego, ale co zrobiæ, gdy jest taka sama odlegloœæ? */
+	//
+	//if(isBreakPointInstBefore(instructions[0]->getOffset())) {
+	//	//currentOffset = getBreakPointsBeforeInstAddr2(instructions[0]->getOffset());
+	//	AssemblerInstruction asmInst = getBreakPointsBeforeInstAddr2(instructions[0]->getOffset());
+	//	index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), asmInst.getOffset());
+	//	
+	//	/* Prawie dziala, ale nie zawsze da sie okreslic indexy dwoch instrukcji */
+	//	if(( startIndex - index  ) != 1) {
+	//		currentOffset = asmInst.getOffset();
+	//		index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
+	//	}
+	//	else {
+	//		currentOffset = asmInst.getOffset() + asmInst.getSize();
+	//		index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
+	//	}
+	//}
+	//else {
+	//	index = startIndex;
+	//}
+	////index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
+	//instructions.erase(instructions.begin(), instructions.end());
+	//while(instructions.size() < count) {
+	//	if(isBreakPointByAddress(currentOffset)) {
+	//		AssemblerInstruction instruction = getInstBPByOffset(currentOffset);
+	//		instruction.setIsBreakPoint(true);
+	//		instruction.setInstructionIndex(index);
+	//		instructions.push_back(new AssemblerInstruction(instruction));
+	//		currentOffset += instruction.getSize();
+	//		index++;
+	//		continue;
+	//	}
+	//	AssemblerInstruction instruction;
+	//	if(!procInstReader->getOneInstByAddress(currentOffset, instruction)) {
+	//		break;
+	//	}
+	//	instruction.setInstructionIndex(index);
+	//	instructions.push_back(new AssemblerInstruction(instruction));
+	//	currentOffset += instruction.getSize();
+	//	index++;
+	//}
 
-	std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
-	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
-	printf("Instructions: %s\n", strInstructions.c_str());
+	//std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
+	//std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
+	//printf("Instructions: %s\n", strInstructions.c_str());
 
-	return JSValue(strInstructions.c_str());
+	//return JSValue(strInstructions.c_str());
+	
 }
 
 JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, const JSArgs& args) {
@@ -277,13 +271,19 @@ JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, con
 	}
 
 	/* Tutaj sprawdzic czy w instrukcjach znajduje siê break pointy, je¿eli nie to zwróc instrukcje*/
-	if(!isBreakPointInVec(instructions)) {
+	//if(!isBreakPointInVec(instructions)) {
+		for(auto instuction = instructions.begin();instuction != instructions.end();instuction++) {
+			if(isBreakPoint(( *instuction ))){
+				( *instuction )->setIsBreakPoint(true);
+			}
+		}
 		std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
 		std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
 		printf("Instructions: %s\n", strInstructions.c_str());
 
 		return JSValue(strInstructions.c_str());
-	}
+	//}
+	/*
 	instructions.erase(instructions.begin(),instructions.end());
 	unsigned long long currentOffset = startAddress;
 	long index = procInstReader->getInstructionIndex(( unsigned long long )procInfoInst->getProcessBaseAddress(), currentOffset);
@@ -311,7 +311,7 @@ JSValue HomePage::GetProcessInstructionByAddress(const JSObject& thisObject, con
 	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
 	printf("Instructions: %s\n", strInstructions.c_str());
 
-	return JSValue(strInstructions.c_str());
+	return JSValue(strInstructions.c_str());*/
 }
 
 JSValue HomePage::ToggleBreakPoint(const JSObject& thisObject, const JSArgs& args) {

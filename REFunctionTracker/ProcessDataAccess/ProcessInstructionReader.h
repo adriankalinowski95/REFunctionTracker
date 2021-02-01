@@ -35,6 +35,8 @@ public:
 	long getInstructionIndex(unsigned long long startAddress, unsigned long long instructionAddress);
 	unsigned long long getProcessInstructionCount(unsigned long long startAddress);
 	unsigned long long getProcessSize(unsigned long long startAddress);
+	void changeByBP(unsigned long long startAddress,unsigned long bytes,uint8_t *arrayPtr,uint8_t arraySize);
+	void setBpInVec(std::vector<AssemblerInstruction*>& vec);
 //search signature form
 public:
 	int getByInstruction(unsigned long long startAddress, unsigned long long startIndex, unsigned long long instructionCount, std::vector<AssemblerInstruction*>& instructions,std::string mnemonic);
