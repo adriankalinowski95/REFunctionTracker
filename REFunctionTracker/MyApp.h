@@ -2,6 +2,7 @@
 #include <AppCore/AppCore.h>
 #include "SelectProcessDialog.h"
 #include "HomePage.h"
+#include "SearchFunctionsPage.h"
 using namespace ultralight;
 
 class MyApp : public AppListener,
@@ -61,4 +62,5 @@ protected:
   JSFunction testFunction;
   SelectProcessDialog* selectProcessDialog_;
   HomePage* homePage_;
+  SearchFunctionsPage* searchFunctionPage_;
 };

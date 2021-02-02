@@ -28,7 +28,7 @@ HomePage::HomePage(RefPtr<Overlay>overlay) : overlay_(overlay)
 	global["GetProcessInstructionByIndex"] = BindJSCallbackWithRetval(&HomePage::GetProcessInstructionByIndex);
 	global["GetProcessInstructionByAddress"] = BindJSCallbackWithRetval(&HomePage::GetProcessInstructionByAddress);
 	global["ToggleBreakPoint"] = BindJSCallbackWithRetval(&HomePage::ToggleBreakPoint);
-}
+} 
 
 JSValue HomePage::GetProcessBaseInfo(const JSObject& thisObject, const JSArgs& args)
 {
@@ -192,65 +192,7 @@ void HomePage::OnProcessLoad(const JSObject& obj, const JSArgs& args)
 	loadDisAsmTable({ true });
 }
 
-int HomePage::getBreakPointsInRange(int startIndex,int count) {
-	int aviableBreakPointsInRange = 0;
-	Debugger* debuggerInstance = &(Debugger::getInstance());
-	std::vector<BreakPoint_Typedef> breakPoints = debuggerInstance->getCurrentBreakPoins();
-	for (int i = 0; i < breakPoints.size(); i++) {
-		if (breakPoints.at(i).index >= startIndex && breakPoints.at(i).index < (startIndex + count))
-		{
-			aviableBreakPointsInRange++;
-		}
-	}
-	return aviableBreakPointsInRange;
-}
 
-/* A mo¿e pousuwaæ breakpointy, a nastêpnie je wpisac ponownie? 
- * Algorytm:
- * Zatrzymaj proces
- * pobierz odpowiednia ilosc.
- * Sprawdz czy sa tam break pointy
- * Jak s¹ to zrob liste breakpointów
- * 
-*/
-void HomePage::UpdateInstructionsByBreakPoints(std::vector<AssemblerInstruction*>* instructions) {
-	Debugger* debuggerInstance = &(Debugger::getInstance());
-	std::vector<BreakPoint_Typedef> breakPoints = debuggerInstance->getCurrentBreakPoins();
-	std::vector< AssemblerInstruction*> instAsBeakPoints;
-	for (int i = 0; i < instructions->size(); i++) {
-		for (int j = 0; j < breakPoints.size(); j++) {
-			if (breakPoints.at(j).address == instructions->at(i)->getOffset()) {
-				instructions->at(i)->setDecodeInst(breakPoints.at(j).prevInst->getDecodedInst());
-				instructions->at(i)->setIsBreakPoint(true);
-				instAsBeakPoints.push_back(instructions->at(i));
-			}
-		}
-	}
-
-	int iterator = 0;
-	unsigned long long intBreakPointRangeStart = 0;
-	unsigned long long intBreakPointRangeStop = 0;
-	for (int i = 0; i < instAsBeakPoints.size(); i++) {
-		intBreakPointRangeStart = instAsBeakPoints.at(i)->getOffset();
-		intBreakPointRangeStop = intBreakPointRangeStart + instAsBeakPoints.at(i)->getDecodedInst()->size;
-		iterator = 0;
-		while (iterator < instructions->size()) {
-			if (instructions->at(iterator)->getOffset() == instAsBeakPoints.at(i)->getOffset()) {
-				iterator++;
-				continue;
-			}
-			if (instructions->at(iterator)->getOffset() > intBreakPointRangeStart &&
-				instructions->at(iterator)->getOffset() < intBreakPointRangeStop) {
-				instructions->erase(instructions->begin() + iterator);
-				iterator = 0;
-				continue;
-			}
-			iterator++;
-		}
-	}
-
-	/* Add _Decode free. */
-}
 
 std::vector<ASMInst> HomePage::GetInstToDisplay(std::vector<AssemblerInstruction*>* instructions,int count) {
 	std::vector<ASMInst> asmInstructions;

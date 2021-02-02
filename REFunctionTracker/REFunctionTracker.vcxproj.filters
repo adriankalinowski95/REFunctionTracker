@@ -72,6 +72,9 @@
     <ClCompile Include="Debugger.cpp">
       <Filter>Pliki źródłowe\Service</Filter>
     </ClCompile>
+    <ClCompile Include="SearchFunctionsPage.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h">
@@ -119,6 +122,9 @@
     <ClInclude Include="Debugger.h">
       <Filter>Pliki nagłówkowe\Service</Filter>
     </ClInclude>
+    <ClInclude Include="SearchFunctionsPage.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\css\ui.css">
@@ -155,6 +161,18 @@
       <Filter>Pliki zasobów</Filter>
     </None>
     <None Include="assets\js\utils.js">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\break-point-page.html">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\js\break-point-page.js">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\js\search-functions-page.js">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="assets\search-functions-page.html">
       <Filter>Pliki zasobów</Filter>
     </None>
   </ItemGroup>

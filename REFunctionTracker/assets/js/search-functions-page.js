@@ -2,26 +2,11 @@ isShowProcessDialog = false;
 var lastInstructions = []
 var lastBaseInformation = null;
 
-class ProcessBaseInfo{
-    constructor() {
-        this.baseAddress = 0;
-        this.entryPointAddress = 0;
-        this.entryPointIndex = 0;
-        this.instructionCount = 0;
-        this.processLength = 0;
-    }
+function initSearchFunctionsPage() {
+
 }
-
-
-function initHomePage() {
-    var selectProcessButton = document.querySelector('#select-process-button');
-    if (selectProcessButton) {
-        selectProcessButton.addEventListener('click', showSelectProcessDialog);
-    }
-    var searchButton = document.querySelector('#search-button');
-    if (searchButton) {
-        searchButton.addEventListener('click', showSearchDialog);
-    }
+/*
+function initSearchFunctionsPage() {
     var instSlider = document.querySelector("#inst-slider");
     if (instSlider) {
         instSlider.addEventListener('input', instSliderChanged);
@@ -32,15 +17,7 @@ function initHomePage() {
     if (customTBody) {
         customTBody.addEventListener('wheel', mouseWheelSlider);
     }
-    if (!lastBaseInformation) {
-        return;
-    }
-    setSliderValues(lastBaseInformation);
-    if (lastInstructions.length > 0) {
-        loadInstructionsByAddressWithCount(parseInt(lastInstructions[0].offset, 16));
-    } else {
-        loadInstructionsByIndexWithCount(lastBaseInformation.entryPointIndex);
-    }
+    setSliderValues();
 }
 
 function loadInstructionsByIndexWithCount(startIndex) {
@@ -60,7 +37,7 @@ function mouseWheelSlider(event) {
     if (instSlider.max == 0) {
         return;
     }
-    
+
     event.preventDefault();
     delta = event.deltaY;
     console.log(delta);
@@ -76,24 +53,6 @@ function mouseWheelSlider(event) {
 }
 
 
-
-function showSelectProcessDialog() {
-    loadHTML('overlay-content', 'select-process-dialog.html', afterSelectProcessDialogLoad);
-    showOverlay();
-}
-
-function showSearchDialog() {
-    loadHTML('overlay-content', 'search-dialog.html', afterSearchDialogLoad);
-    showOverlay();
-}
-
-function afterSelectProcessDialogLoad() {
-    initSelectProcessDialog();
-}
-function afterSearchDialogLoad() {
-    initSearchDialog();
-}
-
 function instSliderChanged(evt) {
     console.log(evt.target.value);
     var intNumber = evt.target.value;
@@ -106,36 +65,18 @@ function instSliderChanged(evt) {
     if (!Number.isInteger(intNumber)) {
         return;
     }
-    loadInstructionsByIndex(evt.target.value, getInstructionToLoadCount());
+    LoadCallFunctions(evt.target.value, getInstructionToLoadCount());
 }
 
-function loadBaseInformation() {
-    var processBaseInfo = GetProcessBaseInfo();
 
-    if (!isJSON(processBaseInfo)) {
-        return false;
-    }
-
-    var processBaseInfoJSON = JSON.parse(processBaseInfo);
-    if (!processBaseInfoJSON.hasOwnProperty("processBaseInfo")) {
-        return false;
-    }
-    processBaseInfoJSON = processBaseInfoJSON["processBaseInfo"];
-    var instanceProcessBaseInfo = new ProcessBaseInfo();
-    if (!Object.assign(instanceProcessBaseInfo, processBaseInfoJSON)) {
-        return false;
-    }
-    return instanceProcessBaseInfo;
-}
-
-function setSliderValues(processBaseInfoJSON) {
+function setSliderValues() {
     var instSlider = document.querySelector("#inst-slider");
     if (instSlider === null) {
         return false;
     }
     instSlider.min = 0;
-    instSlider.max = processBaseInfoJSON["instructionCount"];
-    instSlider.value = processBaseInfoJSON["entryPointIndex"];
+    instSlider.max = GetSearchFunctionMax();
+    instSlider.value = 0;
     return true;
 }
 
@@ -158,26 +99,10 @@ function getInstructionToLoadCount() {
 
 
     var summaryPadding = 0;
-    var instCount = (diasmTableHeight - tHeadHeight)  / (rowHeight + summaryPadding);
+    var instCount = (diasmTableHeight - tHeadHeight) / (rowHeight + summaryPadding);
     return parseInt(instCount);
 }
 
-function loadInstructionsByAddress(startAddress, count) {
-    if(!Number.isInteger(count)){
-        return false;
-    }
-    if (count <= 0) {
-        return false;
-    }
-
-    var instructions = GetProcessInstructionByAddress(startAddress, count);
-    var instructionsJSON = JSON.parse(instructions);
-    if (!instructionsJSON.hasOwnProperty("instructions")) {
-        return false;
-    };
-    instructionsJSON = instructionsJSON["instructions"];
-    loadInstToTable(instructionsJSON);
-}
 
 function loadInstructionsByIndex(startIndex, count) {
     if (!Number.isInteger(count)) {
@@ -187,7 +112,7 @@ function loadInstructionsByIndex(startIndex, count) {
         return false;
     }
 
-    var instructions = GetProcessInstructionByIndex(startIndex, count);
+    var instructions = LoadCallFunctions(startIndex, count);
     var instructionsJSON = JSON.parse(instructions);
     if (!instructionsJSON.hasOwnProperty("instructions")) {
         return false;
@@ -303,28 +228,12 @@ function toggleBreakPoint() {
     var intDataOffset = parseInt(dataOffset, 16);
     var status = ToggleBreakPoint(intDataOffset);
     if (status && lastInstructions.length > 0) {
-        loadInstructionsByAddressWithCount(parseInt(lastInstructions[0].offset,16));
+        loadInstructionsByAddressWithCount(parseInt(lastInstructions[0].offset, 16));
     }
 
 }
 
 
-function loadDisAsmTable(status) {
-    if (!status) {
-        return;
-    }
-
-    var processBaseInfoJSON = loadBaseInformation();
-    if (processBaseInfoJSON == false) {
-        return;
-    }
-
-    if (setSliderValues(processBaseInfoJSON) == false) {
-        return;
-    }
-    loadInstructionsByIndex(processBaseInfoJSON["entryPointIndex"], getInstructionToLoadCount());
-    lastBaseInformation = processBaseInfoJSON;
-}
 
 function getThRowHeight() {
     var thRow = document.querySelector("#th-row");
@@ -361,3 +270,4 @@ function getTHeadHeight() {
     var height = customTHead.offsetHeight;
     return height;
 }
+*/

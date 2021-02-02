@@ -152,14 +152,24 @@ function homePageButtonClicked() {
     loadHTML('page', 'home-page.html', afterHomePageLoad);
 }
 
+function bpButtonClicked() {
+    loadHTML('page', 'break-point-page.html', afterBreakPointPageLoad);
+}
+
+function searchFunctionsButtonClicked() {
+    loadHTML('page', 'search-functions-page.html', afterSearchFunctionsPageLoad);
+}
+
 function testButtonClicked() {
     GetMessage();
 }
 
+
 function connectNavButtons() {
     document.querySelector('#home-button').addEventListener('click', event => homePageButtonClicked());
     document.querySelector('#menu-button').addEventListener('click', event => menuButtonClick());
-    document.querySelector('#test-button').addEventListener('click', event => testButtonClicked());
+    document.querySelector('#bp-button').addEventListener('click', event => bpButtonClicked());
+    document.querySelector('#search-functions-button').addEventListener('click', event => searchFunctionsButtonClicked());
 }
 
 function afterLoad() {
@@ -179,6 +189,16 @@ init();
 function afterHomePageLoad() {
     initHomePage();
 }
+
+function afterBreakPointPageLoad() {
+    initBreakPointPage();
+}
+
+function afterSearchFunctionsPageLoad() {
+    initSearchFunctionsPage();
+}
+
+
 
 function testFunction(id) {
     console.log(id);

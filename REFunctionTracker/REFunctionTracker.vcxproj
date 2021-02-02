@@ -167,6 +167,7 @@
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="ProcessDataAccess\ProcessInstructionReader.cpp" />
     <ClCompile Include="REFunctionTracker.cpp" />
+    <ClCompile Include="SearchFunctionsPage.cpp" />
     <ClCompile Include="SelectProcessDialog.cpp" />
     <ClCompile Include="Service\AssemblerInstruction.cpp" />
     <ClCompile Include="Service\Disassembler.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="InfoMessage.h" />
     <ClInclude Include="MyApp.h" />
     <ClInclude Include="ProcessDataAccess\ProcessInstructionReader.h" />
+    <ClInclude Include="SearchFunctionsPage.h" />
     <ClInclude Include="SelectProcessDialog.h" />
     <ClInclude Include="Service\AssemblerInstruction.h" />
     <ClInclude Include="Service\Disassembler.h" />
@@ -196,15 +198,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\app.html" />
+    <None Include="assets\break-point-page.html" />
     <None Include="assets\content.html" />
     <None Include="assets\css\ui.css" />
     <None Include="assets\home-page.html" />
+    <None Include="assets\js\break-point-page.js" />
     <None Include="assets\js\home-page.js" />
     <None Include="assets\js\search-dialog.js" />
+    <None Include="assets\js\search-functions-page.js" />
     <None Include="assets\js\select-process-dialog.js" />
     <None Include="assets\js\ui.js" />
     <None Include="assets\js\utils.js" />
     <None Include="assets\search-dialog.html" />
+    <None Include="assets\search-functions-page.html" />
     <None Include="assets\select-process-dialog.html" />
     <None Include="assets\top.html" />
   </ItemGroup>

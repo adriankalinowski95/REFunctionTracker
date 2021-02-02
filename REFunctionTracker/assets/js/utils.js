@@ -1,3 +1,14 @@
+class ASMInst {
+    constructor() {
+        this.mnemonic = "";
+        this.operands = "";
+        this.instructionHex = "";
+        this.offset = "";
+        this.instructionIndex = "";
+        this.isBreakPoint = false;
+    }
+}
+
 function isFunction(func) {
     return typeof func !== 'undefined' && $.isFunction(func);
 }
