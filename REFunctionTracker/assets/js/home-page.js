@@ -28,7 +28,8 @@ function initHomePage() {
         instSlider.addEventListener('change', instSliderChanged);
         instSlider.addEventListener('wheel', mouseWheelSlider);
     }
-    var customTBody = document.querySelector("#custom-tbody");
+    var customTBody = document.querySelector(".custom-tbody");
+    console.log(customTBody);
     if (customTBody) {
         customTBody.addEventListener('wheel', mouseWheelSlider);
     }
@@ -210,7 +211,7 @@ function loadInstToTable(instructionsJSON) {
             return false;
         }
 
-        var customTBody = document.querySelector("#custom-tbody");
+        var customTBody = document.querySelector(".custom-tbody");
         if (customTBody === null) {
             return false;
         }
@@ -327,7 +328,7 @@ function loadDisAsmTable(status) {
 }
 
 function getThRowHeight() {
-    var thRow = document.querySelector("#th-row");
+    var thRow = document.querySelector(".th-row");
     if (thRow === null) {
         return 0;
     }
@@ -337,7 +338,7 @@ function getThRowHeight() {
 }
 
 function getDisasmTableHeight() {
-    var customDisasmTable = document.querySelector("#disasm-custom-table");
+    var customDisasmTable = document.querySelector(".disasm-custom-table");
     if (customDisasmTable === null) {
         return 0;
     }
@@ -345,7 +346,7 @@ function getDisasmTableHeight() {
     return height;
 }
 function getTBodyHeight() {
-    var customTBody = document.querySelector("#custom-tbody");
+    var customTBody = document.querySelector(".custom-tbody");
     if (customTBody === null) {
         return 0;
     }
@@ -354,7 +355,7 @@ function getTBodyHeight() {
 }
 
 function getTHeadHeight() {
-    var customTHead = document.querySelector("#custom-thead");
+    var customTHead = document.querySelector(".custom-thead");
     if (customTHead === null) {
         return 0;
     }

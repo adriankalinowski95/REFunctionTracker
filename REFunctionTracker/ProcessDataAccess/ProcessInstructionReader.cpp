@@ -499,6 +499,7 @@ int ProcessInstructionReader::getInstructionByAddress(unsigned long long startAd
 	return PROCESS_INSTRUCTION_READER_ERROR;
 }
 
+//@Todo Czy na pewno by operand? moze by mnemonic
 int ProcessInstructionReader::getByOperand(unsigned long long  startAddress, unsigned long long startIndex, unsigned long long instructionCount,
 										std::vector<AssemblerInstruction*>& instructions, std::string mnemonic)
 {

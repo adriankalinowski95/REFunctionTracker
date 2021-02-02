@@ -104,6 +104,7 @@ void MyApp::Run() {
 void MyApp::InitModules() {
 	this->selectProcessDialog_ = new SelectProcessDialog(overlay_);
 	this->homePage_ = new HomePage(overlay_);
+	this->searchFunctionPage_ = new SearchFunctionsPage(overlay_);
 }
 
 void MyApp::OnUpdate() {

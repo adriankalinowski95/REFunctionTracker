@@ -2,33 +2,31 @@ isShowProcessDialog = false;
 var lastInstructions = []
 var lastBaseInformation = null;
 
-function initSearchFunctionsPage() {
 
-}
-/*
 function initSearchFunctionsPage() {
+    
     var instSlider = document.querySelector("#inst-slider");
     if (instSlider) {
-        instSlider.addEventListener('input', instSliderChanged);
-        instSlider.addEventListener('change', instSliderChanged);
-        instSlider.addEventListener('wheel', mouseWheelSlider);
+        instSlider.addEventListener('input', instSliderChanged2);
+        instSlider.addEventListener('change', instSliderChanged2);
+        instSlider.addEventListener('wheel', mouseWheelSlider2);
     }
-    var customTBody = document.querySelector("#custom-tbody");
+    var customTBody = document.querySelector(".custom-tbody");
     if (customTBody) {
-        customTBody.addEventListener('wheel', mouseWheelSlider);
+        customTBody.addEventListener('wheel', mouseWheelSlider2);
     }
-    setSliderValues();
+    setSliderValues2();
+    loadInstructionsByIndexWithCount2(0);
+    console.log("init serach page");
 }
 
-function loadInstructionsByIndexWithCount(startIndex) {
-    loadInstructionsByIndex(startIndex, getInstructionToLoadCount());
+
+function loadInstructionsByIndexWithCount2(startIndex) {
+    loadInstructionsByIndex2(startIndex, getInstructionToLoadCount());
 }
 
-function loadInstructionsByAddressWithCount(address) {
-    loadInstructionsByAddress(address, getInstructionToLoadCount());
-}
 
-function mouseWheelSlider(event) {
+function mouseWheelSlider2(event) {
     console.log("into");
     var instSlider = document.querySelector("#inst-slider");
     if (instSlider == null) {
@@ -43,17 +41,35 @@ function mouseWheelSlider(event) {
     console.log(delta);
     if (delta > 0) {
         instSlider.value = parseInt(instSlider.value) + 1;
-        loadInstructionsByIndexWithCount(instSlider.value);
+        loadInstructionsByIndexWithCount2(instSlider.value);
     } else {
         if (parseInt(instSlider.value) >= 0) {
             instSlider.value = parseInt(instSlider.value) - 1;
-            loadInstructionsByIndexWithCount(instSlider.value);
+            loadInstructionsByIndexWithCount2(instSlider.value);
         }
     }
 }
 
 
-function instSliderChanged(evt) {
+function loadInstructionsByIndex2(startIndex, count) {
+    if (!Number.isInteger(count)) {
+        return false;
+    }
+    if (count <= 0) {
+        return false;
+    }
+
+    var instructions = LoadCallFunctions(startIndex, count);
+    var instructionsJSON = JSON.parse(instructions);
+    if (!instructionsJSON.hasOwnProperty("instructions")) {
+        return false;
+    }
+    instructionsJSON = instructionsJSON["instructions"];
+    loadInstToTable(instructionsJSON);
+}
+
+
+function instSliderChanged2(evt) {
     console.log(evt.target.value);
     var intNumber = evt.target.value;
     try {
@@ -68,8 +84,7 @@ function instSliderChanged(evt) {
     LoadCallFunctions(evt.target.value, getInstructionToLoadCount());
 }
 
-
-function setSliderValues() {
+function setSliderValues2() {
     var instSlider = document.querySelector("#inst-slider");
     if (instSlider === null) {
         return false;
@@ -103,24 +118,6 @@ function getInstructionToLoadCount() {
     return parseInt(instCount);
 }
 
-
-function loadInstructionsByIndex(startIndex, count) {
-    if (!Number.isInteger(count)) {
-        return false;
-    }
-    if (count <= 0) {
-        return false;
-    }
-
-    var instructions = LoadCallFunctions(startIndex, count);
-    var instructionsJSON = JSON.parse(instructions);
-    if (!instructionsJSON.hasOwnProperty("instructions")) {
-        return false;
-    }
-    instructionsJSON = instructionsJSON["instructions"];
-    loadInstToTable(instructionsJSON);
-}
-
 function loadInstToTable(instructionsJSON) {
     try {
         var list = [];
@@ -135,7 +132,7 @@ function loadInstToTable(instructionsJSON) {
             return false;
         }
 
-        var customTBody = document.querySelector("#custom-tbody");
+        var customTBody = document.querySelector(".custom-tbody");
         if (customTBody === null) {
             return false;
         }
@@ -211,32 +208,8 @@ function addASMToArray(tBody, asmInst) {
     }
 
 }
-
-function toggleBreakPoint() {
-    var index = this.getAttribute("data-index");
-    var dataOffset = this.getAttribute("data-offset");
-    console.log(dataOffset);
-    if (!index) {
-        return;
-    }
-    if (!dataOffset) {
-        return;
-    }
-    if (!isInt(index)) {
-        return;
-    }
-    var intDataOffset = parseInt(dataOffset, 16);
-    var status = ToggleBreakPoint(intDataOffset);
-    if (status && lastInstructions.length > 0) {
-        loadInstructionsByAddressWithCount(parseInt(lastInstructions[0].offset, 16));
-    }
-
-}
-
-
-
 function getThRowHeight() {
-    var thRow = document.querySelector("#th-row");
+    var thRow = document.querySelector(".th-row");
     if (thRow === null) {
         return 0;
     }
@@ -246,7 +219,7 @@ function getThRowHeight() {
 }
 
 function getDisasmTableHeight() {
-    var customDisasmTable = document.querySelector("#disasm-custom-table");
+    var customDisasmTable = document.querySelector(".disasm-custom-table");
     if (customDisasmTable === null) {
         return 0;
     }
@@ -254,7 +227,7 @@ function getDisasmTableHeight() {
     return height;
 }
 function getTBodyHeight() {
-    var customTBody = document.querySelector("#custom-tbody");
+    var customTBody = document.querySelector(".custom-tbody");
     if (customTBody === null) {
         return 0;
     }
@@ -263,11 +236,10 @@ function getTBodyHeight() {
 }
 
 function getTHeadHeight() {
-    var customTHead = document.querySelector("#custom-thead");
+    var customTHead = document.querySelector(".custom-thead");
     if (customTHead === null) {
         return 0;
     }
     var height = customTHead.offsetHeight;
     return height;
 }
-*/

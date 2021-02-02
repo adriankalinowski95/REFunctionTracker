@@ -493,7 +493,7 @@ body {
     position: relative;
 }
 
-#disasm-table {
+.disasm-table {
     position: relative;
     margin-left:2%;
     width: calc(96% - 15px);
@@ -502,15 +502,15 @@ body {
 }
 
 
-    #disasm-table .custom-row {
+    .disasm-table .custom-row {
         height: 30px !important;
     }
 
-    #disasm-table .custom-th {
+    .disasm-table .custom-th {
         font-size: 14px !important;
     }
 
-    #disasm-table .custom-td {
+    .disasm-table .custom-td {
         font-size: 12px !important;
     }
 

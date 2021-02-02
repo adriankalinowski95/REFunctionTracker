@@ -41,7 +41,7 @@ JSValue SearchFunctionsPage::LoadCallFunctions(const JSObject& obj, const JSArgs
 	std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
 	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
 	printf("Instructions: %s\n", strInstructions.c_str());
-
+	return JSValue(strInstructions.c_str());
 }
 
 std::vector<ASMInst> SearchFunctionsPage::GetInstToDisplay(std::vector<AssemblerInstruction*>* instructions, int count) {
