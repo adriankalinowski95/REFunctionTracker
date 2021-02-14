@@ -38,3 +38,5 @@ private:
 	
 
 };
+
+void setBreakPointsForVec(std::vector<AssemblerInstruction*>& instructions);

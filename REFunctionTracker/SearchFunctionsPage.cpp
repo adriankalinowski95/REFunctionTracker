@@ -1,6 +1,7 @@
 #include "SearchFunctionsPage.h"
 #include <ProcessDataAccess/ProcessInstructionReader.h>
 #include "Utils.h"
+#include "Debugger.h"
 
 SearchFunctionsPage::SearchFunctionsPage() {}
 
@@ -10,8 +11,8 @@ SearchFunctionsPage::SearchFunctionsPage(RefPtr<Overlay> overlay): overlay_(over
 	JSObject global = JSGlobalObject();
 
 	//loadDisAsmTable = global["loadDisAsmTable"];
-	global["LoadCallFunctions"] = BindJSCallback(&SearchFunctionsPage::LoadCallFunctions);
-	global["GetSearchFunctionMax"] = BindJSCallback(&SearchFunctionsPage::GetSearchFunctionMax);
+	global["LoadCallFunctions"] = BindJSCallbackWithRetval(&SearchFunctionsPage::LoadCallFunctions);
+	global["GetSearchFunctionMax"] = BindJSCallbackWithRetval(&SearchFunctionsPage::GetSearchFunctionMax);
 }
 
 SearchFunctionsPage::~SearchFunctionsPage() {}
@@ -36,9 +37,11 @@ JSValue SearchFunctionsPage::LoadCallFunctions(const JSObject& obj, const JSArgs
 	}
 	std::vector<AssemblerInstruction*> instructions;
 	ProcessInstructionReader* procInstReader = &( ProcessInstructionReader::getInstance() );
-	procInstReader->getByOperand(processBaseAddress, startIndex,count, instructions,"CALL");
+	unsigned long long maxMnemonic = procInstReader->getMaxByMnemonic(processBaseAddress, "CALL");
+	procInstReader->getByMnemonic(processBaseAddress, startIndex, maxMnemonic, instructions,"CALL");
 
-	std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, count);
+	setBreakPointsForVec(instructions);
+	std::vector<ASMInst> asmInstructions = GetInstToDisplay(&instructions, maxMnemonic);
 	std::string strInstructions = Utils::serializeToJSON<std::vector<ASMInst>>(asmInstructions, "instructions");
 	printf("Instructions: %s\n", strInstructions.c_str());
 	return JSValue(strInstructions.c_str());
@@ -62,8 +65,9 @@ JSValue SearchFunctionsPage::GetSearchFunctionMax(const JSObject& thisObject, co
 	}
 	std::vector<AssemblerInstruction*> instructions;
 	ProcessInstructionReader* procInstReader = &( ProcessInstructionReader::getInstance() );
-	unsigned long long maxOperands = procInstReader->getMaxByOperand(processBaseAddress, "CALL");
-	return JSValue(maxOperands);
+	unsigned long long maxMnemonic = procInstReader->getMaxByMnemonic(processBaseAddress, "CALL");
+
+	return JSValue(maxMnemonic);
 }
 
 

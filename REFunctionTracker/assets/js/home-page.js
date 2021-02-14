@@ -303,6 +303,7 @@ function toggleBreakPoint() {
     }
     var intDataOffset = parseInt(dataOffset, 16);
     var status = ToggleBreakPoint(intDataOffset);
+    console.log("break point!");
     if (status && lastInstructions.length > 0) {
         loadInstructionsByAddressWithCount(parseInt(lastInstructions[0].offset,16));
     }

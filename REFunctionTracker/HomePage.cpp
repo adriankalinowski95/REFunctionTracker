@@ -43,26 +43,6 @@ JSValue HomePage::GetProcessBaseInfo(const JSObject& thisObject, const JSArgs& a
 }
 
 
-
-bool isBreakPointByAddress(unsigned long long address) {
-	Debugger* debuggerInstance = &( Debugger::getInstance() );
-	std::vector<BreakPoint_Typedef>& breakPoints = debuggerInstance->getCurrentBreakPoins();
-	for(auto breakPoint = breakPoints.begin(); breakPoint != breakPoints.end();breakPoint++) {
-		if(breakPoint->address == address) {
-			return true;
-		}
-	}
-	return false;
-}
-
-void setBreakPointsForVec(std::vector<AssemblerInstruction*>& instructions) {
-	for(auto instuction = instructions.begin();instuction != instructions.end();instuction++) {
-		if(isBreakPointByAddress(( *instuction )->getOffset())) {
-			( *instuction )->setIsBreakPoint(true);
-		}
-	}
-}
-
 JSValue HomePage::GetProcessInstructionByIndex(const JSObject& thisObject, const JSArgs& args) {
 	if (args.size() != 2) {
 		return JSValue(false);

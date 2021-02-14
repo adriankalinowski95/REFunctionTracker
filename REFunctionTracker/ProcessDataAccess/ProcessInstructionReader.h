@@ -45,7 +45,8 @@ public:
 	int getInstructionByAddress(unsigned long long startAddress, AssemblerInstruction** instruction);
 	int getByOperand(unsigned long long  startAddress, unsigned long long startIndex, unsigned long long instructionCount, std::vector<AssemblerInstruction*>& instructions, std::string mnemonic);
 	unsigned long long getMaxByOperand(unsigned long long startAddress, std::string mnemonic);
-	
+	int getByMnemonic(unsigned long long  startAddress, unsigned long long startIndex, unsigned long long instructionCount, std::vector<AssemblerInstruction*>& instructions, std::string mnemonic);
+	unsigned long long getMaxByMnemonic(unsigned long long startAddress, std::string mnemonic);
 
 private:
 	int getProcessArchitecture();

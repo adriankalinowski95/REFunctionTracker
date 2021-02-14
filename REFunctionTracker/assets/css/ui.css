@@ -493,12 +493,18 @@ body {
     position: relative;
 }
 
+#search-functions-page .content {
+    height: calc(100% - 50px);
+    width: 100%;
+    position: relative;
+}
+
 .disasm-table {
     position: relative;
-    margin-left:2%;
+    margin-left: 2%;
     width: calc(96% - 15px);
     height: 96%;
-    float:left;
+    float: left;
 }
 
 

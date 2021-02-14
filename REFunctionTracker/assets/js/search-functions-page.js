@@ -4,52 +4,14 @@ var lastBaseInformation = null;
 
 
 function initSearchFunctionsPage() {
-    
-    var instSlider = document.querySelector("#inst-slider");
-    if (instSlider) {
-        instSlider.addEventListener('input', instSliderChanged2);
-        instSlider.addEventListener('change', instSliderChanged2);
-        instSlider.addEventListener('wheel', mouseWheelSlider2);
-    }
-    var customTBody = document.querySelector(".custom-tbody");
-    if (customTBody) {
-        customTBody.addEventListener('wheel', mouseWheelSlider2);
-    }
-    setSliderValues2();
     loadInstructionsByIndexWithCount2(0);
     console.log("init serach page");
 }
 
 
 function loadInstructionsByIndexWithCount2(startIndex) {
-    loadInstructionsByIndex2(startIndex, getInstructionToLoadCount());
+    loadInstructionsByIndex2(startIndex, getInstructionToLoadCount2());
 }
-
-
-function mouseWheelSlider2(event) {
-    console.log("into");
-    var instSlider = document.querySelector("#inst-slider");
-    if (instSlider == null) {
-        return;
-    }
-    if (instSlider.max == 0) {
-        return;
-    }
-
-    event.preventDefault();
-    delta = event.deltaY;
-    console.log(delta);
-    if (delta > 0) {
-        instSlider.value = parseInt(instSlider.value) + 1;
-        loadInstructionsByIndexWithCount2(instSlider.value);
-    } else {
-        if (parseInt(instSlider.value) >= 0) {
-            instSlider.value = parseInt(instSlider.value) - 1;
-            loadInstructionsByIndexWithCount2(instSlider.value);
-        }
-    }
-}
-
 
 function loadInstructionsByIndex2(startIndex, count) {
     if (!Number.isInteger(count)) {
@@ -60,44 +22,17 @@ function loadInstructionsByIndex2(startIndex, count) {
     }
 
     var instructions = LoadCallFunctions(startIndex, count);
+    console.log(instructions);
     var instructionsJSON = JSON.parse(instructions);
     if (!instructionsJSON.hasOwnProperty("instructions")) {
         return false;
     }
     instructionsJSON = instructionsJSON["instructions"];
-    loadInstToTable(instructionsJSON);
+    loadInstToTable2(instructionsJSON);
 }
 
-
-function instSliderChanged2(evt) {
-    console.log(evt.target.value);
-    var intNumber = evt.target.value;
-    try {
-        intNumber = parseInt(evt.target.value);
-    } catch (e) {
-        console.log(e);
-        return;
-    }
-    if (!Number.isInteger(intNumber)) {
-        return;
-    }
-    LoadCallFunctions(evt.target.value, getInstructionToLoadCount());
-}
-
-function setSliderValues2() {
-    var instSlider = document.querySelector("#inst-slider");
-    if (instSlider === null) {
-        return false;
-    }
-    instSlider.min = 0;
-    instSlider.max = GetSearchFunctionMax();
-    instSlider.value = 0;
-    return true;
-}
-
-
-function getInstructionToLoadCount() {
-    var rowHeight = getThRowHeight();
+function getInstructionToLoadCount2() {
+    var rowHeight = getThRowHeight2();
     if (rowHeight == 0) {
         return false;
     }
@@ -107,7 +42,7 @@ function getInstructionToLoadCount() {
         return false;
     }
 
-    var diasmTableHeight = getDisasmTableHeight();
+    var diasmTableHeight = getDisasmTableHeight2();
     if (diasmTableHeight == 0) {
         return false;
     }
@@ -118,7 +53,7 @@ function getInstructionToLoadCount() {
     return parseInt(instCount);
 }
 
-function loadInstToTable(instructionsJSON) {
+function loadInstToTable2(instructionsJSON) {
     try {
         var list = [];
         for (var i = 0; i < instructionsJSON.length; i++) {
@@ -141,14 +76,14 @@ function loadInstToTable(instructionsJSON) {
         }
 
         for (var i = 0; i < list.length; i++) {
-            addASMToArray(customTBody, list[i]);
+            addASMToArray2(customTBody, list[i]);
         }
         if (list.length > 0) {
             lastInstructions = list;
         }
         var instSlider = document.querySelector("#inst-slider");
         if (instSlider !== null) {
-            instSlider.style.height = getTBodyHeight() + getTHeadHeight();
+            instSlider.style.height = getTBodyHeight2() + getTHeadHeight2();
             console.log("last item of list! :" + list[0].instructionIndex);
             instSlider.value = list[0].instructionIndex;
         }
@@ -158,7 +93,7 @@ function loadInstToTable(instructionsJSON) {
     }
 }
 
-function addASMToArray(tBody, asmInst) {
+function addASMToArray2(tBody, asmInst) {
     var row = document.createElement("div");
     row.classList.add("custom-row");
     row.setAttribute("data-index", asmInst.instructionIndex);
@@ -197,7 +132,7 @@ function addASMToArray(tBody, asmInst) {
 
     tBody.appendChild(row);
 
-    cel1.addEventListener("click", toggleBreakPoint);
+    cel1.addEventListener("click", toggleBreakPoint2);
 
 
     if (asmInst.isBreakPoint) {
@@ -208,7 +143,8 @@ function addASMToArray(tBody, asmInst) {
     }
 
 }
-function getThRowHeight() {
+
+function getThRowHeight2() {
     var thRow = document.querySelector(".th-row");
     if (thRow === null) {
         return 0;
@@ -218,7 +154,7 @@ function getThRowHeight() {
     return height;
 }
 
-function getDisasmTableHeight() {
+function getDisasmTableHeight2() {
     var customDisasmTable = document.querySelector(".disasm-custom-table");
     if (customDisasmTable === null) {
         return 0;
@@ -226,7 +162,8 @@ function getDisasmTableHeight() {
     var height = customDisasmTable.offsetHeight;
     return height;
 }
-function getTBodyHeight() {
+
+function getTBodyHeight2() {
     var customTBody = document.querySelector(".custom-tbody");
     if (customTBody === null) {
         return 0;
@@ -235,11 +172,33 @@ function getTBodyHeight() {
     return height;
 }
 
-function getTHeadHeight() {
+function getTHeadHeight2() {
     var customTHead = document.querySelector(".custom-thead");
     if (customTHead === null) {
         return 0;
     }
     var height = customTHead.offsetHeight;
     return height;
+}
+
+function toggleBreakPoint2() {
+    var index = this.getAttribute("data-index");
+    var dataOffset = this.getAttribute("data-offset");
+    console.log(dataOffset);
+    if (!index) {
+        return;
+    }
+    if (!dataOffset) {
+        return;
+    }
+    if (!isInt(index)) {
+        return;
+    }
+    var intDataOffset = parseInt(dataOffset, 16);
+    var status = ToggleBreakPoint(intDataOffset);
+    console.log("break point from serach function!");
+    /*
+    if (status && lastInstructions.length > 0) {
+        loadInstructionsByAddressWithCount(parseInt(lastInstructions[0].offset, 16));
+    }*/
 }

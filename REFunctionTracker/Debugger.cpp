@@ -168,3 +168,22 @@ bool Debugger::isBreakPointWithAddress(unsigned long long address) {
 	}
 	return false;
 }
+
+bool isBreakPointByAddress(unsigned long long address) {
+	Debugger* debuggerInstance = &( Debugger::getInstance() );
+	std::vector<BreakPoint_Typedef>& breakPoints = debuggerInstance->getCurrentBreakPoins();
+	for(auto breakPoint = breakPoints.begin(); breakPoint != breakPoints.end();breakPoint++) {
+		if(breakPoint->address == address) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void setBreakPointsForVec(std::vector<AssemblerInstruction*>& instructions) {
+	for(auto instuction = instructions.begin();instuction != instructions.end();instuction++) {
+		if(isBreakPointByAddress(( *instuction )->getOffset())) {
+			( *instuction )->setIsBreakPoint(true);
+		}
+	}
+}
